@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +26,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class Login extends AppCompatActivity {
 
     @Override
@@ -40,7 +45,7 @@ public class Login extends AppCompatActivity {
         EditText email,password;
         TextView rgbutton;
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
+        AtomicBoolean ispassvisible = new AtomicBoolean(false);
         rgbutton=findViewById(R.id.loginrgbutton);
         button = findViewById(R.id.loginbutton);
         email = findViewById(R.id.editTextLoginEmail);
@@ -96,6 +101,32 @@ public class Login extends AppCompatActivity {
                         }
                     }); // end of new Oncompletelistener
                 } //end of else
+            }
+        });
+
+        password.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int Right = 2;  // Index for the right drawable (eye icon)
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= password.getRight() - password.getCompoundDrawables()[Right].getBounds().width()) {
+                        int selection = password.getSelectionEnd();  // Save cursor position
+
+                        // Toggle the password visibility
+                        if (ispassvisible.get()) {
+                            password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye_off, 0);  // Set eye-off drawable
+                            password.setTransformationMethod(PasswordTransformationMethod.getInstance());  // Hide password
+                            ispassvisible.set(false);  // Update visibility state
+                        } else {
+                            password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye, 0);  // Set eye-on drawable
+                            password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());  // Show password
+                            ispassvisible.set(true);  // Update visibility state
+                        }
+                        password.setSelection(selection);  // Restore cursor position
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 

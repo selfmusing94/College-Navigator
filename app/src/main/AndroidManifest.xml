@@ -16,32 +16,23 @@
         <!-- Login Activity -->
         <activity
             android:name=".Login"
-            android:exported="false" />
-
-        <!-- Signup Activity -->
+            android:exported="false" /> <!-- Signup Activity -->
         <activity
             android:name=".Signup"
-            android:exported="false" />
-
-
-        <!-- Splashscreen Activity -->
+            android:exported="false" /> <!-- Splashscreen Activity -->
         <activity
             android:name=".Splashscreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-
-        <!-- Main Activity -->
+        </activity> <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.Testapp"
-            />
-
+            android:theme="@style/Theme.Testapp" />
     </application>
 
 </manifest>
