@@ -28,6 +28,6 @@ public class Splashscreen extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 2000); // 4-second delay
+        }, 2000); // 2-second delay
     }
 }

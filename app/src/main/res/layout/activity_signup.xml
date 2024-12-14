@@ -19,7 +19,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.395" />
@@ -47,10 +47,9 @@
         android:src="@drawable/login_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.187" />
+        app:layout_constraintVertical_bias="0.16" />
 
     <View
         android:id="@+id/dividerLine"
@@ -65,7 +64,8 @@
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.756" />
+        app:layout_constraintVertical_bias="0.694" />
+
 
     <View
         android:id="@+id/dividerLine2"
@@ -80,7 +80,7 @@
         app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.756" />
+        app:layout_constraintVertical_bias="0.695" />
 
     <TextView
         android:id="@+id/orText"
@@ -95,24 +95,24 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.764" />
-
+        app:layout_constraintVertical_bias="0.7" />
 
     <Button
         android:id="@+id/rgbutton"
-        android:layout_width="326dp"
+        android:layout_width="200dp"
         android:layout_height="52dp"
         android:backgroundTint="#000000"
         android:gravity="center"
         android:text="REGISTER"
+        android:textColor="@color/white"
         android:textSize="@dimen/_20sdp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.704" />
+        app:layout_constraintVertical_bias="0.619" />
 
     <TextView
         android:id="@+id/textView4"
@@ -129,7 +129,7 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.069" />
+        app:layout_constraintVertical_bias="0.046" />
 
     <TextView
         android:id="@+id/textView6"
@@ -142,7 +142,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.455" />
@@ -158,7 +158,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.515" />
@@ -174,42 +174,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.335" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="@dimen/_91sdp"
-        android:layout_height="52dp"
-        android:gravity="center_vertical"
-        android:text="LINKEDIN ID"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13sdp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.635" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="@dimen/_91sdp"
-        android:layout_height="52dp"
-        android:gravity="center_vertical"
-        android:text="COLLEGE"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13sdp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.575" />
 
     <EditText
         android:id="@+id/rgpassword"
@@ -257,34 +225,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.335" />
 
-    <EditText
-        android:id="@+id/rgusername3"
-        android:layout_width="260dp"
-        android:layout_height="52dp"
-        android:ems="10"
-        android:hint="Linkedin Profile Url"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.973"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.634" />
-
-    <EditText
-        android:id="@+id/rgusername2"
-        android:layout_width="260dp"
-        android:layout_height="52dp"
-        android:ems="10"
-        android:hint="College Name"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.973"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.575" />
-
     <TextView
         android:id="@+id/rgloginbutton"
         android:layout_width="wrap_content"
@@ -295,15 +235,15 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.971" />
+        app:layout_constraintVertical_bias="0.944" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/rggithubLoginCardView"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_margin="8dp"
         app:cardBackgroundColor="#ffffff"
         app:cardCornerRadius="8dp"
@@ -313,22 +253,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9">
+        app:layout_constraintVertical_bias="0.853">
 
         <ImageButton
             android:id="@+id/rggithubsignin"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
             android:layout_gravity="center"
             android:backgroundTint="#ffffff"
-            android:src="@drawable/github_logo"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/github_logo" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/rggoogleLoginCardView"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_margin="8dp"
         app:cardBackgroundColor="#ffffff"
         app:cardCornerRadius="8dp"
@@ -338,22 +278,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/rggithubLoginCardView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9">
+        app:layout_constraintVertical_bias="0.853">
 
         <ImageButton
             android:id="@+id/rggooglesignin"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_gravity="center"
             android:backgroundTint="#ffffff"
-            android:src="@drawable/search"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/search" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/rgappleLoginCardView"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_margin="8dp"
         app:cardBackgroundColor="#ffffff"
         app:cardCornerRadius="8dp"
@@ -363,15 +303,16 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/rggoogleLoginCardView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9">
+        app:layout_constraintVertical_bias="0.853">
 
         <ImageButton
             android:id="@+id/rgfacebooksignin"
-            android:layout_width="120dp"
-            android:layout_height="105dp"
+            android:layout_width="100dp"
+            android:layout_height="185dp"
             android:layout_gravity="center"
             android:backgroundTint="#ffffff"
-            android:src="@drawable/facebool"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/facebool" />
     </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
