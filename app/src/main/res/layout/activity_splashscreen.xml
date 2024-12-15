@@ -9,7 +9,7 @@
     tools:context=".Splashscreen">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/image_logo"
         android:layout_width="344dp"
         android:gravity="center"
         android:layout_height="257dp"
@@ -22,10 +22,10 @@
         app:srcCompat="@drawable/collegenavigatorlogo" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="272dp"
-        android:layout_height="85dp"
-        android:fontFamily="@font/gagalin_regular"
+        android:id="@+id/text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bungee_regular"
         android:gravity="center"
         android:text="College Navigator AI"
         android:textColor="@color/white"
@@ -33,10 +33,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.575"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.421" />
+        app:layout_constraintVertical_bias="0.451" />
 
     <TextView
         android:id="@+id/textView2"

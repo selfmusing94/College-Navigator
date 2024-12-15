@@ -67,7 +67,7 @@ public class Signup extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Establishing The Account");
+        progressDialog.setMessage("Creating a new Account");
         progressDialog.setCancelable(false);
 
         login = findViewById(R.id.rgloginbutton);
