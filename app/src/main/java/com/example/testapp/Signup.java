@@ -49,8 +49,6 @@ public class Signup extends AppCompatActivity {
     String pattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     FirebaseDatabase database;
     ProgressDialog progressDialog;
-    boolean isrepassvisible = false,ispassvisible = false;
-
     String status = "Sita Ram! I am using this Application";
 
     @Override
@@ -147,52 +145,6 @@ public class Signup extends AppCompatActivity {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Your Profile Picture"), 10);
         });
-
-        rgpass.setOnTouchListener(new View.OnTouchListener() { //To show and hide password
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int Right =2;
-                if(event.getAction()==MotionEvent.ACTION_UP)
-                    if (event.getRawX()>=rgpass.getRight()-rgpass.getCompoundDrawables()[Right].getBounds().width())
-                    { int sel=rgpass.getSelectionEnd();
-                        if(ispassvisible){
-                            rgpass.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.eye_off,0);//Set image
-                            rgpass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                            ispassvisible=false;//to hide password
-                        }else {
-                            rgpass.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.eye,0);//Set image
-                            rgpass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                            ispassvisible=true;//to show password
-                        }
-                        rgpass.setSelection(sel);
-                        return true;
-                    }
-                return false;
-            }
-        });
-
-        rgrepass.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int Right =2;
-                if(event.getAction()==MotionEvent.ACTION_UP)
-                    if (event.getRawX()>=rgrepass.getRight()-rgrepass.getCompoundDrawables()[Right].getBounds().width())
-                    { int sel=rgpass.getSelectionEnd();
-                        if(isrepassvisible){
-                            rgrepass.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.eye_off,0);//Set image
-                            rgrepass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                            isrepassvisible=false;//to hide password
-                        }else {
-                            rgrepass.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.eye,0);//Set image
-                            rgrepass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                            isrepassvisible=true;//to show password
-                        }
-                        rgrepass.setSelection(sel);
-                        return true;
-                    }
-                return false;
-            }
-        });//end of show hide repass
     }
 
     @Override

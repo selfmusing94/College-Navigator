@@ -1,5 +1,6 @@
 package com.example.testapp;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,7 +46,7 @@ public class Login extends AppCompatActivity {
         EditText email,password;
         TextView rgbutton;
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        AtomicBoolean ispassvisible = new AtomicBoolean(false);
+
         rgbutton=findViewById(R.id.loginrgbutton);
         button = findViewById(R.id.loginbutton);
         email = findViewById(R.id.editTextLoginEmail);
@@ -74,13 +75,13 @@ public class Login extends AppCompatActivity {
                 String pass = password.getText().toString();
 
                 if (TextUtils.isEmpty(mail))
-                    Toast.makeText(Login.this,"Email Id cannot be Empty.Enter Email",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this,"Email Id cannot be Empty. Enter Email",Toast.LENGTH_SHORT).show();
                 else if (TextUtils.isEmpty(pass))
-                    Toast.makeText(Login.this,"Password cannot be Empty.Enter Password",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this,"Password cannot be Empty. Enter Password",Toast.LENGTH_SHORT).show();
                 else if (!mail.matches(pattern))
                     email.setError("Enter Valid Mail Address");
                 else if (pass.length()<6)
-                    password.setError("Password must be longer than 5 characters");
+                    password.setError("Password must contain atleast 6 characters");
                 else { progressDialog.show();
                     auth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -101,32 +102,6 @@ public class Login extends AppCompatActivity {
                         }
                     }); // end of new Oncompletelistener
                 } //end of else
-            }
-        });
-
-        password.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int Right = 2;  // Index for the right drawable (eye icon)
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= password.getRight() - password.getCompoundDrawables()[Right].getBounds().width()) {
-                        int selection = password.getSelectionEnd();  // Save cursor position
-
-                        // Toggle the password visibility
-                        if (ispassvisible.get()) {
-                            password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye_off, 0);  // Set eye-off drawable
-                            password.setTransformationMethod(PasswordTransformationMethod.getInstance());  // Hide password
-                            ispassvisible.set(false);  // Update visibility state
-                        } else {
-                            password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eye, 0);  // Set eye-on drawable
-                            password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());  // Show password
-                            ispassvisible.set(true);  // Update visibility state
-                        }
-                        password.setSelection(selection);  // Restore cursor position
-                        return true;
-                    }
-                }
-                return false;
             }
         });
 

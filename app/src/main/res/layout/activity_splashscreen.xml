@@ -19,7 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.124"
-        app:srcCompat="@drawable/collegenavigatorlogo" />
+        app:srcCompat="@drawable/collegenavigatorlogo"
+        android:transitionName="logo_image"/>
 
     <TextView
         android:id="@+id/text_name"
@@ -28,6 +29,7 @@
         android:fontFamily="@font/bungee_regular"
         android:gravity="center"
         android:text="College Navigator AI"
+        android:transitionName="logo_text"
         android:textColor="@color/white"
         android:textSize="@dimen/_30sdp"
         android:textStyle="bold"
@@ -45,6 +47,7 @@
         android:fontFamily="@font/acme_regular"
         android:gravity="center"
         android:text="Made by : "
+        android:transitionName="logo_text"
         android:textColor="@color/white"
         android:textSize="@dimen/_25sdp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -62,6 +65,7 @@
         android:gravity="center"
         android:text="Selfmusing"
         android:textColor="@color/white"
+        android:transitionName="logo_text"
         android:textSize="@dimen/_35sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
