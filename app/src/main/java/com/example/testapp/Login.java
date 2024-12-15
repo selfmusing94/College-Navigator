@@ -1,17 +1,16 @@
 package com.example.testapp;
 
-import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextClock;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.util.Pair;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +25,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Login extends AppCompatActivity {
 
@@ -57,12 +54,29 @@ public class Login extends AppCompatActivity {
         progressDialog.setMessage("Logging In...");
         progressDialog.setCancelable(false);
 
+        ImageView logo = findViewById(R.id.imageView2);
+        TextView big=findViewById(R.id.textView4),small=findViewById(R.id.textView10);
+
+
 
         rgbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Login.this,Signup.class);
-                startActivity(i);
+
+                Pair pairs[] = new Pair[7];
+                pairs[0]=new Pair<View,String>(logo,"logo_image");
+                pairs[1]=new Pair<View,String>(big,"logo_text1");
+                pairs[2]=new Pair<View,String>(small,"logo_text2");
+                pairs[3]=new Pair<View,String>(email,"emailtransi");
+                pairs[4]=new Pair<View,String>(password,"passtransi");
+                pairs[5]=new Pair<View,String>(button,"butttransi");
+                pairs[6]=new Pair<View,String>(rgbutton,"butttransi2");
+
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Login.this,pairs);
+
+                startActivity(i,options.toBundle());
                 finish();
             }
         });
@@ -90,7 +104,7 @@ public class Login extends AppCompatActivity {
                             progressDialog.dismiss();
                             if (task.isSuccessful())
                                 try {
-                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                    Intent intent = new Intent(Login.this, App_Dashboard.class);
                                     startActivity(intent);
                                     finish();
                                 } catch (Exception e) {

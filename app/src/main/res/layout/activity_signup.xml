@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Create My Account"
         android:fontFamily="@font/akayakanadaka_regular"
+        android:transitionName="logo_text1"
         android:textColor="@color/white"
         android:textSize="@dimen/_35sdp"
         android:textStyle="bold"
@@ -82,6 +83,7 @@
         app:startIconDrawable="@drawable/mail"
         app:cursorColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
+        android:transitionName="emailtransi"
         app:hintTextColor="@color/black"
         app:layout_constraintVertical_bias="0.45">
 
@@ -114,6 +116,7 @@
         app:startIconDrawable="@drawable/key"
         app:startIconTint="@color/black"
         app:endIconTint="@color/black"
+        android:transitionName="passtransi"
         app:placeholderText="Min 6 characters"
         app:layout_constraintVertical_bias="0.55">
 
@@ -149,6 +152,7 @@
         app:cursorColor="@color/black"
         app:hintTextColor="@color/black"
         app:passwordToggleDrawable="@drawable/password_visible"
+        android:transitionName="passtransi"
         app:layout_constraintVertical_bias="0.65">
 
 
@@ -173,6 +177,7 @@
         android:backgroundTint="#000000"
         android:fontFamily="@font/acme_regular"
         android:text="REGISTER"
+        android:transitionName="butttransi"
         android:textColor="@color/white"
         android:textSize="26dp"
         android:textStyle="bold"
@@ -189,6 +194,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/akayakanadaka_regular"
         android:text="Login"
+        android:transitionName="butttransi2"
         android:textColor="@color/black"
         android:textSize="25dp"
         android:textStyle="bold"
@@ -225,7 +231,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.807" />
+        app:layout_constraintVertical_bias="0.805" />
 
     <View
         android:id="@+id/dividerLine2"
@@ -238,7 +244,7 @@
         app:layout_constraintHorizontal_bias="0.976"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.793" />
+        app:layout_constraintVertical_bias="0.79" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/lggithubLoginCardView"

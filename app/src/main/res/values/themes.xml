@@ -4,8 +4,9 @@
         <item name="android:windowIsTranslucent">true</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-
+        <item name="statusBarForeground">@android:color/transparent</item>
         <item name = "android:windowContentTransitions">true</item>
+
 
 
     </style>

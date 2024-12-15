@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:icon="@drawable/graduation_vector"
+        android:id="@+id/CollegePredictor"
+        android:title="College Predictor"/>
+
+    <item android:icon="@drawable/rating_vector"
+        android:id="@+id/Collegereview"
+        android:title="Review"/>
+
+    <item android:icon="@drawable/top_vector"
+     android:id="@+id/Top10"
+        android:title="Top 10 Colleges"/>
+
+    <item android:icon="@drawable/location_vector"
+        android:id="@+id/LocationBased"
+        android:title="Location Based Facility"/>
+
+    <item android:icon="@drawable/senior_vector"
+        android:id="@+id/Senior"
+        android:title="Senior Connect"/>
+
+    <item android:icon="@drawable/hostel_vector"
+        android:id="@+id/pg"
+        android:title="Pg Finder"/>
+
+    <item android:icon="@drawable/message_vector"
+        android:id="@+id/bot"
+        android:title="Chatbot"/>
+
+    <item android:icon="@drawable/information_button"
+        android:id="@+id/aboutme"
+        android:title="About Me"/>
+
+</menu>
