@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
 
     <item android:icon="@drawable/graduation_vector"
         android:id="@+id/CollegePredictor"
@@ -12,6 +14,10 @@
     <item android:icon="@drawable/top_vector"
      android:id="@+id/Top10"
         android:title="Top 10 Colleges"/>
+
+    <item android:icon="@drawable/analyst_vector"
+            android:id="@+id/cutoff"
+        android:title="Cutoff Analysis"/>
 
     <item android:icon="@drawable/location_vector"
         android:id="@+id/LocationBased"

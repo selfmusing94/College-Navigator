@@ -5,11 +5,19 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="statusBarForeground">@android:color/transparent</item>
-        <item name = "android:windowContentTransitions">true</item>
-
+        <item name="android:windowContentTransitions">true</item>
 
 
     </style>
 
     <style name="Theme.Testapp" parent="Base.Theme.Testapp" />
+
+    <style name="Theme.Testapp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Testapp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Testapp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
