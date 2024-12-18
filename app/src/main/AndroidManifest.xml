@@ -12,11 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Testapp"
         tools:targetApi="31">
-        <activity
-            android:name=".trynav"
-            android:exported="false"
-            android:label="@string/title_activity_trynav"
-            android:theme="@style/Theme.Testapp.NoActionBar" />
+
         <activity
             android:name=".App_Dashboard"
             android:exported="false" /> <!-- Login Activity -->

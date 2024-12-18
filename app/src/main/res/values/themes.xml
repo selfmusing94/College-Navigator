@@ -8,6 +8,7 @@
         <item name="android:windowContentTransitions">true</item>
 
 
+
     </style>
 
     <style name="Theme.Testapp" parent="Base.Theme.Testapp" />
@@ -15,6 +16,9 @@
     <style name="Theme.Testapp.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="Theme.Testapp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
