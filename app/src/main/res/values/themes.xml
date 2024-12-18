@@ -6,6 +6,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="statusBarForeground">@android:color/transparent</item>
         <item name="android:windowContentTransitions">true</item>
+        <!-- Ensure no status bar color -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item> <!-- Optional for light text -->
 
 
 
