@@ -32,6 +32,7 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/androidx.cardview_cardview.version'
+        exclude 'META-INF/DEPENDENCIES'
     }
 }
 
