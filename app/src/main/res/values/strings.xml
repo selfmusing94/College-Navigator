@@ -53,4 +53,5 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="default_web_client_id">1046160266136-65psbmvjt222vhknccqeo3p69dej0ouo.apps.googleusercontent.com</string>
 </resources>

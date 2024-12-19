@@ -100,3 +100,5 @@ fabric.properties
 # Sensitive files
 *.env
 .env
+
+app/src/main/res/values/strings.xml
