@@ -92,13 +92,14 @@ public class Login extends AppCompatActivity {
         passwordEditText = findViewById(R.id.editTextLoginPassword);
         loginButton = findViewById(R.id.loginbutton);
         signupButton = findViewById(R.id.loginrgbutton);
-        googleSignInButton = findViewById(R.id.lggooglesignin); // Add this button to your layout
+        googleSignInButton = findViewById(R.id.lggooglesignin); // Google sign-in button
         logo = findViewById(R.id.imageView2);
         bigText = findViewById(R.id.textView4);
         smallText = findViewById(R.id.textView10);
 
         // Configure Google Sign-In for already signed-in users
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))  // Replace with your Web Client ID
                 .requestEmail() // Request the user's email
                 .build();
 
@@ -203,6 +204,7 @@ public class Login extends AppCompatActivity {
 
         progressDialog.show();
 
+        // Get credential and authenticate with Firebase
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
