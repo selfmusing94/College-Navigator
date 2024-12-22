@@ -1,10 +1,7 @@
 package com.example.testapp;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,15 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.testapp.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -36,7 +30,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseUser ;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.regex.Pattern;
@@ -63,11 +57,17 @@ public class Login extends AppCompatActivity {
     private ImageView logo;
     private TextView bigText, smallText;
 
+    // Session Manager
+    private SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
+        // Initialize SessionManager
+        sessionManager = new SessionManager(this);
 
         // Setup Window Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -138,7 +138,11 @@ public class Login extends AppCompatActivity {
                     progressDialog.dismiss();
 
                     if (task.isSuccessful()) {
-                        navigateToDashboard();
+                        FirebaseUser  user = auth.getCurrentUser ();
+                        if (user != null) {
+                            sessionManager.createLoginSession(user.getEmail());
+                            navigateToDashboard();
+                        }
                     } else {
                         Toast.makeText(Login.this,
                                 "Login Failed: " + task.getException().getMessage(),
@@ -210,8 +214,11 @@ public class Login extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
                         // Sign in success
-                        FirebaseUser user = auth.getCurrentUser();
-                        navigateToDashboard();
+                        FirebaseUser  user = auth.getCurrentUser ();
+                        if (user != null) {
+                            sessionManager.createLoginSession(user.getEmail()); // Save session
+                            navigateToDashboard();
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(Login.this,

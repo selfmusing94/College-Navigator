@@ -233,7 +233,7 @@ public class Signup extends AppCompatActivity {
                 if (ImgURI != null) {
                     imguri = ImgURI.toString();
                 } else {
-                    imguri = "https://drive.google.com/file/d/1-x3ARzGgxScNZnaitTOE0KVrMV6d8AAJ/view?usp=drive_link";
+                    imguri = "https://drive.google.com/file/d/1-x3ARzGgxScNZnaitTOE0KVrMV6d8AAJ/view?usp=sharing";
                 }
 
                 Users user = new Users(id, namee, emaill, passs, imguri, status);

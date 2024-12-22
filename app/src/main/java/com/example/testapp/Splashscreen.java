@@ -13,54 +13,60 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-@SuppressLint("CustomSplashScreen")
 public class Splashscreen extends AppCompatActivity {
 
-    TextView by,selfm,name;
+    TextView by, selfm, name;
     ImageView logo;
-    Animation top,bottom; //Animations
+    Animation top, bottom; // Animations
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);//To hide statusbar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // To hide status bar
 
+        // Load animations
+        top = AnimationUtils.loadAnimation(this, R.anim.top_animation);
+        bottom = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
 
-        top= AnimationUtils.loadAnimation(this,R.anim.top_animation);
-        bottom= AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
+        // Initialize views
+        logo = findViewById(R.id.image_logo);
+        selfm = findViewById(R.id.textView3);
+        by = findViewById(R.id.textView2);
+        name = findViewById(R.id.text_name);
 
-        logo=findViewById(R.id.image_logo);
-        selfm=findViewById(R.id.textView3);
-        by=findViewById(R.id.textView2);
-        name=findViewById(R.id.text_name);
-
+        // Set animations
         by.setAnimation(bottom);
         selfm.setAnimation(bottom);
         logo.setAnimation(top);
         name.setAnimation(top);
 
+        // Delay to transition to the next activity
+        new Handler().postDelayed(() -> {
+            // Check if the user is logged in
+            SessionManager sessionManager = new SessionManager(Splashscreen.this);
+            Intent intent;
 
-        // Delay to transition to MainActivity
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(Splashscreen.this, Login.class);
-                Pair[] pairs = new Pair[3];
-                pairs[0]=new Pair<View,String>(logo,"logo_image");
-                pairs[1]=new Pair<View,String>(name,"logo_text1");
-                pairs[2]=new Pair<View,String>(name,"logo_text2");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Splashscreen.this,pairs);
-
-                startActivity(intent,options.toBundle());
-                finish();
+            if (sessionManager.isLoggedIn()) {
+                // User is logged in, navigate to the dashboard
+                intent = new Intent(Splashscreen.this, App_Dashboard.class);
+            } else {
+                // User is not logged in, navigate to the login screen
+                intent = new Intent(Splashscreen.this, Login.class);
             }
+
+            // Optional: Add shared element transition if needed
+            Pair<View, String>[] pairs = new Pair[3];
+            pairs[0] = new Pair<>(logo, "logo_image");
+            pairs[1] = new Pair<>(name, "logo_text1");
+            pairs[2] = new Pair<>(selfm, "logo_text2"); // Corrected to use selfm for the second text
+
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Splashscreen.this, pairs);
+            startActivity(intent, options.toBundle());
+            finish(); // Close the splash screen activity
         }, 2000); // 2-second delay
     }
 }

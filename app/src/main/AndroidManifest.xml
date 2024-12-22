@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,12 +20,15 @@
         <activity
             android:name=".App_Dashboard"
             android:exported="false" /> <!-- Login Activity -->
+
         <activity
             android:name=".Login"
             android:exported="false" /> <!-- Signup Activity -->
+
         <activity
             android:name=".Signup"
             android:exported="false" /> <!-- Splashscreen Activity -->
+
         <activity
             android:name=".Splashscreen"
             android:exported="true">
@@ -35,6 +42,10 @@
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.Testapp" />
+
+        <activity android:name=".CollegePredictorActivity"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
