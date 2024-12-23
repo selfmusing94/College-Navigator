@@ -190,7 +190,7 @@
                     android:id="@+id/collegeRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:background="#10000000"/>
+                    android:background="@drawable/card_gradient"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
