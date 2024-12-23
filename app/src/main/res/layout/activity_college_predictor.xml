@@ -137,7 +137,7 @@
                         android:id="@+id/rankInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Your JEE/NEET Rank"
+                        android:hint="Your Rank"
                         android:inputType="number"
                         android:textColor="#333333"/>
                 </com.google.android.material.textfield.TextInputLayout>

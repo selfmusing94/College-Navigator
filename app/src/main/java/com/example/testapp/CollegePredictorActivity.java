@@ -182,7 +182,7 @@ public class CollegePredictorActivity extends AppCompatActivity {
         // Filter colleges based on user's rank
         List<College> eligibleColleges = new ArrayList<>();
         for (College college : recommendedColleges) {
-            if (college.getRank() <= userRank) {
+            if (college.getRank() >= userRank) {
                 eligibleColleges.add(college);
             }
         }
