@@ -40,8 +40,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:hint="Username"
@@ -54,7 +54,7 @@
         app:hintTextColor="@color/black"
         app:startIconTint="@color/black"
         app:cursorColor="@color/black"
-        app:layout_constraintVertical_bias="0.35">
+        app:layout_constraintVertical_bias="0.32">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/rgusername"
@@ -86,7 +86,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:transitionName="emailtransi"
         app:hintTextColor="@color/black"
-        app:layout_constraintVertical_bias="0.45">
+        app:layout_constraintVertical_bias="0.4">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/rgemail"
@@ -119,7 +119,7 @@
         app:endIconTint="@color/black"
         android:transitionName="passtransi"
         app:placeholderText="Min 6 characters"
-        app:layout_constraintVertical_bias="0.55">
+        app:layout_constraintVertical_bias="0.48">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/rgpassword"
@@ -154,7 +154,7 @@
         app:hintTextColor="@color/black"
         app:passwordToggleDrawable="@drawable/password_visible"
         android:transitionName="passtransi"
-        app:layout_constraintVertical_bias="0.65">
+        app:layout_constraintVertical_bias="0.56">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -187,7 +187,7 @@
         app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.743" />
+        app:layout_constraintVertical_bias="0.64" />
 
     <TextView
         android:id="@+id/rgloginbutton"
@@ -195,16 +195,16 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/akayakanadaka_regular"
         android:text="Login"
-        android:transitionName="butttransi2"
         android:textColor="@color/black"
         android:textSize="25dp"
         android:textStyle="bold"
+        android:transitionName="butttransi2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <View
         android:id="@+id/dividerLine"
@@ -217,7 +217,7 @@
         app:layout_constraintHorizontal_bias="0.078"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.791" />
+        app:layout_constraintVertical_bias="0.7" />
 
     <TextView
         android:id="@+id/orText"
@@ -232,7 +232,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.805" />
+        app:layout_constraintVertical_bias="0.708" />
 
     <View
         android:id="@+id/dividerLine2"
@@ -245,7 +245,7 @@
         app:layout_constraintHorizontal_bias="0.976"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.79" />
+        app:layout_constraintVertical_bias="0.7" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/lggithubLoginCardView"
@@ -260,12 +260,12 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92">
+        app:layout_constraintVertical_bias="0.8">
 
         <ImageButton
             android:id="@+id/lggithubsignin"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_gravity="center"
             android:backgroundTint="#ffffff"
             android:scaleType="fitCenter"
@@ -285,7 +285,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/lggithubLoginCardView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92">
+        app:layout_constraintVertical_bias="0.8">
 
         <ImageButton
             android:id="@+id/rggooglesignin"
@@ -294,7 +294,7 @@
             android:layout_gravity="center"
             android:backgroundTint="#ffffff"
             android:scaleType="fitCenter"
-            android:src="@drawable/search" />
+            android:src="@drawable/googleg_standard_color_18" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -310,7 +310,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/lggoogleLoginCardView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.92">
+        app:layout_constraintVertical_bias="0.8">
 
         <ImageButton
             android:id="@+id/lgfacebooksignin"

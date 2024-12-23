@@ -1,178 +1,198 @@
 package com.example.testapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CollegePredictorActivity extends AppCompatActivity {
 
-    private TextView textViewResults;
+    // Data Model for College
+    public static class College {
+        private String name;
+        private String branch;
+        private int rank;
+
+        public College(String name, String branch, int rank) {
+            this.name = name;
+            this.branch = branch;
+            this.rank = rank;
+        }
+
+        // Getters
+        public String getName() { return name; }
+        public String getBranch() { return branch; }
+        public int getRank() { return rank; }
+    }
+
+    // RecyclerView Adapter
+    public static class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.CollegeViewHolder> {
+        private List<College> collegeList;
+
+        public CollegeAdapter(List<College> collegeList) {
+            this.collegeList = collegeList;
+        }
+
+        @NonNull
+        @Override
+        public CollegeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_college, parent, false);
+            return new CollegeViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull CollegeViewHolder holder, int position) {
+            College college = collegeList.get(position);
+            holder.collegeNameTextView.setText(college.getName());
+            holder.collegeBranchTextView.setText(college.getBranch());
+            holder.collegeRankTextView.setText(String.valueOf(college.getRank()));
+        }
+
+        @Override
+        public int getItemCount() {
+            return collegeList.size();
+        }
+
+        public static class CollegeViewHolder extends RecyclerView.ViewHolder {
+            TextView collegeNameTextView;
+            TextView collegeBranchTextView;
+            TextView collegeRankTextView;
+
+            public CollegeViewHolder(@NonNull View itemView) {
+                super(itemView);
+                collegeNameTextView = itemView.findViewById(R.id.collegeNameTextView);
+                collegeBranchTextView = itemView.findViewById(R.id.collegeBranchTextView);
+                collegeRankTextView = itemView.findViewById(R.id.collegeRankTextView);
+            }
+        }
+    }
+
+    // Activity Components
+    private TextView fileNameText;
+    private TextInputEditText rankInput;
+    private MaterialButton uploadButton;
+    private MaterialButton predictButton;
+    private RecyclerView collegeRecyclerView;
+    private CardView recommendationCardView;
+
+    // File and Rank Variables
+    private String selectedFilePath;
+    private int userRank;
+
+    // Request Codes
+    private static final int FILE_PICK_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_college_predictor);
 
-        Button buttonPredictColleges = findViewById(R.id.button_predict_colleges);
-        textViewResults = findViewById(R.id.text_view_results);
+        // Initialize Views
+        initializeViews();
 
-        buttonPredictColleges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Run the college prediction logic in a background thread
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            String url = "https://example.com"; // Replace with the URL of the website to scrape
-                            String pdfDirectory = getExternalFilesDir(null) + "/pdfs"; // Directory to save the downloaded PDFs
+        // Setup Listeners
+        setupListeners();
 
-                            // Create the PDF directory if it doesn't exist
-                            File pdfDir = new File(pdfDirectory);
-                            if (!pdfDir.exists()) {
-                                pdfDir.mkdirs();
-                            }
+        // Initially hide the recommendation card
+        recommendationCardView.setVisibility(View.GONE);
+    }
 
-                            // Scrape the website for PDF links
-                            List<String> pdfLinks = scrapePdfLinks(url);
-                            String mostRecentPdfLink = getMostRecentPdfLink(pdfLinks);
-                            String pdfFilePath = downloadPdf(mostRecentPdfLink, pdfDirectory);
-                            String pdfText = extractTextFromPdf(pdfFilePath);
-                            String results = processPdfText(pdfText);
+    private void initializeViews() {
+        fileNameText = findViewById(R.id.fileNameText);
+        rankInput = findViewById(R.id.rankInput);
+        uploadButton = findViewById(R.id.uploadButton);
+        predictButton = findViewById(R.id.predictButton);
+        collegeRecyclerView = findViewById(R.id.collegeRecyclerView);
+        recommendationCardView = findViewById(R.id.recommendationCardView);
+    }
 
-                            // Update the UI with the results
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    textViewResults.setText(results);
-                                }
-                            });
+    private void setupListeners() {
+        // File Upload Button
+        uploadButton.setOnClickListener(v -> openFilePicker());
 
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+        // Predict Button
+        predictButton.setOnClickListener(v -> {
+            // Validate Rank Input
+            String rankStr = rankInput.getText().toString().trim();
+            if (!rankStr.isEmpty()) {
+                try {
+                    userRank = Integer.parseInt(rankStr);
+
+                    // Check if file is selected
+                    if (selectedFilePath != null) {
+                        predictColleges();
+                    } else {
+                        Toast.makeText(this, "Please upload a file first", Toast.LENGTH_SHORT).show();
                     }
-                }).start();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Invalid Rank", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Please enter your rank", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // Function to scrape the website for PDF links
-    private List<String> scrapePdfLinks(String url) throws IOException {
-        Document doc = Jsoup.connect(url).get();
-        Elements links = doc.select("a[href]");
-        List<String> pdfLinks = new ArrayList<>();
+    private void openFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*"); // Allow all file types
+        startActivityForResult(Intent.createChooser(intent, "Select File"), FILE_PICK_REQUEST_CODE);
+    }
 
-        for (Element link : links) {
-            String href = link.attr("href");
-            if (href.endsWith(".pdf")) {
-                pdfLinks.add(href);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FILE_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri fileUri = data.getData();
+                if (fileUri != null) {
+                    selectedFilePath = fileUri.getPath();
+                    fileNameText.setText(selectedFilePath);
+                }
+            }
+        }
+    }
+
+    private void predictColleges() {
+        // Sample implementation - replace with your actual logic
+        List<College> recommendedColleges = new ArrayList<>();
+
+        // Mock data - replace with actual parsing from uploaded file
+        recommendedColleges.add(new College("IIT Bombay", "Computer Science", 500));
+        recommendedColleges.add(new College("NIT Trichy", "Mechanical Engineering", 1000));
+        recommendedColleges.add(new College("IIT Delhi", "Electrical Engineering", 750));
+
+        // Filter colleges based on user's rank
+        List<College> eligibleColleges = new ArrayList<>();
+        for (College college : recommendedColleges) {
+            if (college.getRank() <= userRank) {
+                eligibleColleges.add(college);
             }
         }
 
-        return pdfLinks;
-    }
+        // Show recommendation card
+        recommendationCardView.setVisibility(View.VISIBLE);
 
-    // Function to get the most recent PDF link
-    private String getMostRecentPdfLink(List<String> pdfLinks) {
-        String mostRecentPdfLink = null;
-        int mostRecentYear = 0;
-
-        for (String pdfLink : pdfLinks) {
-            int year = getYearFromPdfLink(pdfLink);
-            if (year > mostRecentYear) {
-                mostRecentYear = year;
-                mostRecentPdfLink = pdfLink;
-            }
-        }
-
-        return mostRecentPdfLink; // Return the most recent PDF link found
-    }
-
-    private int getYearFromPdfLink(String pdfLink) {
-        // Extract the filename from the URL
-        String fileName = pdfLink.substring(pdfLink.lastIndexOf('/') + 1);
-
-        // Use a regex to find a four-digit year in the filename
-        Pattern yearPattern = Pattern.compile("\\b(\\d{4})\\b");
-        Matcher matcher = yearPattern.matcher(fileName);
-
-        if (matcher.find()) {
-            // Return the first four-digit year found
-            return Integer.parseInt(matcher.group(1));
-        }
-
-        // Return a default value if no year is found
-        return 0; // or throw an exception, or handle it as needed
-    }
-
-    private String downloadPdf(String pdfLink, String pdfDirectory) throws IOException {
-        // Create a URL object from the PDF link
-        URL url = new URL(pdfLink);
-
-        // Extract the filename from the URL
-        String fileName = url.getFile().substring(url.getFile().lastIndexOf('/') + 1);
-        String pdfFilePath = pdfDirectory + "/" + fileName;
-
-        // Create input and output streams for downloading the PDF
-        try (java.io.BufferedInputStream in = new java.io.BufferedInputStream(url.openStream());
-             java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfFilePath);
-             java.io.BufferedOutputStream bout = new java.io.BufferedOutputStream(fos)) {
-
-            byte[] data = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(data, 0, 1024)) != -1) {
-                bout.write(data, 0, bytesRead);
-            }
-        }
-
-        return pdfFilePath; // Return the path of the downloaded PDF
-    }
-
-    private String extractTextFromPdf(String pdfFilePath) throws IOException {
-        // Load the PDF document
-        try (PDDocument document = PDDocument.load(new File(pdfFilePath))) {
-            // Create a PDFTextStripper to extract text
-            PDFTextStripper pdfStripper = new PDFTextStripper();
-            return pdfStripper.getText(document); // Return the extracted text
-        }
-    }
-
-    private String processPdfText(String pdfText) {
-        StringBuilder results = new StringBuilder();
-        String regex = "(?<collegeName>.+?),\\s*(?<collegeId>\\d+),\\s*(?<rank>\\d+)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(pdfText);
-
-        results.append("Colleges List:\n");
-        results.append("-------------------------------------------------\n");
-        results.append(String.format("%-30s %-15s %-10s%n", "College Name", "College ID", "Rank"));
-        results.append("-------------------------------------------------\n");
-
-        while (matcher.find()) {
-            String collegeName = matcher.group("collegeName").trim();
-            String collegeId = matcher.group("collegeId").trim();
-            String rank = matcher.group("rank").trim();
-            results.append(String.format("%-30s %-15s %-10s%n", collegeName, collegeId, rank));
-        }
-
-        return results.toString(); // Return the formatted results
+        // Setup RecyclerView
+        CollegeAdapter adapter = new CollegeAdapter(eligibleColleges);
+        collegeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        collegeRecyclerView.setAdapter(adapter);
     }
 }
