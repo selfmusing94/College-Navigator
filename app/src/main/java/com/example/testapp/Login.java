@@ -30,7 +30,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser ;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.regex.Pattern;
@@ -200,7 +200,6 @@ public class Login extends AppCompatActivity {
             }
         }
     }
-
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
@@ -213,20 +212,41 @@ public class Login extends AppCompatActivity {
                     progressDialog.dismiss();
 
                     if (task.isSuccessful()) {
-                        // Sign in success
-                        FirebaseUser  user = auth.getCurrentUser ();
+                        // Get the signed-in user
+                        FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
-                            sessionManager.createLoginSession(user.getEmail()); // Save session
-                            navigateToDashboard();
+                            // Check if the user is signed in with Google
+                            boolean isGoogleProvider = false;
+
+                            // Check the provider data for Google
+                            for (FirebaseUser.UserInfo profile : user.getProviderData()) {
+                                // Get the provider ID and check if it's Google
+                                if (profile.getProviderId().equals(GoogleAuthProvider.PROVIDER_ID)) {
+                                    isGoogleProvider = true;
+                                    break;
+                                }
+                            }
+
+                            if (isGoogleProvider) {
+                                // If user is authenticated with Google, create session and navigate to dashboard
+                                sessionManager.createLoginSession(user.getEmail());
+                                navigateToDashboard();
+                            } else {
+                                // If not authenticated with Google, show message and sign out
+                                Toast.makeText(this, "This account was not registered using Google Sign-In",
+                                        Toast.LENGTH_SHORT).show();
+                                auth.signOut(); // Sign out unauthorized users
+                            }
                         }
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(Login.this,
-                                "Authentication Failed: " + task.getException().getMessage(),
+                        // If sign-in fails, display a message to the user
+                        Toast.makeText(Login.this, "Authentication Failed: " + task.getException().getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
+
 
     private void navigateToSignup() {
         Intent i = new Intent(Login.this, Signup.class);

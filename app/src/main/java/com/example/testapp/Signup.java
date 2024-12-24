@@ -181,47 +181,45 @@ public class Signup extends AppCompatActivity {
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
-
-        String idToken = account.getIdToken();
-
-        if (idToken == null) {
-            Toast.makeText(this, "Failed to get ID Token", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         progressDialog.show();
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-
+        // Get credential and authenticate with Firebase
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     progressDialog.dismiss();
+
                     if (task.isSuccessful()) {
+                        // Get the signed-in user
                         FirebaseUser user = auth.getCurrentUser();
-                        String id = user.getUid();
-                        DatabaseReference databaseReference = database.getReference("Users").child(id);
+                        if (user != null) {
+                            // Check if the user is signed in with Google
+                            boolean isGoogleProvider = false;
+                            for (FirebaseUser.UserInfo profile : user.getProviderData()) {
+                                if (profile.getProviderId().equals(GoogleAuthProvider.PROVIDER_ID)) {
+                                    isGoogleProvider = true;
+                                    break;
+                                }
+                            }
 
-                        String userName = account.getDisplayName();
-                        String userEmail = account.getEmail();
-                        String userProfilePic = account.getPhotoUrl() != null ? account.getPhotoUrl().toString() : "default_profile_pic_url";
-                        String userStatus = "Sita Ram! I am using this Application";
+                            if (isGoogleProvider) {
+                                // User is signed in with Google
+                                Toast.makeText(this, "This account is already registered using Google Sign-Up. Use Google Sign-In.", Toast.LENGTH_SHORT).show();
+                                auth.signOut(); // Sign out the user if they try to create a new account
+                            }
 
-                        Users googleUser = new Users(id, userName, userEmail, "N/A", userProfilePic, userStatus);
-                        databaseReference.setValue(googleUser).addOnSuccessListener(aVoid -> {
-                            Toast.makeText(Signup.this, "Google User Created Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(Signup.this, App_Dashboard.class));
-                            finish();
-                        }).addOnFailureListener(e -> {
-                            Toast.makeText(Signup.this, "Failed to save Google User: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                        }
 
                     } else {
-                        Toast.makeText(Signup.this, "Authentication Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        // If sign-in fails, display a message to the user.
+                        Toast.makeText(Signup.this,"Authentication Failed: " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
 
     private void createAccount(String namee, String emaill, String passs) {
         progressDialog.show();
