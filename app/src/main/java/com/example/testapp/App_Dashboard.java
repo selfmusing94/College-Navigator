@@ -33,6 +33,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.android.material.navigation.NavigationView;
+import android.os.Build;
+import androidx.annotation.NonNull;
+
 
 public class App_Dashboard extends AppCompatActivity {
 
@@ -44,6 +47,8 @@ public class App_Dashboard extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private TextView userName, userEmail; // Shared resource placeholders
     private ImageView profimage;
+
+    private static final int PERMISSION_REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,46 +211,44 @@ public class App_Dashboard extends AppCompatActivity {
     }
 
     private void checkPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted, request it
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSIONS);
-        } else {
-            // Permission is already granted, proceed with loading images
-            loadUserDetails();
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with loading images
-                loadUserDetails();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // For Android 13 and above
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{
+                                Manifest.permission.READ_MEDIA_IMAGES,
+                                Manifest.permission.READ_MEDIA_VIDEO,
+                                Manifest.permission.READ_MEDIA_AUDIO
+                        },
+                        PERMISSION_REQUEST_CODE
+                );
             } else {
-                // Permission denied
-                Toast.makeText(this, "Permission denied to read external storage", Toast.LENGTH_SHORT).show();
-                // Optionally, you can show a dialog explaining why the permission is needed
-                showPermissionExplanation();
+                Toast.makeText(this, "Media permissions already granted", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // For Android 12 and below
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PERMISSION_REQUEST_CODE
+                );
+            } else {
+                Toast.makeText(this, "Storage permission already granted", Toast.LENGTH_SHORT).show();
             }
         }
-    }
 
-    private void showPermissionExplanation() {
-        new AlertDialog.Builder(this)
-                .setTitle("Permission Required")
-                .setMessage("This app requires access to your storage to load images. Please grant the permission.")
-                .setPositiveButton("OK", (dialog, which) -> {
-                    // Redirect to app settings
-                    Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                    intent.setData(uri);
-                    startActivity(intent);
-                })
-                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                .show();
-    }
 
+
+
+
+
+    }
     private void redirectToLogin() {
         Intent intent = new Intent(App_Dashboard.this, Login.class);
         startActivity(intent);
