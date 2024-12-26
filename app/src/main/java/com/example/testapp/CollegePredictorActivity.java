@@ -18,11 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,6 +156,20 @@ public class CollegePredictorActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select File"), FILE_PICK_REQUEST_CODE);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FILE_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri fileUri = data.getData();
+                if (fileUri != null) {
+                    selectedFilePath = fileUri.getPath();
+                    fileNameText.setText(selectedFilePath);
+                }
+            }
+        }
+    }
+
     private void predictColleges() {
         // Sample implementation - replace with your actual logic
         List<College> recommendedColleges = new ArrayList<>();
@@ -186,63 +195,4 @@ public class CollegePredictorActivity extends AppCompatActivity {
         collegeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         collegeRecyclerView.setAdapter(adapter);
     }
-
-    private int extractRankFromPdf(String filePath) {
-        int rank = -1;
-        try {
-            File file = new File(filePath);
-            PDDocument document = PDDocument.load(file);
-            PDFTextStripper pdfStripper = new PDFTextStripper();
-            String text = pdfStripper.getText(document);
-            document.close();
-
-            // Extract rank from the PDF text (customize this as needed based on PDF format)
-            rank = extractRankFromText(text);  // Assume rank extraction logic is based on PDF text
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return rank;
-    }
-
-    private int extractRankFromText(String text) {
-        // Example: Let's assume the rank is in the format "Rank: 123"
-        String[] lines = text.split("\n");
-        for (String line : lines) {
-            if (line.contains("Rank:")) {
-                String rankText = line.split(":")[1].trim();
-                try {
-                    return Integer.parseInt(rankText);
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return -1;  // Return -1 if rank is not found
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FILE_PICK_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri fileUri = data.getData();
-                if (fileUri != null) {
-                    selectedFilePath = fileUri.getPath();
-                    fileNameText.setText(selectedFilePath);
-
-                    // Extract rank from PDF file
-                    int rank = extractRankFromPdf(selectedFilePath);
-                    if (rank != -1) {
-                        // Set the rank input to the extracted rank
-                        rankInput.setText(String.valueOf(rank));
-                    } else {
-                        Toast.makeText(this, "Rank not found in the uploaded file", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        }
-    }
-
-
-
 }
