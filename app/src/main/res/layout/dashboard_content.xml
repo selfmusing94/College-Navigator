@@ -66,16 +66,17 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp">
 
                 <SearchView
                     android:id="@+id/search_view"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/search_background"
-                    android:queryHint="Explore Colleges, Courses, and More..."
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp"/>
+                    android:paddingEnd="16dp"
+                    android:queryHint="Explore Colleges, Courses, and More..." />
             </androidx.cardview.widget.CardView>
 
             <!-- Grid of Feature Cards -->
@@ -91,7 +92,7 @@
                 android:layout_marginEnd="8dp">
 
                 <!-- Card 1: College Predictor -->
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -124,10 +125,10 @@
                             android:gravity="center"
                             android:layout_marginTop="12dp"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </RelativeLayout>
 
                 <!-- Card 2: Review System -->
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -160,10 +161,10 @@
                             android:gravity="center"
                             android:layout_marginTop="12dp"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </RelativeLayout>
 
                 <!-- Card 3: Top 10 Colleges -->
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -196,10 +197,10 @@
                             android:gravity="center"
                             android:layout_marginTop="12dp"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </RelativeLayout>
 
                 <!-- Card 4: Location Based Finder -->
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -232,10 +233,10 @@
                             android:gravity="center"
                             android:layout_marginTop="12dp"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </RelativeLayout>
 
                 <!-- Card 5: Cutoff Analysis -->
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -268,10 +269,10 @@
                             android:gravity="center"
                             android:layout_marginTop="12dp"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </RelativeLayout>
 
                 <!-- Card 6: PG Finder -->
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -304,10 +305,10 @@
                             android:gravity="center"
                             android:layout_marginTop="12dp"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </RelativeLayout>
 
                 <!-- Card 7: Senior Connect -->
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -340,10 +341,10 @@
                             android:gravity="center"
                             android:layout_marginTop="12dp"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </RelativeLayout>
 
                 <!-- Card 8: AI Chatbot -->
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -376,7 +377,7 @@
                             android:gravity="center"
                             android:layout_marginTop="12dp"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </RelativeLayout>
 
             </GridLayout>
         </LinearLayout>
