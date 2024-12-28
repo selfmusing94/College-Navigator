@@ -110,16 +110,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:boxStrokeColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
-        app:passwordToggleDrawable="@drawable/password_visible"
-        app:passwordToggleTint="@color/black"
+        app:boxStrokeColor="@color/black"
+        app:endIconTint="@color/black"
         app:startIconDrawable="@drawable/key"
         app:startIconTint="@color/black"
-        app:endIconTint="@color/black"
+        app:cursorColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:passwordToggleDrawable="@drawable/password_visible"
         android:transitionName="passtransi"
         app:placeholderText="Min 6 characters"
         app:layout_constraintVertical_bias="0.54">
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/rgpassword"
@@ -127,8 +129,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/acme_regular"
             android:inputType="textPassword"
-            app:cursorColor="@color/black"
-            app:hintTextColor="@color/black"
+            android:textColorHint="@color/black"
             android:textColor="@color/black"
             android:textColorLink="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
