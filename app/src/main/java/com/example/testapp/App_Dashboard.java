@@ -1,15 +1,27 @@
 package com.example.testapp;
 
 import android.Manifest;
-import android.content.DialogInterface;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +46,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.android.material.navigation.NavigationView;
 import android.os.Build;
-import androidx.annotation.NonNull;
 
 
 public class App_Dashboard extends AppCompatActivity {
@@ -76,6 +87,9 @@ public class App_Dashboard extends AppCompatActivity {
 
         // Set up Navigation Drawer
         setupNavigationDrawer();
+
+        // Initialize and set click listeners for cards
+        setupCardClickListeners();
 
         // Drawer button functionality
         button.setOnClickListener(v -> drawerLayout.open());
@@ -242,16 +256,102 @@ public class App_Dashboard extends AppCompatActivity {
                 Toast.makeText(this, "Storage permission already granted", Toast.LENGTH_SHORT).show();
             }
         }
-
-
-
-
-
-
     }
     private void redirectToLogin() {
         Intent intent = new Intent(App_Dashboard.this, Login.class);
         startActivity(intent);
         finish(); // Prevent back navigation to this activity
     }
+
+    private void setupCardClickListeners() {
+        // Card 1: College Predictor
+        RelativeLayout card1 = findViewById(R.id.card1);
+        card1.setOnClickListener(v -> {
+            animateCardClick(v);
+            Intent intent = new Intent(App_Dashboard.this, CollegePredictorActivity.class);
+            startActivity(intent);
+        });
+
+        // Card 2: Review System
+        RelativeLayout card2 = findViewById(R.id.card2);
+        card2.setOnClickListener(v -> {
+            animateCardClick(v);
+            Intent intent = new Intent(App_Dashboard.this, ReviewCollegeActivity.class);
+            startActivity(intent);
+        });
+
+        // Card 3: Top 10 Colleges
+        RelativeLayout card3 = findViewById(R.id.card3);
+        card3.setOnClickListener(v -> {
+            animateCardClick(v);
+            Intent intent = new Intent(App_Dashboard.this, Top10CollegesActivity.class);
+            startActivity(intent);
+        });
+
+        // Card 4: Location Based College Finder
+        RelativeLayout card4 = findViewById(R.id.card4);
+        card4.setOnClickListener(v -> {
+            animateCardClick(v);
+            Intent intent = new Intent(App_Dashboard.this, LocationBasedActivity.class);
+            startActivity(intent);
+        });
+
+        // Card 5: Cutoff Analysis
+        RelativeLayout card5 = findViewById(R.id.card5);
+        card5.setOnClickListener(v -> {
+            animateCardClick(v);
+            Intent intent = new Intent(App_Dashboard.this, CutoffAnalysisActivity.class);
+            startActivity(intent);
+        });
+
+        // Card 6: PG Finder
+        RelativeLayout card6 = findViewById(R.id.card6);
+        card6.setOnClickListener(v -> {
+            animateCardClick(v);
+            Intent intent = new Intent(App_Dashboard.this, PGFinderActivity.class);
+            startActivity(intent);
+        });
+
+        // Card 7: Senior Connect
+        RelativeLayout card7 = findViewById(R.id.card7);
+        card7.setOnClickListener(v -> {
+            animateCardClick(v);
+            Intent intent = new Intent(App_Dashboard.this, SeniorConnectActivity.class);
+            startActivity(intent);
+        });
+
+        // Card 8: AI Chatbot
+        RelativeLayout card8 = findViewById(R.id.card8);
+        card8.setOnClickListener(v -> {
+            animateCardClick(v);
+            Intent intent = new Intent(App_Dashboard.this, AIChatbotActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    //Add click effect for cards
+    private void animateCardClick(final View view) {
+        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(view, "scaleX", 0.95f);
+        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(view, "scaleY", 0.95f);
+
+        ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(view, "scaleX", 1.0f);
+        ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(view, "scaleY", 1.0f);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(100);
+        animatorSet.playTogether(scaleDownX, scaleDownY);
+
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                AnimatorSet scaleUpSet = new AnimatorSet();
+                scaleUpSet.setDuration(100);
+                scaleUpSet.playTogether(scaleUpX, scaleUpY);
+                scaleUpSet.start();
+            }
+        });
+
+        animatorSet.start();
+    }
 }
+

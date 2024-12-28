@@ -93,6 +93,7 @@
 
                 <!-- Card 1: College Predictor -->
                 <RelativeLayout
+                    android:id="@+id/card1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -129,6 +130,7 @@
 
                 <!-- Card 2: Review System -->
                 <RelativeLayout
+                    android:id="@+id/card2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -165,6 +167,7 @@
 
                 <!-- Card 3: Top 10 Colleges -->
                 <RelativeLayout
+                    android:id="@+id/card3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -201,6 +204,7 @@
 
                 <!-- Card 4: Location Based Finder -->
                 <RelativeLayout
+                    android:id="@+id/card4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -237,6 +241,7 @@
 
                 <!-- Card 5: Cutoff Analysis -->
                 <RelativeLayout
+                    android:id="@+id/card5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -273,6 +278,7 @@
 
                 <!-- Card 6: PG Finder -->
                 <RelativeLayout
+                    android:id="@+id/card6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -309,6 +315,7 @@
 
                 <!-- Card 7: Senior Connect -->
                 <RelativeLayout
+                    android:id="@+id/card7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
@@ -345,6 +352,7 @@
 
                 <!-- Card 8: AI Chatbot -->
                 <RelativeLayout
+                    android:id="@+id/card8"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
