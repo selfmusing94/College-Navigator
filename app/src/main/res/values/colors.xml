@@ -4,4 +4,18 @@
     <color name="white">#FFFFFFFF</color>
     <color name="Transparent">#00000000</color>
 
+    <color name="rank_top_three">#FF4081</color>
+    <color name="rank_top_ten">#3F51B5</color>
+    <color name="rank_others">#607D8B</color>
+
+    <!-- Rating Colors -->
+    <color name="rating_excellent">#4CAF50</color>
+    <color name="rating_very_good">#2196F3</color>
+    <color name="rating_good">#FFC107</color>
+    <color name="rating_average">#FF5722</color>
+
+    <!-- Background Colors -->
+    <color name="background_light">#F0F4F8</color>
+    <color name="background_card">#FFFFFF</color>
+
 </resources>

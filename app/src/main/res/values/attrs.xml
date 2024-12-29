@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SlideFromSide">
+        <attr name="slideEdge">
+            <enum value="0" name="left"/>
+            <enum value="1" name="right"/>
+        </attr>
+    </declare-styleable>
+</resources>

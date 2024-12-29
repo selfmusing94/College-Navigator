@@ -63,6 +63,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'commons-io:commons-io:2.11.0'
+    implementation 'com.airbnb.android:lottie:4.2.2'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'org.apache.pdfbox:pdfbox:2.0.23'
 
 }

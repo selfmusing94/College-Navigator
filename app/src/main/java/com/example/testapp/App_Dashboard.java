@@ -296,7 +296,7 @@ public class App_Dashboard extends AppCompatActivity {
         card3.setOnClickListener(v -> {
             rippleCardClick(v);
             new Handler().postDelayed(() -> {
-                Intent intent = new Intent(App_Dashboard.this, Top10CollegesActivity.class);
+                Intent intent = new Intent(App_Dashboard.this, TopCollegesActivity.class);
                 startActivity(intent);
             }, 250);
         });

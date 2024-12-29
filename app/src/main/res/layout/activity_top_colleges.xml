@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F4F8">
+
+    <!-- Header Section with Background -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/vibrant_header_gradient"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Top Colleges"
+            android:textColor="@android:color/white"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:fontFamily="@font/akayakanadaka_regular"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Search and Filter Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Number Input -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/inputLayoutCollegeCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        app:placeholderText="Enter No of Colleges"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTopCollegesCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Top Colleges"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:textSize="14sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Explore Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnShowColleges"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:layout_marginStart="8dp"
+                        app:cornerRadius="12dp"
+                        android:text="Explore"
+                        android:fontFamily="@font/acme_regular"
+                        android:textSize="18sp"/>
+                </LinearLayout>
+
+                <!-- Filter and Sort Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <!-- Filter Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnFilter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:layout_marginEnd="4dp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:icon="@drawable/ic_filter"
+                        android:text="Filter"
+                        android:textSize="12sp"
+                        app:iconSize="16dp"/>
+
+                    <!-- Sort Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSort"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:layout_marginStart="4dp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:icon="@drawable/ic_sort"
+                        android:text="Sort"
+                        android:textSize="12sp"
+                        app:iconSize="16dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <!-- RecyclerView for Colleges -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTopColleges"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"/>
+
+    <!-- Empty State Layout -->
+    <LinearLayout
+        android:id="@+id/emptyStateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- Lottie Animation -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieEmptyState"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:lottie_fileName="empty_college_animation.json"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+
+        <TextView
+            android:id="@+id/tvNoCollegeFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="No colleges found"
+            android:textSize="18sp"
+            android:textColor="#757575"/>
+    </LinearLayout>
+</LinearLayout>

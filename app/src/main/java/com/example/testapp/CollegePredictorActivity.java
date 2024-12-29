@@ -35,6 +35,9 @@ public class CollegePredictorActivity extends AppCompatActivity {
             this.rank = rank;
         }
 
+        public College(String name, String branch, double v, int i) {
+        }
+
         // Getters
         public String getName() { return name; }
         public String getBranch() { return branch; }
