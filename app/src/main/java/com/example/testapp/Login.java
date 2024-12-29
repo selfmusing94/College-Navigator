@@ -1,13 +1,22 @@
 package com.example.testapp;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -52,7 +61,7 @@ public class Login extends AppCompatActivity {
     // UI Components
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
-    private ImageButton googleSignInButton;
+    private ImageButton googleSignInButton,lggithub,lgfacebook;
     private TextView signupButton;
     private ImageView logo;
     private TextView bigText, smallText;
@@ -101,6 +110,8 @@ public class Login extends AppCompatActivity {
         logo = findViewById(R.id.imageView2);
         bigText = findViewById(R.id.textView4);
         smallText = findViewById(R.id.textView10);
+        lggithub = findViewById(R.id.lggithubsignin);
+        lgfacebook = findViewById(R.id.lgfacebooksignin);
 
         // Configure Google Sign-In for already signed-in users
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -113,13 +124,30 @@ public class Login extends AppCompatActivity {
 
     private void setupClickListeners() {
         // Email Login
-        loginButton.setOnClickListener(v -> performEmailLogin());
+        loginButton.setOnClickListener(v -> {
+            rippleCardClick(v);
+            performEmailLogin();});
 
         // Signup Navigation
-        signupButton.setOnClickListener(v -> navigateToSignup());
+        signupButton.setOnClickListener(v -> {
+            advancedanimateCardClick(v, () -> {
+            navigateToSignup(); }); });
 
         // Google Sign-In
-        googleSignInButton.setOnClickListener(v -> signInWithGoogle());
+        googleSignInButton.setOnClickListener(v -> {
+            advancedanimateCardClick(v, () -> {
+                signInWithGoogle(); }); });
+
+        lggithub.setOnClickListener(v -> {
+            advancedanimateCardClick(v,() ->{
+                signInWithGithub();
+            }); });
+
+        lgfacebook.setOnClickListener(v -> {
+            advancedanimateCardClick(v,()->{
+                signInWithFacebook();
+            }); });
+
     }
 
     private void performEmailLogin() {
@@ -248,5 +276,64 @@ public class Login extends AppCompatActivity {
         Intent intent = new Intent(Login.this, App_Dashboard.class);
         startActivity(intent);
         finish();
+    }
+
+    private void signInWithGithub() {
+        //Add github Login Logic
+        Toast.makeText(this, "Feature Coming Soon.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void signInWithFacebook() {
+        //Add github Login Logic
+        Toast.makeText(this, "Feature Coming Soon.", Toast.LENGTH_SHORT).show();
+    }
+
+    //Add click effect for cards
+    private void rippleCardClick(View view) {
+        // Create ripple effect
+        view.setPressed(true);
+
+        // Scale and ripple animation
+        view.animate()
+                .scaleX(0.95f)
+                .scaleY(0.95f)
+                .setDuration(100)
+                .withEndAction(() -> {
+                    // Return to original state
+                    view.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(100)
+                            .start();
+
+                    // Release pressed state
+                    view.setPressed(false);
+                })
+                .start();
+    }
+    private void advancedanimateCardClick(View view, Runnable postAnimationAction) {
+        // Vibration feedback
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
+
+        // Comprehensive animation
+        view.animate()
+                .scaleX(0.90f)
+                .scaleY(0.90f)
+                .setDuration(100)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .withEndAction(() -> {
+                    // Bounce back animation
+                    view.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(100)
+                            .setInterpolator(new OvershootInterpolator())
+                            .withEndAction(postAnimationAction)
+                            .start();
+                })
+                .start();
     }
 }

@@ -1,10 +1,16 @@
 package com.example.testapp;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,6 +20,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -42,7 +49,7 @@ public class Signup extends AppCompatActivity {
     FirebaseAuth auth;
     Uri ImgURI;
     String imguri;
-    ImageButton rggoogle;
+    ImageButton rggoogle,rggithub,rgfacebook;
     String pattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     FirebaseDatabase database;
     ProgressDialog progressDialog;
@@ -73,14 +80,19 @@ public class Signup extends AppCompatActivity {
         rgsignup = findViewById(R.id.rgbutton);
         rgImg = findViewById(R.id.profilerg);
         rggoogle = findViewById(R.id.rggooglesignin);
+        rggithub = findViewById(R.id.rggithubsignin);
+        rgfacebook=findViewById(R.id.rgfacebooksignin);
 
         login.setOnClickListener(v -> {
+            advancedanimateCardClick(v,()->{
             Intent intent = new Intent(Signup.this, Login.class);
             startActivity(intent);
             finish();
+            });
         });
 
         rgsignup.setOnClickListener(v -> {
+            rippleCardClick(v);
             String namee = rgusername.getText().toString();
             String emaill = rgmail.getText().toString();
             String passs = rgpass.getText().toString();
@@ -122,6 +134,7 @@ public class Signup extends AppCompatActivity {
         });
 
         rgImg.setOnClickListener(v -> {
+            rippleCardClick(v);
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -137,7 +150,20 @@ public class Signup extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
         // Google Sign-In Button (Add this to your layout and bind it here)
-        rggoogle.setOnClickListener(v -> signInWithGoogle());
+        rggoogle.setOnClickListener(v -> {
+            advancedanimateCardClick(v,()->{
+            signInWithGoogle();
+            }); });
+
+        rggithub.setOnClickListener(v -> {
+            advancedanimateCardClick(v,() ->{
+                signUpWithGithub();
+            }); });
+
+        rgfacebook.setOnClickListener(v -> {
+            advancedanimateCardClick(v,()->{
+                signUpWithFacebook();
+            }); });
     }
 
     private void signInWithGoogle() {
@@ -253,4 +279,65 @@ public class Signup extends AppCompatActivity {
             }
         });
     }
+
+    private void signUpWithGithub() {
+      //Add github Login Logic
+        Toast.makeText(this, "Feature Coming Soon.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void signUpWithFacebook() {
+        //Add github Login Logic
+         Toast.makeText(this, "Feature Coming Soon.", Toast.LENGTH_SHORT).show();
+    }
+
+
+    //Add click effect for cards
+    private void rippleCardClick(View view) {
+        // Create ripple effect
+        view.setPressed(true);
+
+        // Scale and ripple animation
+        view.animate()
+                .scaleX(0.95f)
+                .scaleY(0.95f)
+                .setDuration(100)
+                .withEndAction(() -> {
+                    // Return to original state
+                    view.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(100)
+                            .start();
+
+                    // Release pressed state
+                    view.setPressed(false);
+                })
+                .start();
+    }
+    private void advancedanimateCardClick(View view, Runnable postAnimationAction) {
+        // Vibration feedback
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
+
+        // Comprehensive animation
+        view.animate()
+                .scaleX(0.90f)
+                .scaleY(0.90f)
+                .setDuration(100)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .withEndAction(() -> {
+                    // Bounce back animation
+                    view.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(100)
+                            .setInterpolator(new OvershootInterpolator())
+                            .withEndAction(postAnimationAction)
+                            .start();
+                })
+                .start();
+    }
+
 }

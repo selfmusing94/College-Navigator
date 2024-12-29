@@ -3,7 +3,7 @@
     <style name="Theme.Testapp" parent="Base.Theme.Testapp">
         <!-- Transparent system bars for edge-to-edge. -->
     <!-- Completely Neutral Theme -->
-    <item name="colorPrimary">#FFFFFF</item>
+    <item name="colorPrimary">#000000</item>
     <item name="colorPrimaryDark">#FFFFFF</item>
     <item name="colorAccent">#000000</item>
 

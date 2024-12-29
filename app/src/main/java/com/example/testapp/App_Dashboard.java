@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -14,11 +15,16 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -267,91 +273,132 @@ public class App_Dashboard extends AppCompatActivity {
         // Card 1: College Predictor
         RelativeLayout card1 = findViewById(R.id.card1);
         card1.setOnClickListener(v -> {
-            animateCardClick(v);
+            rippleCardClick(v);
+            // Perform action after a short delay
+            new Handler().postDelayed(() -> {
             Intent intent = new Intent(App_Dashboard.this, CollegePredictorActivity.class);
             startActivity(intent);
+            }, 250);
         });
 
         // Card 2: Review System
         RelativeLayout card2 = findViewById(R.id.card2);
         card2.setOnClickListener(v -> {
-            animateCardClick(v);
+            rippleCardClick(v);
+            new Handler().postDelayed(() -> {
             Intent intent = new Intent(App_Dashboard.this, ReviewCollegeActivity.class);
             startActivity(intent);
+        }, 250);
         });
 
         // Card 3: Top 10 Colleges
         RelativeLayout card3 = findViewById(R.id.card3);
         card3.setOnClickListener(v -> {
-            animateCardClick(v);
-            Intent intent = new Intent(App_Dashboard.this, Top10CollegesActivity.class);
-            startActivity(intent);
+            rippleCardClick(v);
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(App_Dashboard.this, Top10CollegesActivity.class);
+                startActivity(intent);
+            }, 250);
         });
 
         // Card 4: Location Based College Finder
         RelativeLayout card4 = findViewById(R.id.card4);
         card4.setOnClickListener(v -> {
-            animateCardClick(v);
+            rippleCardClick(v);
+            new Handler().postDelayed(() -> {
             Intent intent = new Intent(App_Dashboard.this, LocationBasedActivity.class);
             startActivity(intent);
+            }, 250);
         });
 
         // Card 5: Cutoff Analysis
         RelativeLayout card5 = findViewById(R.id.card5);
         card5.setOnClickListener(v -> {
-            animateCardClick(v);
+            rippleCardClick(v);
+            new Handler().postDelayed(() -> {
             Intent intent = new Intent(App_Dashboard.this, CutoffAnalysisActivity.class);
             startActivity(intent);
+            }, 250);
         });
 
         // Card 6: PG Finder
         RelativeLayout card6 = findViewById(R.id.card6);
         card6.setOnClickListener(v -> {
-            animateCardClick(v);
+            rippleCardClick(v);
+            new Handler().postDelayed(() -> {
             Intent intent = new Intent(App_Dashboard.this, PGFinderActivity.class);
             startActivity(intent);
+            }, 250);
         });
 
         // Card 7: Senior Connect
         RelativeLayout card7 = findViewById(R.id.card7);
         card7.setOnClickListener(v -> {
-            animateCardClick(v);
+            rippleCardClick(v);
+            new Handler().postDelayed(() -> {
             Intent intent = new Intent(App_Dashboard.this, SeniorConnectActivity.class);
             startActivity(intent);
+            }, 250);
         });
 
         // Card 8: AI Chatbot
         RelativeLayout card8 = findViewById(R.id.card8);
         card8.setOnClickListener(v -> {
-            animateCardClick(v);
+            rippleCardClick(v);
+            new Handler().postDelayed(() -> {
             Intent intent = new Intent(App_Dashboard.this, AIChatbotActivity.class);
             startActivity(intent);
+            }, 250);
         });
     }
 
     //Add click effect for cards
-    private void animateCardClick(final View view) {
-        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(view, "scaleX", 0.95f);
-        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(view, "scaleY", 0.95f);
+    private void rippleCardClick(View view) {
+        // Create ripple effect
+        view.setPressed(true);
 
-        ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(view, "scaleX", 1.0f);
-        ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(view, "scaleY", 1.0f);
+        // Scale and ripple animation
+        view.animate()
+                .scaleX(0.95f)
+                .scaleY(0.95f)
+                .setDuration(150)
+                .withEndAction(() -> {
+                    // Return to original state
+                    view.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(150)
+                            .start();
 
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.setDuration(100);
-        animatorSet.playTogether(scaleDownX, scaleDownY);
+                    // Release pressed state
+                    view.setPressed(false);
+                })
+                .start();
+    }
+    private void advancedanimateCardClick(View view, Runnable postAnimationAction) {
+        // Vibration feedback
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
 
-        animatorSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                AnimatorSet scaleUpSet = new AnimatorSet();
-                scaleUpSet.setDuration(100);
-                scaleUpSet.playTogether(scaleUpX, scaleUpY);
-                scaleUpSet.start();
-            }
-        });
-
-        animatorSet.start();
+        // Comprehensive animation
+        view.animate()
+                .scaleX(0.90f)
+                .scaleY(0.90f)
+                .setDuration(100)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .withEndAction(() -> {
+                    // Bounce back animation
+                    view.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(100)
+                            .setInterpolator(new OvershootInterpolator())
+                            .withEndAction(postAnimationAction)
+                            .start();
+                })
+                .start();
     }
 }
 

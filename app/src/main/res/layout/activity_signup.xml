@@ -249,7 +249,7 @@
         app:layout_constraintVertical_bias="0.78" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/lggithubLoginCardView"
+        android:id="@+id/rggithubLoginCardView"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="8dp"
@@ -257,14 +257,14 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/lggoogleLoginCardView"
+        app:layout_constraintEnd_toStartOf="@+id/rggoogleLoginCardView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.88">
 
         <ImageButton
-            android:id="@+id/lggithubsignin"
+            android:id="@+id/rggithubsignin"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_gravity="center"
@@ -274,7 +274,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/lggoogleLoginCardView"
+        android:id="@+id/rggoogleLoginCardView"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="8dp"
@@ -282,9 +282,9 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/lgappleLoginCardView"
+        app:layout_constraintEnd_toStartOf="@+id/rgappleLoginCardView"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/lggithubLoginCardView"
+        app:layout_constraintStart_toEndOf="@+id/rggithubLoginCardView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.88">
 
@@ -299,7 +299,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/lgappleLoginCardView"
+        android:id="@+id/rgappleLoginCardView"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="8dp"
@@ -309,12 +309,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/lggoogleLoginCardView"
+        app:layout_constraintStart_toEndOf="@+id/rggoogleLoginCardView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.88">
 
         <ImageButton
-            android:id="@+id/lgfacebooksignin"
+            android:id="@+id/rgfacebooksignin"
             android:layout_width="85dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
