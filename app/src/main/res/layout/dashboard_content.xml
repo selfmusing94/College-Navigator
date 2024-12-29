@@ -185,7 +185,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Top 10\nColleges"
+                            android:text="Top \nColleges"
                             android:fontFamily="@font/gagalin_regular"
                             android:textSize="18sp"
                             android:textColor="#FFFFFF"
