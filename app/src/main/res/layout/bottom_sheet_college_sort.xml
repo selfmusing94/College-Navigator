@@ -42,6 +42,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Alphabetical"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSortRating"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rating"/>
     </com.google.android.material.chip.ChipGroup>
 
     <!-- Sort Order Section -->

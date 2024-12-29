@@ -1,26 +1,26 @@
 package com.example.testapp;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.Toast;
-import com.google.android.material.textfield.TextInputLayout;
 
 public class TopCollegesActivity extends AppCompatActivity
         implements CollegeSortBottomSheet.OnSortAppliedListener,
@@ -33,13 +33,11 @@ public class TopCollegesActivity extends AppCompatActivity
     private MaterialButton btnShowColleges, btnFilter, btnSort;
     private LinearLayout emptyStateLayout;
     private TextView tvNoCollegeFound;
-    private LottieAnimationView lottieEmptyState;
 
     // Data Management
     private List<College> originalCollegeList = new ArrayList<>();
     private List<College> filteredCollegeList = new ArrayList<>();
     private TopCollegesAdapter collegeAdapter;
-
 
     // Filter and Sort State
     private Integer currentSortType = null;
@@ -64,8 +62,6 @@ public class TopCollegesActivity extends AppCompatActivity
 
         // Setup Listeners
         setupSortFilterButtons();
-
-        // Setup Listeners
         setupListeners();
     }
 
@@ -78,9 +74,6 @@ public class TopCollegesActivity extends AppCompatActivity
         btnSort = findViewById(R.id.btnSort);
         emptyStateLayout = findViewById(R.id.emptyStateLayout);
         tvNoCollegeFound = findViewById(R.id.tvNoCollegeFound);
-        lottieEmptyState = findViewById(R.id.lottieEmptyState);
-        btnSort = findViewById(R.id.btnSort);
-        btnFilter = findViewById(R.id.btnFilter);
     }
 
     private void setupRecyclerView() {
@@ -108,7 +101,6 @@ public class TopCollegesActivity extends AppCompatActivity
         // Show Colleges Button
         btnShowColleges.setOnClickListener(v -> filterCollegesByCount());
 
-
         // College Count Input Validation
         etTopCollegesCount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -126,7 +118,6 @@ public class TopCollegesActivity extends AppCompatActivity
 
     private void loadColleges() {
         // Simulated data loading - replace with your actual data source
-        // Use the list of 50 colleges created here
         List<College> colleges = new ArrayList<>();
         colleges.add(new College(1, "Massachusetts Institute of Technology (MIT)", "Cambridge, MA", 9.5, 1861,Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
         colleges.add(new College(2, "Stanford University", "Stanford, CA", 9.3, 1885, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
@@ -180,13 +171,12 @@ public class TopCollegesActivity extends AppCompatActivity
         colleges.add(new College(50, "Iowa State University", "Ames, IA", 4.7, 1858, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
 
         originalCollegeList.clear();
-        originalCollegeList.addAll(colleges); // Assuming 'colleges' is the list from the example
+        originalCollegeList.addAll(colleges);
         filteredCollegeList.addAll(originalCollegeList);
     }
 
     @Override
     public void onSortApplied(Integer sortType, Integer sortOrder) {
-        // Update current sort state
         currentSortType = sortType;
         currentSortOrder = sortOrder;
 
@@ -199,14 +189,15 @@ public class TopCollegesActivity extends AppCompatActivity
                 case CollegeSortBottomSheet.SORT_ALPHABETICAL:
                     sortAlphabetically();
                     break;
+                case (int) CollegeSortBottomSheet.SORT_BY_RATING: // New case for sorting by rank
+                    sortByRating();
+                    break;
             }
         }
 
         // Apply sort order
-        if (sortOrder != null) {
-            if (sortOrder == CollegeSortBottomSheet.SORT_DESCENDING) {
-                Collections.reverse(filteredCollegeList);
-            }
+        if (sortOrder != null && sortOrder == CollegeSortBottomSheet.SORT_DESCENDING) {
+            Collections.reverse(filteredCollegeList);
         }
 
         collegeAdapter.notifyDataSetChanged();
@@ -214,10 +205,7 @@ public class TopCollegesActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFilterApplied(String minRating,
-                                List<String> courses,
-                                List<String> locations) {
-        // Update current filter state
+    public void onFilterApplied(String minRating, List<String> courses, List<String> locations) {
         currentMinRating = minRating;
         currentCourses.clear();
         currentCourses.addAll(courses);
@@ -256,33 +244,32 @@ public class TopCollegesActivity extends AppCompatActivity
 
     private List<College> filterByCourses(List<College> colleges, List<String> courses) {
         return colleges.stream()
-                .filter(college ->
-                        college.getCourses().stream()
-                                .anyMatch(courses::contains)
-                )
+                .filter(college -> college.getCourses().stream().anyMatch(courses::contains))
                 .collect(Collectors.toList());
     }
 
     private List<College> filterByLocations(List<College> colleges, List<String> locations) {
         return colleges.stream()
-                .filter(location -> locations.contains(location.getLocation()))
+                .filter(college -> locations.contains(college.getLocation()))
                 .collect(Collectors.toList());
     }
 
     private void sortByEstablishedYear() {
-        Collections.sort(filteredCollegeList,
-                (c1, c2) -> Integer.compare(c1.getEstablishedYear(), c2.getEstablishedYear()));
+        Collections.sort(filteredCollegeList, Comparator.comparingInt(College::getEstablishedYear));
     }
 
     private void sortAlphabetically() {
-        Collections.sort(filteredCollegeList,
-                (c1, c2) -> c1.getName().compareTo(c2.getName()));
+        Collections.sort(filteredCollegeList, Comparator.comparing(College::getName));
     }
 
+    private void sortByRating() { // New method for sorting by rank
+        Collections.sort(filteredCollegeList, Comparator.comparing(College::getRating));
+    }
+
+
+
     private void updateNoCollegesView() {
-        tvNoCollegeFound.setVisibility(
-                filteredCollegeList.isEmpty() ? View.VISIBLE : View.GONE
-        );
+        tvNoCollegeFound.setVisibility(filteredCollegeList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     private void filterCollegesByCount() {
@@ -331,5 +318,4 @@ public class TopCollegesActivity extends AppCompatActivity
             recyclerViewTopColleges.setVisibility(View.VISIBLE);
         }
     }
-
 }

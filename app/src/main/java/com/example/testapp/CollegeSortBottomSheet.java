@@ -24,6 +24,7 @@ public class CollegeSortBottomSheet extends BottomSheetDialogFragment {
     // Sort Type Constants
     public static final int SORT_BY_ESTABLISHED = 1;
     public static final int SORT_ALPHABETICAL = 2;
+    public static final double SORT_BY_RATING = 3;
 
     // Sort Order Constants
     public static final int SORT_ASCENDING = 1;
@@ -71,7 +72,9 @@ public class CollegeSortBottomSheet extends BottomSheetDialogFragment {
                 selectedSortType = SORT_BY_ESTABLISHED;
             } else if (checkedId == R.id.chipSortAlphabetical) {
                 selectedSortType = SORT_ALPHABETICAL;
-            } else {
+            }else if (checkedId == R.id.chipSortRating) {
+                selectedSortType =  (int)SORT_BY_RATING;
+            }else {
                 selectedSortType = null;
             }
         });

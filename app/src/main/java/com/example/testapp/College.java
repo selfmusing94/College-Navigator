@@ -8,7 +8,7 @@ public class College {
     private int rank;
     private String name;
     private String location;
-    private double rating;
+    private  double rating;
     private int establishedYear;
     private List<String> courses;
 
@@ -71,4 +71,5 @@ public class College {
     public void setCourses(List<String> courses) {
         this.courses = courses;
     }
+
 }
