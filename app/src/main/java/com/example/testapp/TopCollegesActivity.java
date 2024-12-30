@@ -193,6 +193,9 @@ public class TopCollegesActivity extends AppCompatActivity
                 case (int) CollegeSortBottomSheet.SORT_BY_RATING: // New case for sorting by rank
                     sortByRating();
                     break;
+                case CollegeSortBottomSheet.SORT_BY_CUTOFF:
+                    sortByCutoff();
+                    break;
             }
         }
 
@@ -265,6 +268,10 @@ public class TopCollegesActivity extends AppCompatActivity
 
     private void sortByRating() { // New method for sorting by rank
         Collections.sort(filteredCollegeList, Comparator.comparing(College::getRating));
+    }
+
+    private void sortByCutoff() { // New method for sorting by rank
+        Collections.sort(filteredCollegeList, Comparator.comparing(College::getCutoff));
     }
 
 
