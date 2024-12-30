@@ -41,13 +41,14 @@ public class TopCollegesAdapter extends RecyclerView.Adapter<TopCollegesAdapter.
     @Override
     public void onBindViewHolder(@NonNull CollegeViewHolder holder, int position) {
         College college = collegeList.get(position);
+        holder.tvRank.setText(String.valueOf(position + 1));
 
         // Set data to views
-        holder.tvRank.setText(String.valueOf(college.getRank()));
         holder.tvCollegeName.setText(college.getName());
         holder.tvLocation.setText(college.getLocation());
         holder.tvRating.setText(String.format("%.1f", college.getRating()));
         holder.tvEstablishedYear.setText(String.valueOf(college.getEstablishedYear()));
+        holder.tvCutoff.setText(String.format("Cutoff : %d",college.getCutoff()));
 
         // Set courses
         String coursesText = String.join(", ", college.getCourses());
@@ -75,7 +76,7 @@ public class TopCollegesAdapter extends RecyclerView.Adapter<TopCollegesAdapter.
 
     // ViewHolder Class
     static class CollegeViewHolder extends RecyclerView.ViewHolder {
-        TextView tvRank, tvCollegeName, tvLocation, tvRating, tvEstablishedYear, tvCourses;
+        TextView tvRank, tvCollegeName, tvLocation, tvRating, tvEstablishedYear, tvCourses, tvCutoff;
 
         public CollegeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +87,7 @@ public class TopCollegesAdapter extends RecyclerView.Adapter<TopCollegesAdapter.
             tvRating = itemView.findViewById(R.id.tvRating);
             tvEstablishedYear = itemView.findViewById(R.id.tvEstablishedYear);
             tvCourses = itemView.findViewById(R.id.tvCourses);
+            tvCutoff=itemView.findViewById(R.id.tvGeneralCutoff);
         }
     }
 }

@@ -63,6 +63,7 @@ public class TopCollegesActivity extends AppCompatActivity
         // Setup Listeners
         setupSortFilterButtons();
         setupListeners();
+        recyclerViewTopColleges.setVisibility(View.GONE);
     }
 
     private void initializeViews() {
@@ -119,56 +120,56 @@ public class TopCollegesActivity extends AppCompatActivity
     private void loadColleges() {
         // Simulated data loading - replace with your actual data source
         List<College> colleges = new ArrayList<>();
-        colleges.add(new College(1, "Massachusetts Institute of Technology (MIT)", "Cambridge, MA", 9.5, 1861,Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(2, "Stanford University", "Stanford, CA", 9.3, 1885, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(3, "Harvard University", "Cambridge, MA", 9.7, 1636, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(4, "California Institute of Technology (Caltech)", "Pasadena, CA", 9.2, 1891, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(5, "University of Chicago", "Chicago, IL", 9.0, 1890, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(6, "Columbia University", "New York, NY", 8.9, 1754, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(7, "Princeton University", "Princeton, NJ", 9.1, 1746, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(8, "Yale University", "New Haven, CT", 9.0, 1701, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(9, "University of Pennsylvania", "Philadelphia, PA", 8.8, 1740, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(10, "University of California, Berkeley", "Berkeley, CA", 8.7, 1868, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(11, "University of Michigan", "Ann Arbor, MI", 8.6, 1817, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(12, "Duke University", "Durham, NC", 8.5, 1838, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(13, "Northwestern University", "Evanston, IL", 8.4, 1851, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(14, "University of California, Los Angeles (UCLA)", "Los Angeles, CA", 8.3, 1919, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(15, "University of Virginia", "Charlottesville, VA", 8.2, 1819, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(16, "University of Southern California (USC)", "Los Angeles, CA", 8.1, 1880, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(17, "University of Washington", "Seattle, WA", 8.0, 1861, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(18, "University of Texas at Austin", "Austin, TX", 7.9, 1883, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(19, "University of Wisconsin-Madison", "Madison, WI", 7.8, 1848, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(20, "University of Illinois at Urbana-Champaign", "Champaign, IL", 7.7, 1867, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(21, "University of Florida", "Gainesville, FL", 7.6, 1853, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(22, "University of North Carolina at Chapel Hill", "Chapel Hill, NC", 7.5, 1789, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(23, "University of California, San Diego (UCSD)", "La Jolla, CA", 7.4, 1960, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(24, "University of California, Irvine (UCI)", "Irvine, CA", 7.3, 1965, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(25, "University of Maryland, College Park", "College Park, MD", 7.2, 1856, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(26, "University of California, Davis", "Davis, CA", 7.1, 1905, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(27, "University of Minnesota", "Minneapolis, MN", 7.0, 1851, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(28, "University of Pittsburgh", "Pittsburgh, PA", 6.9, 1787, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(29, "University of Colorado Boulder", "Boulder, CO", 6.8, 1876, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(30, "University of Arizona", "Tucson, AZ", 6.7, 1885, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(31, "University of Notre Dame", "Notre Dame, IN", 6.6, 1842, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(32, "University of California, Santa Barbara", "Santa Barbara, CA", 6.5, 1944, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(33, "University of Miami", "Coral Gables, FL", 6.4, 1925, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(34, "University of Connecticut", "Storrs, CT", 6.3, 1881, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(35, "University of Massachusetts Amherst", "Amherst, MA", 6.2, 1863, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(36, "University of Iowa", "Iowa City, IA", 6.1, 1847, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(37, "University of Oregon", "Eugene, OR", 6.0, 1876, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(38, "University of Tennessee", "Knoxville, TN", 5.9, 1794, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(39, "University of South Carolina", "Columbia, SC", 5.8, 1801, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(40, "University of Kansas", "Lawrence, KS", 5.7, 1865, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(41, "University of Nebraska-Lincoln", "Lincoln, NE", 5.6, 1869, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(42, "University of Alabama", "Tuscaloosa, AL", 5.5, 1831, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(43, "University of Kentucky", "Lexington, KY", 5.4, 1865, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(44, "University of Arkansas", "Fayetteville, AR", 5.3, 1871, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(45, "Florida State University", "Tallahassee, FL", 5.2, 1851, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(46, "Louisiana State University", "Baton Rouge, LA", 5.1, 1860, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(47, "Oregon State University", "Corvallis, OR", 5.0, 1868, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
-        colleges.add(new College(48, "Michigan State University", "East Lansing, MI", 4.9, 1855, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS")));
-        colleges.add(new College(49, "Clemson University", "Clemson, SC", 4.8, 1889, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML")));
-        colleges.add(new College(50, "Iowa State University", "Ames, IA", 4.7, 1858, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS")));
+        colleges.add(new College("Massachusetts Institute of Technology (MIT)", "Cambridge, MA", 9.5, 1861,Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"),519));
+        colleges.add(new College("Stanford University", "Stanford, CA", 9.3, 1885, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"),834));
+        colleges.add(new College("Harvard University", "Cambridge, MA", 9.7, 1636, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"),215));
+        colleges.add(new College("California Institute of Technology (Caltech)", "Pasadena, CA", 9.2, 1891, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"),265));
+        colleges.add(new College("University of Chicago", "Chicago, IL", 9.0, 1890, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 918));
+        colleges.add(new College("Columbia University", "New York, NY", 8.9, 1754, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 186));
+        colleges.add(new College( "Princeton University", "Princeton, NJ", 9.1, 1746, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 1819));
+        colleges.add(new College( "Yale University", "New Haven, CT", 9.0, 1701, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 926));
+        colleges.add(new College( "University of Pennsylvania", "Philadelphia, PA", 8.8, 1740, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 1523));
+        colleges.add(new College( "University of California, Berkeley", "Berkeley, CA", 8.7, 1868, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 1519));
+        colleges.add(new College( "University of Michigan", "Ann Arbor, MI", 8.6, 1817, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 5195));
+        colleges.add(new College( "Duke University", "Durham, NC", 8.5, 1838, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 5192));
+        colleges.add(new College( "Northwestern University", "Evanston, IL", 8.4, 1851, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 5189));
+        colleges.add(new College( "University of California, Los Angeles (UCLA)", "Los Angeles, CA", 8.3, 1919, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 2519));
+        colleges.add(new College( "University of Virginia", "Charlottesville, VA", 8.2, 1819, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 1919));
+        colleges.add(new College( "University of Southern California (USC)", "Los Angeles, CA", 8.1, 1880, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 11519));
+        colleges.add(new College( "University of Washington", "Seattle, WA", 8.0, 1861, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 1218));
+        colleges.add(new College( "University of Texas at Austin", "Austin, TX", 7.9, 1883, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 5619));
+        colleges.add(new College( "University of Wisconsin-Madison", "Madison, WI", 7.8, 1848, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 651));
+        colleges.add(new College( "University of Illinois at Urbana-Champaign", "Champaign, IL", 7.7, 1867, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 3284));
+        colleges.add(new College( "University of Florida", "Gainesville, FL", 7.6, 1853, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 3215));
+        colleges.add(new College( "University of North Carolina at Chapel Hill", "Chapel Hill, NC", 7.5, 1789, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 5312));
+        colleges.add(new College( "University of California, San Diego (UCSD)", "La Jolla, CA", 7.4, 1960, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 1862));
+        colleges.add(new College( "University of California, Irvine (UCI)", "Irvine, CA", 7.3, 1965, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 1567));
+        colleges.add(new College( "University of Maryland, College Park", "College Park, MD", 7.2, 1856, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 4561));
+        colleges.add(new College( "University of California, Davis", "Davis, CA", 7.1, 1905, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 8965));
+        colleges.add(new College( "University of Minnesota", "Minneapolis, MN", 7.0, 1851, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 4544));
+        colleges.add(new College( "University of Pittsburgh", "Pittsburgh, PA", 6.9, 1787, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 7854));
+        colleges.add(new College( "University of Colorado Boulder", "Boulder, CO", 6.8, 1876, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 1231));
+        colleges.add(new College( "University of Arizona", "Tucson, AZ", 6.7, 1885, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 6516));
+        colleges.add(new College( "University of Notre Dame", "Notre Dame, IN", 6.6, 1842, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 8541));
+        colleges.add(new College( "University of California, Santa Barbara", "Santa Barbara, CA", 6.5, 1944, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 5981));
+        colleges.add(new College( "University of Miami", "Coral Gables, FL", 6.4, 1925, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 4865));
+        colleges.add(new College( "University of Connecticut", "Storrs, CT", 6.3, 1881, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 5172));
+        colleges.add(new College( "University of Massachusetts Amherst", "Amherst, MA", 6.2, 1863, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 1023));
+        colleges.add(new College( "University of Iowa", "Iowa City, IA", 6.1, 1847, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 2036));
+        colleges.add(new College( "University of Oregon", "Eugene, OR", 6.0, 1876, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 9092));
+        colleges.add(new College( "University of Tennessee", "Knoxville, TN", 5.9, 1794, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 6932));
+        colleges.add(new College( "University of South Carolina", "Columbia, SC", 5.8, 1801, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 5789));
+        colleges.add(new College( "University of Kansas", "Lawrence, KS", 5.7, 1865, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 2806));
+        colleges.add(new College( "University of Nebraska-Lincoln", "Lincoln, NE", 5.6, 1869, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 2206));
+        colleges.add(new College( "University of Alabama", "Tuscaloosa, AL", 5.5, 1831, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 5103));
+        colleges.add(new College( "University of Kentucky", "Lexington, KY", 5.4, 1865, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 5129));
+        colleges.add(new College( "University of Arkansas", "Fayetteville, AR", 5.3, 1871, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 2689));
+        colleges.add(new College( "Florida State University", "Tallahassee, FL", 5.2, 1851, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 5150));
+        colleges.add(new College( "Louisiana State University", "Baton Rouge, LA", 5.1, 1860, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 1506));
+        colleges.add(new College( "Oregon State University", "Corvallis, OR", 5.0, 1868, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 3519));
+        colleges.add(new College( "Michigan State University", "East Lansing, MI", 4.9, 1855, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "CSBS"), 1232));
+        colleges.add(new College( "Clemson University", "Clemson, SC", 4.8, 1889, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 1231));
+        colleges.add(new College( "Iowa State University", "Ames, IA", 4.7, 1858, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 5141));
 
         originalCollegeList.clear();
         originalCollegeList.addAll(colleges);
@@ -272,29 +273,33 @@ public class TopCollegesActivity extends AppCompatActivity
         tvNoCollegeFound.setVisibility(filteredCollegeList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
-    private void filterCollegesByCount() {
-        String countStr = etTopCollegesCount.getText().toString().trim();
-        if (countStr.isEmpty()) {
-            Toast.makeText(this, "Please enter number of colleges", Toast.LENGTH_SHORT).show();
-            return;
+        private void filterCollegesByCount() {
+            String countStr = etTopCollegesCount.getText().toString().trim();
+            if (countStr.isEmpty()) {
+                Toast.makeText(this, "Please enter number of colleges", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int count = Integer.parseInt(countStr);
+            if (count <= 0 || count > originalCollegeList.size()) {
+                Toast.makeText(this, "Invalid number of colleges", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            filteredCollegeList.clear();
+            filteredCollegeList.addAll(
+                    originalCollegeList.stream()
+                            .limit(count)
+                            .collect(Collectors.toList())
+            );
+
+            // Show RecyclerView when colleges are filtered
+            recyclerViewTopColleges.setVisibility(View.VISIBLE);
+
+            collegeAdapter.notifyDataSetChanged();
+            updateEmptyState();
         }
 
-        int count = Integer.parseInt(countStr);
-        if (count <= 0 || count > originalCollegeList.size()) {
-            Toast.makeText(this, "Invalid number of colleges", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        filteredCollegeList.clear();
-        filteredCollegeList.addAll(
-                originalCollegeList.stream()
-                        .limit(count)
-                        .collect(Collectors.toList())
-        );
-
-        collegeAdapter.notifyDataSetChanged();
-        updateEmptyState();
-    }
 
     private void validateCollegeCount(String count) {
         try {

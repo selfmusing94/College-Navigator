@@ -1,31 +1,26 @@
 package com.example.testapp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class College {
-    private int rank;
     private String name;
     private String location;
     private  double rating;
     private int establishedYear;
     private List<String> courses;
+    private  int cutoff;
 
     // Constructor
-    public College(int rank, String name, String location, double rating, int establishedYear, List<String> courses) {
-        this.rank = rank;
+    public College(String name, String location, double rating, int establishedYear, List<String> courses, int cutoff) {
         this.name = name;
         this.location = location;
         this.rating = rating;
         this.establishedYear = establishedYear;
         this.courses = courses;
+        this.cutoff = cutoff;
     }
 
     // Getters
-    public int getRank() {
-        return rank;
-    }
 
     public String getName() {
         return name;
@@ -47,11 +42,11 @@ public class College {
         return courses;
     }
 
-    // Setters
-    public void setRank(int rank) {
-        this.rank = rank;
+    public int getCutoff() {
+        return cutoff;
     }
 
+    // Setters
     public void setName(String name) {
         this.name = name;
     }
@@ -70,6 +65,10 @@ public class College {
 
     public void setCourses(List<String> courses) {
         this.courses = courses;
+    }
+
+    public void setCutoff(int cutoff) {
+        this.cutoff = cutoff;
     }
 
 }
