@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -311,12 +312,7 @@ public class Login extends AppCompatActivity {
                 })
                 .start();
     }
-    private void advancedanimateCardClick(View view, Runnable postAnimationAction) {
-        // Vibration feedback
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        if (vibrator != null) {
-            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
-        }
+    private void advancedanimateCardClick(@NonNull View view, Runnable postAnimationAction) {
 
         // Comprehensive animation
         view.animate()
