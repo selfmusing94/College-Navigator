@@ -1,172 +1,281 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Filter Colleges"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- Rating Filter -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupRating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:singleSelection="false">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipRating"
-                style="@style/Widget.MaterialComponents.Chip.Entry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rating"
-                app:closeIconEnabled="false"/>
-        </com.google.android.material.chip.ChipGroup>
-
-        <!-- Rating Input (Initially Hidden) -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutRating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etMinRating"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Minimum Rating (0-10)"
-                android:inputType="numberDecimal"/>
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <!-- Courses Filter -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:padding="24dp">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupCourses"
+        <!-- Header -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:singleSelection="false">
+            android:text="Filter Colleges"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="16dp"/>
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipCourses"
-                style="@style/Widget.MaterialComponents.Chip.Entry"
+        <!-- Rating Filter Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <!-- Rating Chip -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Courses"
-                app:closeIconEnabled="false"/>
-        </com.google.android.material.chip.ChipGroup>
+                app:singleSelection="false">
 
-        <!-- Courses Input (Initially Hidden) -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutCourses"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipRating"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rating"
+                    app:chipIcon="@drawable/ic_star"
+                    app:chipIconTint="@color/black"/>
+            </com.google.android.material.chip.ChipGroup>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etCourses"
+            <!-- Rating Input (Initially Hidden) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutRating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Courses"
-                android:inputType="text"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <!-- Courses Chips Container -->
-        <HorizontalScrollView
-            android:id="@+id/scrollViewCourses"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMinRating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Minimum Rating (0-10)"
+                    android:inputType="numberDecimal"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupSelectedCourses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </HorizontalScrollView>
-    </LinearLayout>
-
-    <!-- Location Filter -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp">
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:singleSelection="false">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipLocation"
-                style="@style/Widget.MaterialComponents.Chip.Entry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location"
-                app:closeIconEnabled="false"/>
-        </com.google.android.material.chip.ChipGroup>
-
-        <!-- Location Input (Initially Hidden) -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etLocation"
+            <!-- Selected Rating Chips Container -->
+            <HorizontalScrollView
+                android:id="@+id/scrollViewRating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Location"
-                android:inputType="text"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
 
-        <!-- Location Chips Container -->
-        <HorizontalScrollView
-            android:id="@+id/scrollViewLocations"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupSelectedRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!-- Courses Filter Section -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone">
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
 
+            <!-- Courses Chip -->
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupSelectedLocations"
+                android:id="@+id/chipGroupCourses"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </HorizontalScrollView>
-    </LinearLayout>
+                android:layout_height="wrap_content"
+                app:singleSelection="false">
 
-    <!-- Apply Filters Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnApplyFilters"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Apply Filters"/>
-</LinearLayout>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCourses"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Courses"
+                    app:chipIconTint="@color/black"
+                    app:chipIcon="@drawable/ic_courses"/>
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- Courses Input (Initially Hidden) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutCourses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCourses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Courses"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Courses Chips Container -->
+            <HorizontalScrollView
+                android:id="@+id/scrollViewCourses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupSelectedCourses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!-- Location Filter Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <!-- Location Chip -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipLocation"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    app:chipIconTint="@color/black"
+                    app:chipIcon="@drawable/ic_location"/>
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- Location Input (Initially Hidden) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Location"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Location Chips Container -->
+            <HorizontalScrollView
+                android:id="@+id/scrollViewLocations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupSelectedLocations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!-- Cutoff Range Filter Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <!-- Cutoff Chip -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupCutoff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCutoff"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cutoff Range"
+                    app:chipIcon="@drawable/analyst_vector"/>
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- Cutoff Range Input (Initially Hidden) -->
+            <LinearLayout
+                android:id="@+id/layoutCutoffRange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutMinCutoff"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etMinCutoff"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Min Cutoff"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutMaxCutoff"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etMaxCutoff"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Max Cutoff"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Cutoff Range Chips Container -->
+            <HorizontalScrollView
+                android:id="@+id/scrollViewCutoff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupSelectedCutoff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!-- Apply Filters Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnApplyFilters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apply Filters"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>

@@ -20,6 +20,7 @@ public class College {
         this.cutoff = cutoff;
     }
 
+
     // Getters
 
     public String getName() {
