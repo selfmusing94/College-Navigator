@@ -245,7 +245,7 @@ public class CollegePredictorActivity extends AppCompatActivity {
         // Optional: Add click listener
         adapter.setOnCollegeClickListener(college -> {
             // Handle college click - e.g., open college details
-            Toast.makeText(this, "Selected: " + college.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Selected " + college.getName(), Toast.LENGTH_SHORT).show();
         });
 
         collegeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
