@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -33,6 +36,8 @@ public class TopCollegesActivity extends AppCompatActivity
     private MaterialButton btnShowColleges, btnFilter, btnSort;
     private LinearLayout emptyStateLayout;
     private TextView tvNoCollegeFound;
+    private ChipGroup chipGroupFilters;
+    private HorizontalScrollView horizontalScrollViewFilters;
 
     // Data Management
     private List<College> originalCollegeList = new ArrayList<>();
@@ -75,6 +80,9 @@ public class TopCollegesActivity extends AppCompatActivity
         btnSort = findViewById(R.id.btnSort);
         emptyStateLayout = findViewById(R.id.emptyStateLayout);
         tvNoCollegeFound = findViewById(R.id.tvNoCollegeFound);
+        chipGroupFilters = findViewById(R.id.chipGroupFilters);
+        horizontalScrollViewFilters = findViewById(R.id.horizontalScrollViewFilters);
+
     }
 
     private void setupRecyclerView() {
@@ -204,8 +212,35 @@ public class TopCollegesActivity extends AppCompatActivity
             Collections.reverse(filteredCollegeList);
         }
 
+        removeChipsByType("sort");
+
+        // Add new sort chip based on sort type
+        if (sortType != null) {
+            String sortLabel = getSortLabel(sortType);
+            if (sortOrder != null && sortOrder == CollegeSortBottomSheet.SORT_DESCENDING) {
+                sortLabel += " (Descending)";
+            }
+            addFilterChip(sortLabel, "sort");
+        }
+
+        // Existing sort logic...
         collegeAdapter.notifyDataSetChanged();
         updateNoCollegesView();
+    }
+
+    private String getSortLabel(Integer sortType) {
+        switch (sortType) {
+            case CollegeSortBottomSheet.SORT_BY_ESTABLISHED:
+                return "Sort by Established Year";
+            case CollegeSortBottomSheet.SORT_ALPHABETICAL:
+                return "Sort Alphabetically";
+            case (int) CollegeSortBottomSheet.SORT_BY_RATING:
+                return "Sort by Rating";
+            case CollegeSortBottomSheet.SORT_BY_CUTOFF:
+                return  "Sort by Cutoff";
+            default:
+                return "Unknown Sort";
+        }
     }
 
     @Override
@@ -329,5 +364,83 @@ public class TopCollegesActivity extends AppCompatActivity
             emptyStateLayout.setVisibility(View.GONE);
             recyclerViewTopColleges.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void removeChipsByType(String type) {
+        for (int i = chipGroupFilters.getChildCount() - 1; i >= 0; i--) {
+            Chip chip = (Chip) chipGroupFilters.getChildAt(i);
+            if (type.equals(chip.getTag())) {
+                chipGroupFilters.removeView(chip);
+            }
+        }
+
+        // Hide horizontal scroll if no chips
+        if (chipGroupFilters.getChildCount() == 0) {
+            horizontalScrollViewFilters.setVisibility(View.GONE);
+        }
+    }
+
+    private void removeFilter(String chipText) {
+        // Implement logic to remove corresponding filter
+        if (chipText.startsWith("Rating")) {
+            currentMinRating = null;
+        } else if (chipText.startsWith("Course:")) {
+            String course = chipText.replace("Course: ", "");
+            currentCourses.remove(course);
+        } else if (chipText.startsWith("Location:")) {
+            String location = chipText.replace("Location: ", "");
+            currentLocations.remove(location);
+        } else if (chipText.contains("Sort")) {
+            currentSortType = null;
+            currentSortOrder = null;
+        }
+
+        // Reapply filters or reset sorting
+        onFilterApplied(currentMinRating, currentCourses, currentLocations);
+    }
+
+    //Assign color to sort/filter applied chip
+    private void addFilterChip(String text, String type) {
+        View chipView = getLayoutInflater().inflate(R.layout.item_filter_chip, null);
+        Chip chip = chipView.findViewById(R.id.chipFilter);
+
+        chip.setText(text);
+        chip.setTag(type);
+
+        // Categorize chip colors
+        switch (type) {
+            case "filter":
+                if (text.startsWith("Rating")) {
+                    chip.setChipBackgroundColorResource(R.color.chip_background_primary);
+                    chip.setTextColor(getColor(R.color.chip_text_primary));
+                    chip.setCloseIconTintResource(R.color.chip_close_icon_primary);
+                } else if (text.startsWith("Course:")) {
+                    chip.setChipBackgroundColorResource(R.color.chip_background_filter);
+                    chip.setTextColor(getColor(R.color.chip_text_filter));
+                    chip.setCloseIconTintResource(R.color.chip_close_icon_filter);
+                } else if (text.startsWith("Location:")) {
+                    chip.setChipBackgroundColorResource(R.color.chip_background_sort);
+                    chip.setTextColor(getColor(R.color.chip_text_sort));
+                    chip.setCloseIconTintResource(R.color.chip_close_icon_sort);
+                }
+                break;
+            case "sort":
+                chip.setChipBackgroundColorResource(R.color.chip_background_sort);
+                chip.setTextColor(getColor(R.color.chip_text_sort));
+                chip.setCloseIconTintResource(R.color.chip_close_icon_sort);
+                break;
+            default:
+                chip.setChipBackgroundColorResource(R.color.chip_background_primary);
+                chip.setTextColor(getColor(R.color.chip_text_primary));
+                chip.setCloseIconTintResource(R.color.chip_close_icon_primary);
+        }
+
+        chip.setOnCloseIconClickListener(v -> {
+            chipGroupFilters.removeView(chip);
+            removeFilter(text);
+        });
+
+        chipGroupFilters.addView(chip);
+        horizontalScrollViewFilters.setVisibility(View.VISIBLE);
     }
 }

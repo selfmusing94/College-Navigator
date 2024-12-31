@@ -18,4 +18,17 @@
     <color name="background_light">#F0F4F8</color>
     <color name="background_card">#FFFFFF</color>
 
+    <color name="chip_background_primary">#E3F2FD</color>
+    <color name="chip_text_primary">#1976D2</color>
+    <color name="chip_close_icon_primary">#1565C0</color>
+
+    <color name="chip_background_filter">#E8F5E9</color>
+    <color name="chip_text_filter">#2E7D32</color>
+    <color name="chip_close_icon_filter">#1B5E20</color>
+
+    <color name="chip_background_sort">#FFF3E0</color>
+    <color name="chip_text_sort">#E65100</color>
+    <color name="chip_close_icon_sort">#BF360C</color>
+
+
 </resources>
