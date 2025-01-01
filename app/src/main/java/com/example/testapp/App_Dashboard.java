@@ -133,6 +133,8 @@ public class App_Dashboard extends AppCompatActivity {
                 Toast.makeText(App_Dashboard.this, "PG Recommendations", Toast.LENGTH_SHORT).show();
             } else if (itemId == R.id.bot) {
                 Toast.makeText(App_Dashboard.this, "Chat with Bot", Toast.LENGTH_SHORT).show();
+            } else if (itemId == R.id.aboutme) {
+                navigatetoAboutme();
             }
             drawerLayout.close();
             return true;
@@ -177,6 +179,10 @@ public class App_Dashboard extends AppCompatActivity {
 
     private void navigateToCollegePredictor() {
         Intent intent = new Intent(App_Dashboard.this, CollegePredictorActivity.class);
+        startActivity(intent);
+    }
+    private void navigatetoAboutme(){
+        Intent intent = new Intent(App_Dashboard.this,AboutMe.class);
         startActivity(intent);
     }
 
