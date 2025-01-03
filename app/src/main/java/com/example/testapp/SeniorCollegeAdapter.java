@@ -21,9 +21,7 @@ public class SeniorCollegeAdapter extends RecyclerView.Adapter<SeniorCollegeAdap
     private OnSeniorCollegeClickListener listener;
 
     public interface OnSeniorCollegeClickListener {
-        void onSeniorCollegeClick(College college);
-
-        void onSeniorCollegeClick(SeniorCollege seniorCollege);
+        void onSeniorCollegeClick(SeniorCollege college);
     }
 
     public SeniorCollegeAdapter(Context context, List<SeniorCollege> seniorColleges, OnSeniorCollegeClickListener listener) {

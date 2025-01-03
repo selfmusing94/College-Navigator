@@ -34,8 +34,8 @@ public class SeniorConnectActivity extends AppCompatActivity implements SeniorCo
     private List<SeniorCollege> getSeniorColleges() {
         // Sample data - replace with your actual data source
         List<SeniorCollege> seniorCollegeList = new ArrayList<>();
-        seniorCollegeList.add(new SeniorCollege("1", "MIT", "Cambridge, MA", "url_to_image"));
-        seniorCollegeList.add(new SeniorCollege("2", "Stanford", "Stanford, CA", "url_to_image"));
+        seniorCollegeList.add(new SeniorCollege("1", "MIT", "Cambridge, MA", "drawable/university"));
+        seniorCollegeList.add(new SeniorCollege("2", "Stanford", "Stanford, CA", "drawable/university"));
         // Add more senior colleges
         return seniorCollegeList;
     }
