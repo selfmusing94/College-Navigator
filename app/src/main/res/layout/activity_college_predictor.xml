@@ -139,6 +139,7 @@ android:layout_height="match_parent">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
+                        android:id="@+id/RankInputLayout"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:boxStrokeColor="#7F39FB"
