@@ -43,7 +43,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/akayakanadaka_regular"
-                android:text="AI'&amp;'ML Student\n3rd Sem A Section\nBMSIT'&amp;'M"
+                android:text="AI&amp;ML Student\n3rd Sem A Section\nBMSIT&amp;M"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="#757575" />
@@ -75,7 +75,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:fontFamily="@font/acme_regular"
+                        android:fontFamily="@font/abeezee_regular"
                         android:text="A student who is passionate to learn App Development to create awesome digital experiences."
                         android:textColor="#757575"
                         android:textSize="20sp"
@@ -102,15 +102,6 @@
                     android:background="@color/white"
                     android:src="@drawable/linkedin"/>
 
-                <ImageButton
-                    android:id="@+id/github_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="8dp"
-                    android:layout_marginEnd="150dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/github_logo"
-                    android:scaleType="fitCenter"/>
 
                 <ImageButton
                     android:id="@+id/email_button"

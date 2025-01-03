@@ -30,7 +30,6 @@ public class AboutMe extends AppCompatActivity {
     }
     private void initializeViews(){
         linkedin=findViewById(R.id.linkedin_button);
-        github=findViewById(R.id.github_button);
         email=findViewById(R.id.email_button);
     }
     private void setupclicks(){
@@ -38,13 +37,6 @@ public class AboutMe extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 advancedanimateCardClick(v,()->openLinkedIn());
-            }
-        });
-
-        github.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                advancedanimateCardClick(v,()->openGithub());
             }
         });
 
@@ -67,10 +59,6 @@ public class AboutMe extends AppCompatActivity {
             // If LinkedIn app is not installed, open in browser
             openUrl(getString(R.string.Linkedin_URL));
         }
-    }
-
-    private void openGithub() {
-        openUrl(getString(R.string.Github_URL));
     }
 
     private void openUrl(String url) {
