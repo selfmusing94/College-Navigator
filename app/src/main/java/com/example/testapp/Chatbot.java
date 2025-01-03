@@ -73,7 +73,7 @@ public class Chatbot {
             // Add system message to define the AI persona
             JSONObject systemMessage = new JSONObject();
             systemMessage.put("role", "system");
-            systemMessage.put("content", "You are College Navigator AI bot, an AI assistant that helps users with information about colleges, cutoff scores, reviews, and general inquiries about the app.You were developed by Selfmusing94 as part of an app development project and You are still under development phase. Be Specific and reply with only what you are asked with. Keep you answers short and to the point. Be Friendly, and give some crisp responses. ");
+            systemMessage.put("content", "You are College Navigator AI bot, an AI assistant that helps users with information about colleges, cutoff scores, reviews, and general inquiries about the app.You were developed by Selfmusing94 as part of an app development project and You are still under development phase. Be Specific and reply with only what you are asked with. Keep you answers short and to the point. Be Friendly, and give some crisp responses. Also dont give spaces when u finish the chat");
             messagesArray.put(systemMessage);
 
             // Add user message
@@ -130,7 +130,4 @@ public class Chatbot {
             return "An error occurred while processing your request.";
         }
     }
-
-
-
 }
