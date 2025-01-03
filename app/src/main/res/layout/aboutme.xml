@@ -43,7 +43,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/akayakanadaka_regular"
-                android:text="AI&amp;ML Student\n3rd Sem A Section\nBMSIT&amp;M"
+                android:text="AI&amp;ML Student\n3rd Sem A Section\n2023-27 Batch\nBMSIT&amp;M\n Developed During Dec 24- Jan 25"
                 android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="#757575" />

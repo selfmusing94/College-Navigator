@@ -40,7 +40,7 @@
 
         <item android:icon="@drawable/information_button"
         android:id="@+id/aboutme"
-        android:title="About Me"/>
+        android:title="About Developer"/>
 
         <item android:id="@+id/logoutinmenu"
             android:title="Logout"
