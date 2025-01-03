@@ -33,7 +33,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.google.android.material.textfield.TextInputLayout;
 
 // Additional supporting imports
 import android.graphics.Color;

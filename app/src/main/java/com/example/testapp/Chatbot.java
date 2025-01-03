@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 
 public class Chatbot {
     private static final String GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"; // Replace with actual Groq API URL

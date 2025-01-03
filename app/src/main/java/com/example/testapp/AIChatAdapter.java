@@ -15,23 +15,28 @@ import java.util.List;
 
 public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHolder> {
 
-        private final List<ChatMessage> messages;
-        private AITypingAnimation typingAnimationUtil;
+    private final List<ChatMessage> messages;
+    private boolean isTypingAnimationCompleted = false; // Flag to track if typing animation is completed for the last message
 
-        public AIChatAdapter(List<ChatMessage> messages) {
-            this.messages = messages;
-        }
+    public AIChatAdapter(List<ChatMessage> messages) {
+        this.messages = messages;
+    }
 
-        @NonNull
-        @Override
-        public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_ai_chatbot, parent, false);
-            return new ChatViewHolder(view);
-        }
+    @NonNull
+    @Override
+    public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_ai_chatbot, parent, false);
+        return new ChatViewHolder(view);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
+        // Reset the animation flag when binding new message
+        if (position == messages.size() - 1) {
+            isTypingAnimationCompleted = false; // Reset animation flag for the new latest message
+        }
+
         ChatMessage message = messages.get(position);
         holder.bind(message, position == messages.size() - 1); // Pass whether this is the latest message
     }
@@ -43,7 +48,7 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
 
     class ChatViewHolder extends RecyclerView.ViewHolder {
         private final TextView messageTextView;
-        private final FrameLayout aiIconContainer , userIconContainer;
+        private final FrameLayout aiIconContainer, userIconContainer;
         private final CardView messageContainer;
 
         public ChatViewHolder(@NonNull View itemView) {
@@ -101,26 +106,27 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
                     itemView.getContext().getColor(R.color.ai_text_color)
             );
 
-            if (isLatestMessage) {
-                // Only apply animation to the latest AI message
+            if (isLatestMessage && !isTypingAnimationCompleted) {
+                // Only apply animation to the latest AI message if animation is not completed
                 startTypingAnimation(content);
             } else {
-                // Directly set text for previous messages
+                // Directly set text for previous messages or after animation completes
                 messageTextView.setText(content);
             }
         }
 
         private void startTypingAnimation(String content) {
             messageTextView.setText(""); // Clear text initially
-            messageTextView.setHint("|"); // Add cursor effect
 
+            // Create a smoother typing animation by animating over the text
             ValueAnimator animator = ValueAnimator.ofInt(0, content.length());
-            animator.setDuration(content.length() * 35L); // Adjust typing speed
+            animator.setDuration(content.length() * 30L); // Set the duration for the typing speed (ChatGPT-like effect)
+            animator.setInterpolator(new android.view.animation.LinearInterpolator());
             animator.addUpdateListener(animation -> {
                 int charCount = (int) animation.getAnimatedValue();
                 messageTextView.setText(content.substring(0, charCount));
                 if (charCount == content.length()) {
-                    messageTextView.setHint(""); // Remove cursor when done
+                    isTypingAnimationCompleted = true; // Mark animation as complete for the latest message
                 }
             });
             animator.start();

@@ -19,6 +19,8 @@ public class CollegeSortBottomSheet extends BottomSheetDialogFragment {
     // Interfaces
     public interface OnSortAppliedListener {
         void onSortApplied(Integer sortType, Integer sortOrder);
+
+        void onFilterApplied(String filterType, String filterValue);
     }
 
     // Sort Type Constants

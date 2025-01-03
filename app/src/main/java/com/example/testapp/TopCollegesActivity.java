@@ -228,6 +228,11 @@ public class TopCollegesActivity extends AppCompatActivity
         updateNoCollegesView();
     }
 
+    @Override
+    public void onFilterApplied(String filterType, String filterValue) {
+
+    }
+
     private String getSortLabel(Integer sortType) {
         switch (sortType) {
             case CollegeSortBottomSheet.SORT_BY_ESTABLISHED:

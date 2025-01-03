@@ -19,7 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="#FFFFFF"
-            android:padding="8dp"
+            android:padding="4dp"
             android:src="@drawable/boy"
         app:shapeAppearanceOverlay="@style/CircularImageStyle"/>
     </FrameLayout>
@@ -37,7 +37,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="#FFFFFF"
-            android:padding="8dp"
+            android:padding="4dp"
             android:src="@drawable/happy"
         app:shapeAppearanceOverlay="@style/CircularImageStyle"/>
     </FrameLayout>
