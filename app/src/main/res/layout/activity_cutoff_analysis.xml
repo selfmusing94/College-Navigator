@@ -118,8 +118,53 @@
                     android:text="Analyze Cutoffs"
                     android:layout_marginTop="8dp"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <!-- Filter Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cutoffanalysisbtnFilter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_marginEnd="4dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:icon="@drawable/ic_filter"
+                    android:text="Filter"
+                    android:textSize="12sp"
+                    app:iconSize="16dp"/>
+
+                <!-- Sort Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cutoffanalysisbtnSort"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_marginStart="4dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:icon="@drawable/ic_sort"
+                    android:text="Sort"
+                    android:textSize="12sp"
+                    app:iconSize="16dp"/>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+            <HorizontalScrollView
+                android:id="@+id/CutoffhorizontalScrollViewFilters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupFilters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true"
+                    app:singleSelection="false"/>
+            </HorizontalScrollView>
 
         <!-- Cutoff Statistics Card -->
         <androidx.cardview.widget.CardView
@@ -176,6 +221,7 @@
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
 
         <!-- Colleges in Cutoff Range -->
         <androidx.cardview.widget.CardView
@@ -242,7 +288,9 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:id="@+id/tvCutoffNocollegefound"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="No colleges found in the selected cutoff range"
                     android:textSize="18sp"
                     android:layout_marginTop="16dp"

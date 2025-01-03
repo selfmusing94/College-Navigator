@@ -115,6 +115,11 @@ public class CutoffAnalysisActivity extends AppCompatActivity {
         int minCutoff = Integer.parseInt(minCutoffStr);
         int maxCutoff = Integer.parseInt(maxCutoffStr);
 
+        if (minCutoff > maxCutoff){
+            Toast.makeText(this,"Min Cutoff Cannot be Greater than Maximum Cutoff",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Filter colleges
         filteredColleges = allColleges.stream()
                 .filter(college ->
@@ -224,6 +229,19 @@ public class CutoffAnalysisActivity extends AppCompatActivity {
         xAxis.setGranularity(1f);
         xAxis.setLabelCount(labels.size());
 
+        // Customize Y-Axis
+        YAxis yAxis = cutoffDistributionChart.getAxisLeft(); // Get the left Y-axis
+        yAxis.setGranularity(1f); // Set granularity for Y-axis to 1
+        yAxis.setAxisMinimum(0f); // Set minimum value for Y-axis
+
+        // Disable the right Y-axis
+        YAxis rightYAxis = cutoffDistributionChart.getAxisRight();
+        rightYAxis.setEnabled(false); // Disable the right Y-axis
+
+        // Remove horizontal and vertical grid lines
+        yAxis.setDrawGridLines(false); // Disable horizontal grid lines
+        xAxis.setDrawGridLines(false); // Disable vertical grid lines
+
         // Refresh chart
         cutoffDistributionChart.invalidate();
     }
@@ -257,6 +275,7 @@ public class CutoffAnalysisActivity extends AppCompatActivity {
             holder.chipCutoff.setText(String.format("Cutoff : %d", college.getCutoff()));
             holder.chipCutoff.setTypeface(customfont);
             holder.tvLocation.setText(college.getLocation());
+            holder.tvrating.setText(String.valueOf(college.getRating()));
 
             // Color coding based on cutoff
             int cutoff = college.getCutoff();
@@ -278,7 +297,7 @@ public class CutoffAnalysisActivity extends AppCompatActivity {
         }
 
         public static class CutoffViewHolder extends RecyclerView.ViewHolder {
-            TextView tvCollegeName,  tvLocation;
+            TextView tvCollegeName,  tvLocation, tvrating ;
             CardView cardView;
             Chip chipCutoff;
 
@@ -289,6 +308,7 @@ public class CutoffAnalysisActivity extends AppCompatActivity {
                 chipCutoff = itemView.findViewById(R.id.chipCutoff);
                 tvLocation = itemView.findViewById(R.id.tvLocation);
                 cardView = itemView.findViewById(R.id.cardViewofcutoff);
+                tvrating = itemView.findViewById(R.id.tvRating);
             }
         }
     }
@@ -299,17 +319,17 @@ public class CutoffAnalysisActivity extends AppCompatActivity {
         allColleges.clear();
 
         // Mock Data - Replace with your actual data source
-            allColleges.addAll(Arrays.asList(
-                    new College("Indian Institute of Technology, Delhi","Delhi",9.5,1961,Arrays.asList("Computer Science", "Mechanical Engineering", "Electrical Engineering", "Civil Engineering"),1245),
-                    new College("Indian Institute of Technology, Bombay", "Mumbai", 9.4, 1958, Arrays.asList("Computer Science", "Aerospace Engineering", "Chemical Engineering", "Data Science"), 1378),
-                    new College("Indian Institute of Technology, Bangalore", "Bangalore", 9.6, 1960, Arrays.asList("Computer Science", "Electronics", "Biotechnology", "Artificial Intelligence"), 1156),
-                    new College("National Institute of Technology, Trichy", "Tiruchirappalli", 8.9, 1964, Arrays.asList("Mechanical Engineering", "Electrical Engineering", "Computer Science", "Chemical Engineering"), 2345),
-                    new College("Birla Institute of Technology, Pilani", "Pilani", 8.7, 1964, Arrays.asList("Computer Science", "Electronics", "Mechanical Engineering", "Mathematics"), 2567),
-                    new College("Jadavpur University", "Kolkata", 8.5, 1906, Arrays.asList("Computer Science", "Electronics", "Mechanical Engineering", "Architecture"), 3456),
-                    new College("Delhi University", "Delhi", 8.2, 1922, Arrays.asList("Arts", "Science", "Commerce", "Law"), 3789),
-                    new College("Anna University", "Chennai", 8.0, 1978, Arrays.asList("Computer Science", "Mechanical Engineering", "Electrical Engineering", "Civil Engineering"), 4123),
-                    new College("Indian Institute of Science", "Bangalore", 9.8, 1909, Arrays.asList("Computer Science", "Research", "Aerospace", "Biotechnology"), 1089),
-                    new College("Manipal Institute of Technology", "Manipal", 8.6, 1957, Arrays.asList("Computer Science", "Engineering", "Medical Sciences", "Management"), 2789)
-            ));
-        }
+        allColleges.addAll(Arrays.asList(
+                new College("Indian Institute of Technology, Delhi","Delhi",9.5,1961,Arrays.asList("Computer Science", "Mechanical Engineering", "Electrical Engineering", "Civil Engineering"),1245),
+                new College("Indian Institute of Technology, Bombay", "Mumbai", 9.4, 1958, Arrays.asList("Computer Science", "Aerospace Engineering", "Chemical Engineering", "Data Science"), 1378),
+                new College("Indian Institute of Technology, Madras", "Madras", 9.6, 1960, Arrays.asList("Computer Science", "Electronics", "Biotechnology", "Artificial Intelligence"), 1156),
+                new College("National Institute of Technology, Trichy", "Tiruchirappalli", 8.9, 1964, Arrays.asList("Mechanical Engineering", "Electrical Engineering", "Computer Science", "Chemical Engineering"), 2345),
+                new College("Birla Institute of Technology and Sciences, Pilani", "Pilani", 8.7, 1964, Arrays.asList("Computer Science", "Electronics", "Mechanical Engineering", "Mathematics"), 2567),
+                new College("Jadavpur University", "Kolkata", 8.5, 1906, Arrays.asList("Computer Science", "Electronics", "Mechanical Engineering", "Architecture"), 3456),
+                new College("Delhi University", "Delhi", 8.2, 1922, Arrays.asList("Arts", "Science", "Commerce", "Law"), 3789),
+                new College("Anna University", "Chennai", 8.0, 1978, Arrays.asList("Computer Science", "Mechanical Engineering", "Electrical Engineering", "Civil Engineering"), 4123),
+                new College("Indian Institute of Science", "Bangalore", 9.8, 1909, Arrays.asList("Computer Science", "Research", "Aerospace", "Biotechnology"), 1089),
+                new College("Manipal Institute of Technology", "Manipal", 8.6, 1957, Arrays.asList("Computer Science", "Engineering", "Medical Sciences", "Management"), 2789)
+        ));
     }
+}
