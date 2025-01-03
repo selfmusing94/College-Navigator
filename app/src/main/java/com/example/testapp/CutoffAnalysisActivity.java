@@ -56,7 +56,6 @@ public class CutoffAnalysisActivity extends AppCompatActivity
     private RecyclerView recyclerViewCutoffColleges;
     private BarChart cutoffDistributionChart;
     private LinearLayout emptyStateLayout;
-    private TextInputLayout mincutoffinputlayout,maxcutoffinputlayout;
     private ChipGroup chipGroupFilters;
     private HorizontalScrollView horizontalScrollViewFilters;
 
@@ -138,6 +137,10 @@ public class CutoffAnalysisActivity extends AppCompatActivity
 
         if (minCutoff > maxCutoff){
             Toast.makeText(this,"Min Cutoff Cannot be Greater than Maximum Cutoff",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(minCutoff == maxCutoff){
+            Toast.makeText(this,"Both Cutoff's Cannot be same.",Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -615,3 +618,4 @@ public class CutoffAnalysisActivity extends AppCompatActivity
         analyzeCutoffs();
     }
 }
+
