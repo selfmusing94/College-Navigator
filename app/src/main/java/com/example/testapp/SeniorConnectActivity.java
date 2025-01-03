@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SeniorConnectActivity extends AppCompatActivity implements SeniorCollegeAdapter.OnSeniorCollegeClickListener {
     private RecyclerView seniorRecyclerView; // Renamed variable
-    private SeniorAdapter seniorAdapter; // Renamed variable
+    private SeniorCollegeAdapter seniorCollegeAdapter; // Renamed variable
     private List<SeniorCollege> seniorColleges; // Renamed variable
 
     @Override
@@ -27,8 +27,8 @@ public class SeniorConnectActivity extends AppCompatActivity implements SeniorCo
         // Initialize senior colleges list
         seniorColleges = getSeniorColleges(); // Updated method call
 
-        seniorAdapter = new SeniorCollegeAdapter(this, seniorColleges);
-        seniorRecyclerView.setAdapter(seniorAdapter);
+        seniorCollegeAdapter = new SeniorCollegeAdapter(this, seniorColleges,this);
+        seniorRecyclerView.setAdapter(seniorCollegeAdapter);
     }
 
     private List<SeniorCollege> getSeniorColleges() {

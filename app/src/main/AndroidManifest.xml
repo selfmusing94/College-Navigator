@@ -31,6 +31,9 @@
             android:name=".SeniorConnectActivity"
             android:exported="false" />
         <activity
+            android:name=".SeniorListActivity"
+            android:exported="false" />
+        <activity
             android:name=".AIChatbotActivity"
             android:exported="false" />
         <activity
