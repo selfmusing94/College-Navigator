@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -129,6 +130,7 @@ public class CollegePredictorActivity extends AppCompatActivity {
     private MaterialButton predictButton;
     private RecyclerView collegeRecyclerView;
     private CardView recommendationCardView;
+    private TextInputLayout textInputLayout;
 
     // File and Rank Variables
     private String selectedFilePath;
@@ -159,6 +161,7 @@ public class CollegePredictorActivity extends AppCompatActivity {
         predictButton = findViewById(R.id.predictButton);
         collegeRecyclerView = findViewById(R.id.collegeRecyclerView);
         recommendationCardView = findViewById(R.id.recommendationCardView);
+        textInputLayout=findViewById(R.id.RankInputLayout);
     }
 
     private void setupListeners() {
@@ -172,7 +175,6 @@ public class CollegePredictorActivity extends AppCompatActivity {
             if (!rankStr.isEmpty()) {
                 try {
                     userRank = Integer.parseInt(rankStr);
-
                     // Check if file is selected
                     if (selectedFilePath != null) {
                         predictColleges();
@@ -222,10 +224,21 @@ public class CollegePredictorActivity extends AppCompatActivity {
         recommendedColleges.add(new College("Princeton University", "Princeton, NJ", 9.1, 1746, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIML"), 1819));
         recommendedColleges.add(new College("Yale University", "New Haven, CT", 9.0, 1701, Arrays.asList("Mechanical", "Civil", "ECE", "CSE", "AIDS"), 926));
 
+        try {
+            if (userRank <= 0 ) {
+                textInputLayout.setError("Enter a Valid Rank");
+                recommendationCardView.setVisibility(View.GONE);
+                return;
+            } else {
+                textInputLayout.setError(null);
+            }
+        } catch (NumberFormatException e) {
+            textInputLayout.setError("Invalid number");
+        }
         // Filter colleges based on user's rank
         List<College> eligibleColleges = new ArrayList<>();
         for (College college : recommendedColleges) {
-            if (college.getCutoff() >= userRank) {
+            if (college.getCutoff() >= userRank && userRank>0) {
                 eligibleColleges.add(college);
             }
         }
