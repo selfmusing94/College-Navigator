@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
 // Essential Imports for MPAndroidChart
@@ -34,11 +36,14 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.google.android.material.textfield.TextInputLayout;
 
 // Additional supporting imports
 import android.graphics.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -49,21 +54,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CutoffAnalysisActivity extends AppCompatActivity {
+public class CutoffAnalysisActivity extends AppCompatActivity implements CollegeSortBottomSheet.OnSortAppliedListener{
     // UI Components
     private TextInputEditText etMinCutoff, etMaxCutoff;
-    private MaterialButton btnAnalyzeCutoffs;
+    private MaterialButton btnAnalyzeCutoffs,btnFilter,btnSort;
     private CardView cardCutoffStats, cardCollegesList, cardCutoffChart;
     private TextView tvAverageCutoff, tvMinCutoff, tvMaxCutoff;
     private RecyclerView recyclerViewCutoffColleges;
     private BarChart cutoffDistributionChart;
     private LinearLayout emptyStateLayout;
+    private TextInputLayout mincutoffinputlayout,maxcutoffinputlayout;
+    private ChipGroup chipGroupFilters;
+    private HorizontalScrollView horizontalScrollViewFilters;
 
     // Data
     private List<College> allColleges = new ArrayList<>();
     private List<College> filteredColleges;
     private CutoffCollegeAdapter collegeAdapter;
-    private List<College> colleges = new ArrayList<>();
+
+    // Filter and Sort State
+    private Integer currentSortType = null;
+    private Integer currentSortOrder = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +107,21 @@ public class CutoffAnalysisActivity extends AppCompatActivity {
         recyclerViewCutoffColleges = findViewById(R.id.recyclerViewCutoffColleges);
         cutoffDistributionChart = findViewById(R.id.cutoffDistributionChart);
         emptyStateLayout = findViewById(R.id.emptyStateLayout);
+
+        btnSort=findViewById(R.id.cutoffanalysisbtnSort);
+        btnFilter=findViewById(R.id.cutoffanalysisbtnFilter);
+        chipGroupFilters = findViewById(R.id.chipGroupFilters);
+        horizontalScrollViewFilters = findViewById(R.id.horizontalScrollViewFilters);
     }
 
     private void setupListeners() {
         btnAnalyzeCutoffs.setOnClickListener(v -> analyzeCutoffs());
+        btnSort.setOnClickListener(v -> showSortBottomSheet());
+    }
+
+    private void showSortBottomSheet() {
+        CollegeSortBottomSheet sortBottomSheet = new CollegeSortBottomSheet();
+        sortBottomSheet.show(getSupportFragmentManager(), sortBottomSheet.getTag());
     }
 
     private void analyzeCutoffs() {
@@ -320,6 +342,7 @@ public class CutoffAnalysisActivity extends AppCompatActivity {
 
         // Mock Data - Replace with your actual data source
         allColleges.addAll(Arrays.asList(
+                new College("Indian Institute of Science", "Bangalore", 9.8, 1909, Arrays.asList("Computer Science", "Research", "Aerospace", "Biotechnology"), 1089),
                 new College("Indian Institute of Technology, Delhi","Delhi",9.5,1961,Arrays.asList("Computer Science", "Mechanical Engineering", "Electrical Engineering", "Civil Engineering"),1245),
                 new College("Indian Institute of Technology, Bombay", "Mumbai", 9.4, 1958, Arrays.asList("Computer Science", "Aerospace Engineering", "Chemical Engineering", "Data Science"), 1378),
                 new College("Indian Institute of Technology, Madras", "Madras", 9.6, 1960, Arrays.asList("Computer Science", "Electronics", "Biotechnology", "Artificial Intelligence"), 1156),
@@ -328,8 +351,141 @@ public class CutoffAnalysisActivity extends AppCompatActivity {
                 new College("Jadavpur University", "Kolkata", 8.5, 1906, Arrays.asList("Computer Science", "Electronics", "Mechanical Engineering", "Architecture"), 3456),
                 new College("Delhi University", "Delhi", 8.2, 1922, Arrays.asList("Arts", "Science", "Commerce", "Law"), 3789),
                 new College("Anna University", "Chennai", 8.0, 1978, Arrays.asList("Computer Science", "Mechanical Engineering", "Electrical Engineering", "Civil Engineering"), 4123),
-                new College("Indian Institute of Science", "Bangalore", 9.8, 1909, Arrays.asList("Computer Science", "Research", "Aerospace", "Biotechnology"), 1089),
                 new College("Manipal Institute of Technology", "Manipal", 8.6, 1957, Arrays.asList("Computer Science", "Engineering", "Medical Sciences", "Management"), 2789)
         ));
+    }
+
+    @Override
+    public void onSortApplied(Integer sortType, Integer sortOrder) {
+        currentSortType = sortType;
+        currentSortOrder = sortOrder;
+
+        // Apply sorting
+        if (sortType != null) {
+            switch (sortType) {
+                case CollegeSortBottomSheet.SORT_BY_ESTABLISHED:
+                    sortByEstablishedYear();
+                    break;
+                case CollegeSortBottomSheet.SORT_ALPHABETICAL:
+                    sortAlphabetically();
+                    break;
+                case (int) CollegeSortBottomSheet.SORT_BY_RATING: // New case for sorting by rank
+                    sortByRating();
+                    break;
+                case CollegeSortBottomSheet.SORT_BY_CUTOFF:
+                    sortByCutoff();
+                    break;
+            }
+        }
+
+        // Apply sort order
+        if (sortOrder != null && sortOrder == CollegeSortBottomSheet.SORT_DESCENDING) {
+            Collections.reverse(filteredColleges);
+        }
+
+        removeChipsByType("sort");
+
+        // Add new sort chip based on sort type
+        if (sortType != null) {
+            String sortLabel = getSortLabel(sortType);
+            if (sortOrder != null && sortOrder == CollegeSortBottomSheet.SORT_DESCENDING) {
+                sortLabel += " (Descending)";
+            }
+            addFilterChip(sortLabel, "sort");
+        }
+
+        // Existing sort logic...
+        collegeAdapter.notifyDataSetChanged();
+    }
+
+    private String getSortLabel(Integer sortType) {
+        switch (sortType) {
+            case CollegeSortBottomSheet.SORT_BY_ESTABLISHED:
+                return "Sort by Established Year";
+            case CollegeSortBottomSheet.SORT_ALPHABETICAL:
+                return "Sort Alphabetically";
+            case (int) CollegeSortBottomSheet.SORT_BY_RATING:
+                return "Sort by Rating";
+            case CollegeSortBottomSheet.SORT_BY_CUTOFF:
+                return "Sort by Cutoff";
+            default:
+                return "Unknown Sort";
+        }
+    }
+
+    private void sortByEstablishedYear() {
+            Collections.sort(filteredColleges, Comparator.comparingInt(College::getEstablishedYear));
+    }
+
+    private void sortAlphabetically() {
+            Collections.sort(filteredColleges, Comparator.comparing(College::getName));
+    }
+
+    private void sortByRating() { // New method for sorting by rank
+            Collections.sort(filteredColleges, Comparator.comparing(College::getRating));
+    }
+
+    private void sortByCutoff() { // New method for sorting by rank
+        Collections.sort(filteredColleges, Comparator.comparing(College::getCutoff));
+    }
+
+
+    //Add sort/filter applied chip
+    private void addFilterChip(String text, String type) {
+        View chipView = getLayoutInflater().inflate(R.layout.item_filter_chip, null);
+        Chip chip = chipView.findViewById(R.id.chipFilter);
+
+        chip.setText(text);
+        chip.setTag(type);
+
+        // Categorize chip colors, add colors to chips
+        switch (type) {
+            case "filter":
+                if (text.startsWith("Rating")) {
+                    chip.setChipBackgroundColorResource(R.color.chip_background_primary);
+                    chip.setTextColor(getColor(R.color.chip_text_primary));
+                    chip.setCloseIconTintResource(R.color.chip_close_icon_primary);
+                } else if (text.startsWith("Course:")) {
+                    chip.setChipBackgroundColorResource(R.color.chip_background_filter);
+                    chip.setTextColor(getColor(R.color.chip_text_filter));
+                    chip.setCloseIconTintResource(R.color.chip_close_icon_filter);
+                } else if (text.startsWith("Location:")) {
+                    chip.setChipBackgroundColorResource(R.color.chip_background_sort);
+                    chip.setTextColor(getColor(R.color.chip_text_sort));
+                    chip.setCloseIconTintResource(R.color.chip_close_icon_sort);
+                }
+                break;
+            case "sort":
+                chip.setChipBackgroundColorResource(R.color.chip_background_sort);
+                chip.setTextColor(getColor(R.color.chip_text_sort));
+                chip.setCloseIconTintResource(R.color.chip_close_icon_sort);
+                break;
+            default:
+                chip.setChipBackgroundColorResource(R.color.chip_background_primary);
+                chip.setTextColor(getColor(R.color.chip_text_primary));
+                chip.setCloseIconTintResource(R.color.chip_close_icon_primary);
+        }
+
+        chip.setOnCloseIconClickListener(v -> {
+            chipGroupFilters.removeView(chip);
+            removeFilter(text);
+        });
+
+        chipGroupFilters.addView(chip);
+        horizontalScrollViewFilters.setVisibility(View.VISIBLE);
+    }
+
+    private void removeChipsByType(String type) {
+        for (int i = chipGroupFilters.getChildCount() - 1; i >= 0; i--) {
+            Chip chip = (Chip) chipGroupFilters.getChildAt(i);
+            if (type.equals(chip.getTag())) {
+                chipGroupFilters.removeView(chip);
+            }
+        }
+
+        // Hide horizontal scroll if no chips
+        if (chipGroupFilters.getChildCount() == 0) {
+            horizontalScrollViewFilters.setVisibility(View.GONE);
+        }
     }
 }
