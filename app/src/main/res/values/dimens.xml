@@ -5,4 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
+
+        <dimen name="user_message_margin">48dp</dimen>
+        <dimen name="ai_message_margin">48dp</dimen>
 </resources>

@@ -34,7 +34,7 @@
                 android:fontFamily="@font/akayakanadaka_regular"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:maxLines="3"
+                android:maxLines="5"
                 android:ellipsize="end"/>
 
             <!-- Cutoff Chip -->

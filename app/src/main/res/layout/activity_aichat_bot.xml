@@ -1,10 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AIChatbotActivity">
+    android:background="@color/background_light">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/chatToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/gradient_red_card"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="AI Assistant"
+        app:titleTextColor="@android:color/white"/>
+
+    <!-- Chat Messages RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@id/inputContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chatToolbar"/>
+
+    <!-- Input Container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/inputContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <!-- Microphone Button -->
+            <ImageButton
+                android:id="@+id/microphoneButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Voice Input"
+                android:src="@drawable/ic_microphone"
+                app:tint="#ff0000"/>
+
+            <!-- Message Input -->
+            <EditText
+                android:id="@+id/messageInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Type your message..."
+                android:maxLines="4"
+                android:padding="8dp"/>
+
+            <!-- Send Button -->
+            <ImageButton
+                android:id="@+id/sendButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Send Message"
+                android:src="@drawable/ic_send"
+                app:tint="#ff0000"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Loading Indicator -->
+    <ProgressBar
+        android:id="@+id/loadingIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <!-- Typing Indicator -->
+    <androidx.cardview.widget.CardView
+            android:id="@+id/typingIndicatorContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/typing_indicator_background"
+            app:layout_constraintBottom_toTopOf="@id/inputContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp">
+
+    <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <View
+                    android:id="@+id/typingDot1"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/typingdot"
+                    android:layout_marginEnd="4dp"/>
+
+                <View
+                    android:id="@+id/typingDot2"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/typingdot"
+                    android:layout_marginEnd="4dp"/>
+
+                <View
+                    android:id="@+id/typingDot3"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/typingdot"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
