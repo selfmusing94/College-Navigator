@@ -11,14 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,15 +43,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-public class CutoffAnalysisActivity extends AppCompatActivity implements CollegeSortBottomSheet.OnSortAppliedListener{
+public class CutoffAnalysisActivity extends AppCompatActivity
+        implements CollegeSortBottomSheet.OnSortAppliedListener,
+        CollegeFilterBottomSheet.OnFilterAppliedListener {
     // UI Components
     private TextInputEditText etMinCutoff, etMaxCutoff;
     private MaterialButton btnAnalyzeCutoffs,btnFilter,btnSort;
@@ -110,18 +103,24 @@ public class CutoffAnalysisActivity extends AppCompatActivity implements College
 
         btnSort=findViewById(R.id.cutoffanalysisbtnSort);
         btnFilter=findViewById(R.id.cutoffanalysisbtnFilter);
-        chipGroupFilters = findViewById(R.id.chipGroupFilters);
-        horizontalScrollViewFilters = findViewById(R.id.horizontalScrollViewFilters);
+        chipGroupFilters = findViewById(R.id.CutoffchipGroupFilters);
+        horizontalScrollViewFilters = findViewById(R.id.CutoffhorizontalScrollViewFilters);
     }
 
     private void setupListeners() {
         btnAnalyzeCutoffs.setOnClickListener(v -> analyzeCutoffs());
         btnSort.setOnClickListener(v -> showSortBottomSheet());
+        btnFilter.setOnClickListener(v -> showFilterBottomSheet());
     }
 
     private void showSortBottomSheet() {
         CollegeSortBottomSheet sortBottomSheet = new CollegeSortBottomSheet();
         sortBottomSheet.show(getSupportFragmentManager(), sortBottomSheet.getTag());
+    }
+
+    private void showFilterBottomSheet() {
+        CollegeFilterBottomSheet filterBottomSheet = new CollegeFilterBottomSheet();
+        filterBottomSheet.show(getSupportFragmentManager(), filterBottomSheet.getTag());
     }
 
     private void analyzeCutoffs() {
@@ -142,12 +141,17 @@ public class CutoffAnalysisActivity extends AppCompatActivity implements College
             return;
         }
 
-        // Filter colleges
+        // Filter colleges based on cutoff range
         filteredColleges = allColleges.stream()
-                .filter(college ->
-                        college.getCutoff() >= minCutoff &&
-                                college.getCutoff() <= maxCutoff)
+                .filter(college -> college.getCutoff() >= minCutoff && college.getCutoff() <= maxCutoff)
                 .collect(Collectors.toList());
+
+        // Apply additional filters based on chips
+        for (int i = 0; i < chipGroupFilters.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroupFilters.getChildAt(i);
+            removeFilter(chip.getText().toString());
+        }
+
 
         // Update UI based on results
         updateUIWithResults(filteredColleges);
@@ -413,24 +417,94 @@ public class CutoffAnalysisActivity extends AppCompatActivity implements College
         }
     }
 
-    private void sortByEstablishedYear() {
+    private void sortByEstablishedYear() {// Or handle the case as needed
+        if (filteredColleges == null || filteredColleges.isEmpty()) {
+            return;
+        }
             Collections.sort(filteredColleges, Comparator.comparingInt(College::getEstablishedYear));
     }
 
-    private void sortAlphabetically() {
+    private void sortAlphabetically() {// Or handle the case as needed
+        if (filteredColleges == null || filteredColleges.isEmpty()) {
+            return;
+        }
             Collections.sort(filteredColleges, Comparator.comparing(College::getName));
     }
 
-    private void sortByRating() { // New method for sorting by rank
+    private void sortByRating() {// New method for sorting by rank
+        if (filteredColleges == null || filteredColleges.isEmpty()) {
+            return; // Or handle the case as needed
+        }
             Collections.sort(filteredColleges, Comparator.comparing(College::getRating));
     }
 
     private void sortByCutoff() { // New method for sorting by rank
+        if (filteredColleges == null || filteredColleges.isEmpty()) {
+            return; // Or handle the case as needed
+        }
         Collections.sort(filteredColleges, Comparator.comparing(College::getCutoff));
     }
 
 
-    //Add sort/filter applied chip
+
+
+    private void removeChipsByType(String type) {
+        for (int i = chipGroupFilters.getChildCount() - 1; i >= 0; i--) {
+            Chip chip = (Chip) chipGroupFilters.getChildAt(i);
+            if (type.equals(chip.getTag())) {
+                chipGroupFilters.removeView(chip);
+            }
+        }
+
+        // Hide horizontal scroll if no chips
+        if (chipGroupFilters.getChildCount() == 0) {
+            horizontalScrollViewFilters.setVisibility(View.GONE);
+        }
+    }
+
+    // Method to remove a specific filter
+    private void removeFilter(String filterText) {
+        // Update the filteredColleges list based on the removed filter
+        if (filterText.startsWith("Rating:")) {
+            double rating = Double.parseDouble(filterText.split(": ")[1]);
+            filteredColleges = filteredColleges.stream()
+                    .filter(college -> college.getRating() != rating)
+                    .collect(Collectors.toList());
+        } else if (filterText.startsWith("Course:")) {
+            String course = filterText.split(": ")[1];
+            filteredColleges = filteredColleges.stream()
+                    .filter(college -> !college.getCourses().contains(course))
+                    .collect(Collectors.toList());
+        } else if (filterText.startsWith("Location:")) {
+            String location = filterText.split(": ")[1];
+            filteredColleges = filteredColleges.stream()
+                    .filter(college -> !college.getLocation().equals(location))
+                    .collect(Collectors.toList());
+        }
+
+        // Update the UI with the filtered results
+        updateUIWithResults(filteredColleges);
+    }
+
+    // Add filter chip for rating
+    private void addRatingFilterChip(double rating) {
+        String filterText = "Rating: " + rating;
+        addFilterChip(filterText, "filter");
+    }
+
+    // Add filter chip for course
+    private void addCourseFilterChip(String course) {
+        String filterText = "Course: " + course;
+        addFilterChip(filterText, "filter");
+    }
+
+    // Add filter chip for location
+    private void addLocationFilterChip(String location) {
+        String filterText = "Location: " + location;
+        addFilterChip(filterText, "filter");
+    }
+
+    // Add sort/filter applied chip
     private void addFilterChip(String text, String type) {
         View chipView = getLayoutInflater().inflate(R.layout.item_filter_chip, null);
         Chip chip = chipView.findViewById(R.id.chipFilter);
@@ -465,27 +539,79 @@ public class CutoffAnalysisActivity extends AppCompatActivity implements College
                 chip.setTextColor(getColor(R.color.chip_text_primary));
                 chip.setCloseIconTintResource(R.color.chip_close_icon_primary);
         }
-
+        // Set the close icon click listener to remove the chip
         chip.setOnCloseIconClickListener(v -> {
             chipGroupFilters.removeView(chip);
-            removeFilter(text);
+            removeFilter(text); // Update the filter logic when the chip is removed
         });
 
+        // Add the chip to the ChipGroup
         chipGroupFilters.addView(chip);
         horizontalScrollViewFilters.setVisibility(View.VISIBLE);
     }
 
-    private void removeChipsByType(String type) {
-        for (int i = chipGroupFilters.getChildCount() - 1; i >= 0; i--) {
-            Chip chip = (Chip) chipGroupFilters.getChildAt(i);
-            if (type.equals(chip.getTag())) {
-                chipGroupFilters.removeView(chip);
+    // Implement the OnFilterAppliedListener interface method
+    @Override
+    public void onFilterApplied(String minRating, List<String> courses, List<String> locations) {
+        // Parse the minimum rating
+        double minRatingValue = 0;
+        if (!minRating.isEmpty()) {
+            try {
+                minRatingValue = Double.parseDouble(minRating);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid rating value", Toast.LENGTH_SHORT).show();
+                return;
             }
         }
 
-        // Hide horizontal scroll if no chips
-        if (chipGroupFilters.getChildCount() == 0) {
-            horizontalScrollViewFilters.setVisibility(View.GONE);
+        // Start with all colleges
+        filteredColleges = new ArrayList<>(allColleges);
+
+        // Apply minimum rating filter
+        if (minRatingValue > 0) {
+            double finalMinRatingValue = minRatingValue;
+            filteredColleges = filteredColleges.stream()
+                    .filter(college -> {
+                        double rating = college.getRating(); // Use a local variable
+                        return rating >= finalMinRatingValue;
+                    })
+                    .collect(Collectors.toList());
         }
+
+        // Apply course filter
+        if (courses != null && !courses.isEmpty()) {
+            filteredColleges = filteredColleges.stream()
+                    .filter(college -> college.getCourses().stream().anyMatch(courses::contains))
+                    .collect(Collectors.toList());
+        }
+
+        // Apply location filter
+        if (locations != null && !locations.isEmpty()) {
+            filteredColleges = filteredColleges.stream()
+                    .filter(college -> locations.contains(college.getLocation()))
+                    .collect(Collectors.toList());
+        }
+
+        // Update the UI with the filtered results
+        updateUIWithResults(filteredColleges);
+    }
+
+    @Override
+    public void onFilterApplied(String filterType, String filterValue) {
+        // Example of how to add a filter chip based on the filter applied
+        switch (filterType) {
+            case "Rating":
+                addRatingFilterChip(Double.parseDouble(filterValue));
+                break;
+            case "Course":
+                addCourseFilterChip(filterValue);
+                break;
+            case "Location":
+                addLocationFilterChip(filterValue);
+                break;
+        }
+
+        // Reapply filters after adding a new chip
+        analyzeCutoffs();
     }
 }

@@ -83,6 +83,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
+                        android:id="@+id/mincutoffinputlayout"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
@@ -98,6 +99,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
+                        android:id="@+id/maxcutoffinputlayout"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -159,7 +161,7 @@
                 android:visibility="visible">
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupFilters"
+                    android:id="@+id/CutoffchipGroupFilters"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:singleLine="true"
