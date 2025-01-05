@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/vibrant_header_gradient"
         android:orientation="vertical"
-        android:paddingTop="16dp"
+        android:paddingTop="4dp"
         android:paddingBottom="16dp">
 
         <!-- Title -->
@@ -22,10 +22,10 @@
             android:layout_height="wrap_content"
             android:text="Top Colleges"
             android:textColor="@android:color/white"
-            android:textSize="32sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:fontFamily="@font/akayakanadaka_regular"
+            android:fontFamily="@font/bungee_regular"
             android:layout_marginBottom="16dp"/>
 
         <!-- Search and Filter Card -->

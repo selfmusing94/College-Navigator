@@ -10,13 +10,13 @@
     <TextView
         android:id="@+id/chatToolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@drawable/gradient_red_card"
         app:layout_constraintTop_toTopOf="parent"
         android:fontFamily="@font/bungee_regular"
         android:text="AI Assistant"
         android:textAlignment="center"
-        android:textSize="25dp"
+        android:textSize="30dp"
         android:textColor="@android:color/white"/>
 
     <!-- Chat Messages RecyclerView -->

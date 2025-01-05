@@ -45,7 +45,7 @@
                         android:fontFamily="@font/gabriela_regular"
                         android:text="College Navigator"
                         android:textColor="#2C3E50"
-                        android:textSize="22sp"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
 
 
