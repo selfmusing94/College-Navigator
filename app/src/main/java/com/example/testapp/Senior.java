@@ -7,13 +7,15 @@ public class Senior {
     private String seniorBatch;
     private String seniorImageUrl;
     private String college;
+    private String LinkedInUrl;
 
-    public Senior(String seniorName, String college, String seniorBranch, String seniorBatch, String seniorImageUrl) {
+    public Senior(String seniorName, String college, String seniorBranch, String seniorBatch, String seniorImageUrl,String LinkedInUrl) {
         this.seniorName = seniorName;
         this.college = college;
         this.seniorBranch = seniorBranch;
         this.seniorBatch = seniorBatch;
         this.seniorImageUrl = seniorImageUrl;
+        this.LinkedInUrl = LinkedInUrl;
     }
 
     // Getters and setters
@@ -22,4 +24,5 @@ public class Senior {
     public String getSeniorBatch() { return seniorBatch; }
     public String getSeniorImageUrl() { return seniorImageUrl; }
     public String getCollege() { return college; }
+    public String getLinkedInUrl() {return LinkedInUrl; }
 }

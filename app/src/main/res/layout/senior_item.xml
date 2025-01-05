@@ -54,6 +54,7 @@
                 android:textSize="12sp"
                 android:layout_marginTop="2dp"
                 android:textColor="#9E9E9E"/>
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

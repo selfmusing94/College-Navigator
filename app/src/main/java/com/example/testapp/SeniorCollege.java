@@ -7,6 +7,7 @@ public class SeniorCollege {
     private String seniorLocation;
     private String seniorImageUrl;
 
+
     public SeniorCollege(String seniorId, String seniorName, String seniorLocation, String seniorImageUrl) { // Renamed constructor
         this.seniorId = seniorId;
         this.seniorCollegeName = seniorName;

@@ -1,6 +1,7 @@
 package com.example.testapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 // SeniorAdapter.java
 public class SeniorAdapter extends RecyclerView.Adapter<SeniorAdapter.SeniorViewHolder> {
     private List<Senior> seniorList;
+    private  OnSeniorClickListener onSeniorClickListener;
     private Context context;
 
-    public SeniorAdapter(Context context, List<Senior> seniorList) { // Renamed parameter
+    public interface OnSeniorClickListener {
+        void onSeniorClick(Senior senior);
+    }
+
+    public SeniorAdapter(Context context, List<Senior> seniorList,OnSeniorClickListener onSeniorClickListener) {
         this.context = context;
-        this.seniorList = seniorList; // Renamed variable
+        this.seniorList = seniorList;
+        this.onSeniorClickListener = onSeniorClickListener;
     }
 
     @NonNull
@@ -44,6 +51,12 @@ public class SeniorAdapter extends RecyclerView.Adapter<SeniorAdapter.SeniorView
                 .load(senior.getSeniorImageUrl())
                 .placeholder(R.drawable.boy)
                 .into(holder.seniorImage);
+
+        holder.itemView.setOnClickListener(v -> {
+            Log.d("SeniorAdapter", "Clicked on: " + senior.getSeniorName() + ", URL: " + senior.getLinkedInUrl());
+            onSeniorClickListener.onSeniorClick(senior);
+        });
+
     }
 
     @Override
