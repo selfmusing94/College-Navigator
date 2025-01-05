@@ -22,4 +22,7 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="default_web_client_id">1046160266136-65psbmvjt222vhknccqeo3p69dej0ouo.apps.googleusercontent.com</string>
     <string name="API_KEY">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</string>
+    <string name="LINKEDIN_CLIENT_ID">786rkdo6s17894</string>
+    <string name="LINKEDIN_CLIENT_SECRET">WPL_AP1.Hzkch99ge6DkQ6oq.Wg/kWA==</string>
+    <string name="LINKEDIN_REDIRECT_URI">https://seniorconnect.page.link/TG78</string>
 </resources>

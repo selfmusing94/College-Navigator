@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0F4F8"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="16dp"
+    android:layout_margin="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Complete Your Profile"
+            android:fontFamily="@font/bungee_regular"
+            android:textSize="24sp"
+            android:textColor="#2C3E50"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Profile Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/registerasseniorprofileImageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/photocamera"
+                android:layout_marginBottom="16dp"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#1976D2"/>
+
+            <TextView
+                android:id="@+id/tvregisterasseniorname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Name"
+                android:fontFamily="@font/gagalin_regular"
+                android:textSize="22sp"
+                android:textColor="#2C3E50"/>
+        </LinearLayout>
+
+        <!-- College Name Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/collegeNameInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="16dp"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registerasseniorcollegeNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your College Name"
+                android:inputType="text"
+                android:maxLines="1"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Branch Dropdown Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Predefined Branch Dropdown -->
+        <!-- Branch Input Container -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/branchInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_marginBottom="16dp"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2">
+
+        <AutoCompleteTextView
+            android:id="@+id/branchDropdown"
+            android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Select Your Branch"
+                android:inputType="none"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Custom Branch Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/customBranchInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:hintTextColor="#1976D2"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/customBranchInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your Branch"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+        <!-- Start Year Dropdown -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/startYearInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_marginBottom="16dp"
+            app:boxStrokeColor="#1976D2"
+            app:hintTextColor="#1976D2">
+
+            <AutoCompleteTextView
+                android:id="@+id/startYearDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Start Year"
+                android:inputType="none"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Submit Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/submitProfileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Complete Registration"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#1976D2"
+            app:cornerRadius="12dp"
+            android:elevation="4dp"
+            android:fontFamily="@font/acme_regular"
+            android:textSize="16sp"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+
+

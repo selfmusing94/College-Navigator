@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#F0F4F8">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -16,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Colleges"
+            android:text="Senior Connect"
             android:fontFamily="@font/bungee_regular"
             android:layout_gravity="center"
             android:textColor="@color/white"
@@ -24,13 +25,90 @@
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- College List -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/seniorCollegeRecyclerView"
+    <!-- Main Content Container -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:padding="8dp"
-        android:clipToPadding="false" />
+        android:layout_marginTop="80dp"
+        android:outlineAmbientShadowColor="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <!-- Enhanced Search View with Shadow -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp">
+
+                <SearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search_background"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:queryHint="Explore Colleges" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- College List Section with Modern Design -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                android:layout_marginTop="16dp"
+                app:cardElevation="16dp"
+                android:backgroundTint="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Colleges"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/gagalin_regular"
+                        android:textSize="22sp"
+                        android:textColor="#2C3E50"
+                        android:layout_marginBottom="16dp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/seniorCollegeRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Compact LinkedIn Registration Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/linkedinRegisterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#0A66C2"
+                android:elevation="4dp"
+                android:fontFamily="@font/acme_regular"
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp"
+                android:text="Register as Senior"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_linkedin"
+                app:iconGravity="textStart"
+                app:iconSize="20dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

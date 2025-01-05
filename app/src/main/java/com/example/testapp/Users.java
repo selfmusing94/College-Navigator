@@ -1,17 +1,17 @@
 package com.example.testapp;
 
 public class Users {
-    String Userid, Profilepic, mail, pass, Username, status, lastmsg;
+    String Userid, Profilepic, mail, pass, Username, linkedUrl, lastmsg;
 
     public Users(){}
 
-    public Users(String UserId,String UserName,String maill,String passs,String profilepic,String status) {
+    public Users(String UserId,String UserName,String maill,String passs,String profilepic,String linkedinurl) {
         this.Userid=UserId;
         this.Username=UserName;
         this.mail=maill;
         this.pass=passs;
         this.Profilepic=profilepic;
-        this.status=status;
+        this.linkedUrl=linkedinurl;
     }
 
         public String getUserid () {
@@ -54,13 +54,11 @@ public class Users {
             Username = username;
         }
 
-        public String getStatus () {
-            return status;
+        public String LinkedinURL () {
+            return linkedUrl;
         }
 
-        public void setStatus (String status){
-            this.status = status;
-        }
+        public void LinkedinURL (String linkedinurl){ this.linkedUrl = linkedinurl;}
 
         public String getLastmsg () {
             return lastmsg;

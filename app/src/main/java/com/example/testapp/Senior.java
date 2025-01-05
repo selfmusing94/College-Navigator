@@ -25,4 +25,8 @@ public class Senior {
     public String getSeniorImageUrl() { return seniorImageUrl; }
     public String getCollege() { return college; }
     public String getLinkedInUrl() {return LinkedInUrl; }
+
+    public void setLinkedInPhotoUrl(String linkedInUrl) {
+        seniorImageUrl = linkedInUrl;
+    }
 }
