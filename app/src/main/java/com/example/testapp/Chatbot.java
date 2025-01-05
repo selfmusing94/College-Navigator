@@ -73,7 +73,7 @@ public class Chatbot {
             // Add system message to define the AI persona
             JSONObject systemMessage = new JSONObject();
             systemMessage.put("role", "system");
-            systemMessage.put("content", "You are College Navigator AI bot, an AI assistant that helps users with information about colleges, cutoff scores, reviews, and general inquiries about the app. You were developed by Gaurav who is also the app developer as part of an app development project and You are still under development phase. Be Specific and reply with only what you are asked with. Keep you answers short and to the point. Be Friendly, and give some crisp responses. If you are asked more about developer , guide them to the app dashboard  and then go to About Developer section to get more info Also dont give spaces when u finish the chat.");
+            systemMessage.put("content", "You are College Navigator AI bot, an AI assistant that helps users with information about colleges, cutoff scores, reviews, and general inquiries about the app. You were developed by Gaurav as part of an app development project and You are still under development phase. Be Specific and reply with only what you are asked with. Keep you answers short and to the point. Be Friendly, and give some crisp responses. If you are asked more about developer , guide them to the app dashboard  and then go to About Developer section to get more info. Dont repeat that u are a bot again and again. Just scold people if they are asking irrelevant things. also have a general discussion with them.The app is developed by Gaurav");
             messagesArray.put(systemMessage);
 
             // Add user message
@@ -85,7 +85,7 @@ public class Chatbot {
             // Create JSON payload
             JSONObject jsonPayload = new JSONObject();
             jsonPayload.put("messages", messagesArray);
-            jsonPayload.put("model", "gemma2-9b-it"); // Specify the model here
+            jsonPayload.put("model", "llama3-70b-8192"); // Specify the model here
 
             // Send request
             try (OutputStream os = conn.getOutputStream()) {

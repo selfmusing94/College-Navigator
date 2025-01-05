@@ -162,6 +162,7 @@ public class CutoffAnalysisActivity extends AppCompatActivity
     private void updateUIWithResults(List<College> colleges) {
         if (colleges.isEmpty()) {
             // Show empty state
+            Toast.makeText(this,"No Colleges Found",Toast.LENGTH_SHORT).show();
             emptyStateLayout.setVisibility(View.VISIBLE);
             cardCutoffStats.setVisibility(View.GONE);
             cardCollegesList.setVisibility(View.GONE);

@@ -3,6 +3,9 @@ package com.example.testapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,7 +40,8 @@ public class SeniorConnectActivity extends AppCompatActivity implements SeniorCo
 
         linkedinbutton = findViewById(R.id.linkedinRegisterButton);
 
-        linkedinbutton.setOnClickListener(v -> {
+        linkedinbutton.setOnClickListener(v-> {
+            rippleCardClick(v);
             String clientId = getString(R.string.LINKEDIN_CLIENT_ID);
             String redirectUri = getString(R.string.LINKEDIN_REDIRECT_URI);
             String state = "random_unique_state";
@@ -70,6 +74,28 @@ public class SeniorConnectActivity extends AppCompatActivity implements SeniorCo
         startActivity(intent);
     }
 
+private void rippleCardClick(View view) {
+    // Create ripple effect
+    view.setPressed(true);
 
+    // Scale and ripple animation
+    view.animate()
+            .scaleX(0.95f)
+            .scaleY(0.95f)
+            .setDuration(100)
+            .withEndAction(() -> {
+                // Return to original state
+                view.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(100)
+                        .start();
+
+                // Release pressed state
+                view.setPressed(false);
+            })
+            .start();
+    }
 }
+
 

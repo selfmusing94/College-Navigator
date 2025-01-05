@@ -2,7 +2,6 @@ package com.example.testapp;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHolder> {
 
     private final List<ChatMessage> messages;
-    private boolean isTypingAnimationCompleted = false; // Flag for animation completion
+    private final Set<Integer> animatedPositions = new HashSet<>();
 
     public AIChatAdapter(List<ChatMessage> messages) {
         this.messages = messages;
@@ -34,12 +35,16 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        if (position == messages.size() - 1) {
-            isTypingAnimationCompleted = false; // Reset for the latest message
-        }
-
         ChatMessage message = messages.get(position);
-        holder.bind(message, position == messages.size() - 1); // Check if it's the latest message
+
+        boolean shouldAnimate = message.getType() == MessageType.AI &&
+                !animatedPositions.contains(position);
+
+        holder.bind(message, shouldAnimate);
+
+        if (shouldAnimate) {
+            animatedPositions.add(position);
+        }
     }
 
     @Override
@@ -47,12 +52,15 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
         return messages.size();
     }
 
+    public void resetAnimationTracking() {
+        animatedPositions.clear();
+    }
+
     class ChatViewHolder extends RecyclerView.ViewHolder {
         private final TextView messageTextView;
         private final FrameLayout aiIconContainer, userIconContainer;
         private final CardView messageContainer;
         private final View typingDot;
-        private final Handler handler = new Handler(); // Single instance of Handler for dots animation
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,13 +71,13 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
             typingDot = itemView.findViewById(R.id.typingDots);
         }
 
-        public void bind(ChatMessage message, boolean isLatestMessage) {
+        public void bind(ChatMessage message, boolean shouldAnimate) {
             resetStyles();
 
             if (message.getType() == MessageType.USER) {
                 configureUserMessageStyle(message.getContent());
             } else {
-                configureAIMessageStyle(message.getContent(), isLatestMessage);
+                configureAIMessageStyle(message.getContent(), shouldAnimate);
             }
         }
 
@@ -95,7 +103,7 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
             messageTextView.setText(content);
         }
 
-        private void configureAIMessageStyle(String content, boolean isLatestMessage) {
+        private void configureAIMessageStyle(String content, boolean shouldAnimate) {
             aiIconContainer.setVisibility(View.VISIBLE);
             userIconContainer.setVisibility(View.GONE);
             messageContainer.setCardBackgroundColor(
@@ -105,56 +113,48 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
                     itemView.getContext().getColor(R.color.ai_text_color)
             );
 
-            if (isLatestMessage) {
-                // Start both animations: typing dots and text
+            if (shouldAnimate) {
                 startBigDotAnimation(typingDot);
                 startTypingAnimation(content, () -> {
-                    // Stop dots animation and hide when typing is done
                     typingDot.setVisibility(View.GONE);
                 });
             } else {
-                // Directly set text for older messages
                 typingDot.setVisibility(View.GONE);
                 messageTextView.setText(content);
             }
         }
 
         private void startBigDotAnimation(View typingDot) {
-            // Animate the dot with a pulse effect
-            ValueAnimator scaleAnimator = ValueAnimator.ofFloat(1f, 1.5f, 1f); // Scale up and down
-            scaleAnimator.setDuration(700); // Animation duration
-            scaleAnimator.setRepeatCount(ValueAnimator.INFINITE); // Infinite loop
-            scaleAnimator.setRepeatMode(ValueAnimator.RESTART); // Restart animation
+            ValueAnimator scaleAnimator = ValueAnimator.ofFloat(1f, 1.5f, 1f);
+            scaleAnimator.setDuration(700);
+            scaleAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            scaleAnimator.setRepeatMode(ValueAnimator.RESTART);
             scaleAnimator.addUpdateListener(animation -> {
                 float scale = (float) animation.getAnimatedValue();
                 typingDot.setScaleX(scale);
                 typingDot.setScaleY(scale);
             });
 
-            typingDot.setVisibility(View.VISIBLE); // Ensure the dot is visible
+            typingDot.setVisibility(View.VISIBLE);
             scaleAnimator.start();
         }
 
         private void startTypingAnimation(String content, Runnable onAnimationEnd) {
-            messageTextView.setText(""); // Clear text initially
+            messageTextView.setText("");
 
             ValueAnimator animator = ValueAnimator.ofInt(0, content.length());
-            animator.setDuration(content.length() * 50L); // Adjust typing speed
+            animator.setDuration(content.length() * 50L);
             animator.addUpdateListener(animation -> {
                 int charCount = (int) animation.getAnimatedValue();
                 String currentText = content.substring(0, charCount);
 
-                // Update the text as it types
                 messageTextView.setText(currentText);
-
-                // Align dots at the end of the last visible line
                 typingDot.setVisibility(View.VISIBLE);
             });
 
             animator.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    // Hide typing dots after the message finishes typing
                     typingDot.setVisibility(View.GONE);
                     if (onAnimationEnd != null) onAnimationEnd.run();
                 }
@@ -166,6 +166,5 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
 
             animator.start();
         }
-
     }
 }
