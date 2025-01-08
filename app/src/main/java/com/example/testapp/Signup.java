@@ -137,7 +137,7 @@ public class Signup extends AppCompatActivity {
             rippleCardClick(v);
             Intent intent = new Intent();
             intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
             startActivityForResult(Intent.createChooser(intent, "Select Your Profile Picture"), 10);
         });
 

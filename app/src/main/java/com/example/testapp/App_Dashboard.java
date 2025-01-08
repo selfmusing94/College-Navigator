@@ -1,29 +1,15 @@
 package com.example.testapp;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.content.Context;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
-import android.graphics.drawable.StateListDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -64,6 +51,7 @@ public class App_Dashboard extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private TextView userName, userEmail; // Shared resource placeholders
     private ImageView profimage;
+    private String currentImageSource;
 
     private static final int PERMISSION_REQUEST_CODE = 100;
 
@@ -154,6 +142,7 @@ public class App_Dashboard extends AppCompatActivity {
                         String username = dataSnapshot.child("username").getValue(String.class);
                         String email = currentUser .getEmail(); // Get email from FirebaseUser
                         String profileImageUrl = dataSnapshot.child("profilepic").getValue(String.class);
+                        Log.d("ProfileImageURL","Image URL : "+ profileImageUrl);
 
                         // Update UI elements
                         userName.setText(username != null ? username : "Guest User");
@@ -225,16 +214,62 @@ public class App_Dashboard extends AppCompatActivity {
         }
     }
 
-    private void loadProfileImage(String imageUrl) {
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Glide.with(this)
-                    .load(imageUrl) // Load the image from the URL
-                    .into(profimage); // Set the image to the ImageView
-        } else {
-            // Load the default image if the URL is null or empty
-            Toast.makeText(this, "Error Loading Image", Toast.LENGTH_SHORT).show(); // Show error message
+    private void loadProfileImage(String imageSource) {
+        Log.d("Permissions", "READ_MEDIA_IMAGES: " + ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES));
+        Log.d("Permissions", "READ_MEDIA_VIDEO: " + ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_VIDEO));
+        Log.d("Permissions", "READ_MEDIA_AUDIO: " + ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO));
+
+        // Check if the image source is valid
+        if (imageSource == null || imageSource.isEmpty()) {
+            Toast.makeText(this, "Invalid Image Source", Toast.LENGTH_SHORT).show();
+            profimage.setImageResource(R.drawable.ic_menu_slideshow); // Default error image
+            return; // Exit the method
+        }
+
+        currentImageSource = imageSource; // Store the current image source
+
+        try {
+            if (imageSource.startsWith("http://") || imageSource.startsWith("https://")) {
+                // Handle as URL
+                Glide.with(this)
+                        .load(imageSource) // Load from URL
+                        .placeholder(R.drawable.team) // Placeholder while loading
+                        .error(R.drawable.map) // Error image if loading fails
+                        .into(profimage); // Set image to ImageView
+            } else {
+                // Handle as URI
+                Uri imageUri = Uri.parse(imageSource);
+                // Check if URI needs permission or is accessible
+                if (ContentResolver.SCHEME_CONTENT.equals(imageUri.getScheme())) {
+                    // Check for permissions
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        // Request permission if not granted
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+                        return; // Exit the method until permission is granted
+                    }
+
+                    // Now load the image
+                    Glide.with(this)
+                            .load(imageUri) // Load from resolved URI
+                            .placeholder(R.drawable.university) // Placeholder while loading
+                            .error(R.drawable.complaint) // Error image if loading fails
+                            .into(profimage); // Set image to ImageView
+                } else {
+                    // Handle other URI schemes if necessary
+                    Glide.with(this)
+                            .load(imageUri) // Load directly
+                            .placeholder(R.drawable.university) // Placeholder while loading
+                            .error(R.drawable.complaint) // Error image if loading fails
+                            .into(profimage); // Set image to ImageView
+                }
+            }
+        } catch (Exception e) {
+            // Show error message and set default error image
+            Toast.makeText(this, "Error Loading Image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            profimage.setImageResource(R.drawable.identification);
         }
     }
+
 
     private void checkPermissions() {
 
@@ -269,6 +304,47 @@ public class App_Dashboard extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                boolean allGranted = true;
+                for (int i = 0; i < grantResults.length; i++) {
+                    Log.d("PermissionDebug", "Permission: " + permissions[i] + ", Result: " + grantResults[i]);
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        allGranted = false;
+                        break;
+                    }
+                }
+
+                if (allGranted) {
+                    Toast.makeText(this, "Permissions granted", Toast.LENGTH_SHORT).show();
+                    loadProfileImage(currentImageSource); // Retry loading the image
+                } else {
+                    boolean anyPermissionDenied = false;
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                            anyPermissionDenied = true;
+                            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
+                                Toast.makeText(this, "Permissions denied. Please allow permissions to access media.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "Permissions denied. You can enable them in app settings.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    // Ensure that at least one permission was actually denied
+                    if (!anyPermissionDenied) {
+                        Log.e("PermissionDebug", "All permissions should be granted, but a denial message was shown.");
+                        // Consider resetting permission state or displaying a debug message
+                    }
+                }
+            }
+        }
+    }
+
     private void redirectToLogin() {
         Intent intent = new Intent(App_Dashboard.this, Login.class);
         startActivity(intent);
