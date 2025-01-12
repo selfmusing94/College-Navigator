@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
@@ -53,6 +55,8 @@
                     android:scheme="seniorconnect" />
             </intent-filter>
         </activity>
+        <activity android:name=".LinkedInLoginActivity"
+            android:exported="false"/>
         <activity
             android:name=".SeniorListActivity"
             android:exported="false" />
