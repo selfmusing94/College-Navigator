@@ -3,6 +3,7 @@ package com.example.testapp;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -26,6 +27,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
@@ -45,8 +47,7 @@ public class PGFinderActivity extends AppCompatActivity {
     private TextView tvCurrentLocation; // TextView to display current location
     private ProgressDialog progressDialog; // ProgressDialog to show fetching location
 
-    @SuppressLint("MissingInflatedId")
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pgfinder); // Ensure this matches your layout file name
@@ -57,6 +58,7 @@ public class PGFinderActivity extends AppCompatActivity {
         rvPGResults = findViewById(R.id.rvPGResults);
         emptyStateLayout = findViewById(R.id.emptyStateLayout);
         tvCurrentLocation = findViewById(R.id.tvpgCurrentLocation); // Ensure this ID matches your layout
+
 
         // Initialize RecyclerView
         rvPGResults.setLayoutManager(new LinearLayoutManager(this));
@@ -71,6 +73,7 @@ public class PGFinderActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Fetching location...");
         progressDialog.setCancelable(false); // Prevent dismissing the dialog on back press
+
 
         btnCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,8 +92,7 @@ public class PGFinderActivity extends AppCompatActivity {
     }
 
     private void fetchCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission
-                (this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
             return;
         }
@@ -142,10 +144,14 @@ public class PGFinderActivity extends AppCompatActivity {
     }
 
     private void fetchNearbyPGs(double latitude, double longitude) {
-        // Implement your logic to fetch PGs based on latitude and longitude
-        // For example, you can make a network request to your backend API
+        // Clear previous results
+        pgList.clear();
+
+        // Example PGs based on the location
+        pgList.add(new PG("PG A", "Koramangala, Bengaluru", "Single", "₹8,000", "Boys", 12.9716, 77.5946));
+        pgList.add(new PG("PG B", "Indiranagar, Bengaluru", "Double", "₹10,000", "Girls", 12.9717, 77.5947)); // Example coordinates
+
         // Update the pgList and notify the adapter
-        // If no PGs found, show empty state layout
         if (pgList.isEmpty()) {
             rvPGResults.setVisibility(View.GONE);
             emptyStateLayout.setVisibility(View.VISIBLE);
@@ -175,13 +181,10 @@ public class PGFinderActivity extends AppCompatActivity {
 
             // Here you would implement the logic to search for PGs based on the query
             // For demonstration, let's add some mock data
-            // In a real application, you would fetch this data from a database or API
-
-            // Mock data based on the search query
             if (query.equalsIgnoreCase("PG A")) {
-                pgList.add(new PG("PG A", 12.9716, 77.5946)); // Example coordinates
+                pgList.add(new PG("PG A", "Koramangala, Bengaluru", "Single", "₹8,000", "Boys", 12.9716, 77.5946)); // Example coordinates
             } else if (query.equalsIgnoreCase("PG B")) {
-                pgList.add(new PG("PG B", 12.9717, 77.5947)); // Example coordinates
+                pgList.add(new PG("PG B", "Indiranagar, Bengaluru", "Double", "₹10,000", "Girls", 12.9717, 77.5947)); // Example coordinates
             } else {
                 // If no PGs found, you can show a message or update the empty state layout
                 Toast.makeText(this, "No PGs found for: " + query, Toast.LENGTH_SHORT).show();
