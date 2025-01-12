@@ -40,7 +40,13 @@ public class SeniorConnectActivity extends AppCompatActivity implements SeniorCo
 
         linkedinbutton = findViewById(R.id.linkedinRegisterButton);
 
-        linkedinbutton.setOnClickListener(v-> {
+        linkedinbutton.setOnClickListener(v -> {
+            Intent intent = new Intent(SeniorConnectActivity.this, LinkedInLoginActivity.class);
+            startActivityForResult(intent, 1001);
+        });
+
+
+        /*linkedinbutton.setOnClickListener(v-> {
             rippleCardClick(v);
             String clientId = getString(R.string.LINKEDIN_CLIENT_ID);
             String redirectUri = getString(R.string.LINKEDIN_REDIRECT_URI);
@@ -54,48 +60,60 @@ public class SeniorConnectActivity extends AppCompatActivity implements SeniorCo
 
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(authorizationUrl));
             startActivity(browserIntent);
-        });
+        });*/
     }
 
-    private List<SeniorCollege> getSeniorColleges() {
-        // Sample data - replace with your actual data source
-        List<SeniorCollege> seniorCollegeList = new ArrayList<>();
-        seniorCollegeList.add(new SeniorCollege("1", "MIT", "Cambridge, MA", "drawable/university"));
-        seniorCollegeList.add(new SeniorCollege("2", "Stanford", "Stanford, CA", "drawable/university"));
-        // Add more senior colleges
-        return seniorCollegeList;
-    }
 
     @Override
-    public void onSeniorCollegeClick(SeniorCollege seniorCollege) {
-        Intent intent = new Intent(this, SeniorListActivity.class); // Updated target activity
-        intent.putExtra("COLLEGE_ID", seniorCollege.getSeniorId()); // Updated method call
-        intent.putExtra("COLLEGE_NAME", seniorCollege.getSeniorName()); // Updated method call
-        startActivity(intent);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1001) {
+            // Handle the result from LinkedInLoginActivity
+            // If registration is successful, disable the button
+           // linkedinbutton.setEnabled(false);
+        }
     }
 
-private void rippleCardClick(View view) {
-    // Create ripple effect
-    view.setPressed(true);
+        private List<SeniorCollege> getSeniorColleges () {
+            // Sample data - replace with your actual data source
+            List<SeniorCollege> seniorCollegeList = new ArrayList<>();
+            seniorCollegeList.add((new SeniorCollege("1","BMSIT&M","Bengaluru,KA","drawable/university")));
+            seniorCollegeList.add(new SeniorCollege("3", "MIT", "Cambridge, MA", "drawable/university"));
+            seniorCollegeList.add(new SeniorCollege("2", "Stanford", "Stanford, CA", "drawable/university"));
+            // Add more senior colleges
+            return seniorCollegeList;
+        }
 
-    // Scale and ripple animation
-    view.animate()
-            .scaleX(0.95f)
-            .scaleY(0.95f)
-            .setDuration(100)
-            .withEndAction(() -> {
-                // Return to original state
-                view.animate()
-                        .scaleX(1f)
-                        .scaleY(1f)
-                        .setDuration(100)
-                        .start();
+        @Override
+        public void onSeniorCollegeClick (SeniorCollege seniorCollege){
+            Intent intent = new Intent(this, SeniorListActivity.class); // Updated target activity
+            intent.putExtra("COLLEGE_ID", seniorCollege.getSeniorId()); // Updated method call
+            intent.putExtra("COLLEGE_NAME", seniorCollege.getSeniorName()); // Updated method call
+            startActivity(intent);
+        }
 
-                // Release pressed state
-                view.setPressed(false);
-            })
-            .start();
-    }
+        private void rippleCardClick (View view){
+            // Create ripple effect
+            view.setPressed(true);
+
+            // Scale and ripple animation
+            view.animate()
+                    .scaleX(0.95f)
+                    .scaleY(0.95f)
+                    .setDuration(100)
+                    .withEndAction(() -> {
+                        // Return to original state
+                        view.animate()
+                                .scaleX(1f)
+                                .scaleY(1f)
+                                .setDuration(100)
+                                .start();
+
+                        // Release pressed state
+                        view.setPressed(false);
+                    })
+                    .start();
+        }
 }
 
 
