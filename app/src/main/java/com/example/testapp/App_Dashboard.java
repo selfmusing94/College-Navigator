@@ -106,21 +106,36 @@ public class App_Dashboard extends AppCompatActivity {
             if (itemId == R.id.logoutinmenu) {
                 confirmLogout();
             } else if (itemId == R.id.CollegePredictor) {
+                Toast.makeText(App_Dashboard.this, "Predict Your College", Toast.LENGTH_SHORT).show();
                 navigateToCollegePredictor();
             } else if (itemId == R.id.Collegereview) {
                 Toast.makeText(App_Dashboard.this, "College Review", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(App_Dashboard.this,ReviewCollegeActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.Top10) {
                 Toast.makeText(App_Dashboard.this, "Top 10 Colleges", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(App_Dashboard.this,TopCollegesActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.cutoff) {
                 Toast.makeText(App_Dashboard.this, "Check Cutoffs", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(App_Dashboard.this,CutoffAnalysisActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.LocationBased) {
                 Toast.makeText(App_Dashboard.this, "Location Based Activity", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(App_Dashboard.this,LocationBasedActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.Senior) {
                 Toast.makeText(App_Dashboard.this, "Connect with Seniors", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(App_Dashboard.this,SeniorConnectActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.pg) {
                 Toast.makeText(App_Dashboard.this, "PG Recommendations", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(App_Dashboard.this,PGFinderActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.bot) {
                 Toast.makeText(App_Dashboard.this, "Chat with Bot", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(App_Dashboard.this,AIChatbotActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.aboutme) {
                 navigatetoAboutme();
             }
@@ -289,7 +304,7 @@ public class App_Dashboard extends AppCompatActivity {
                         PERMISSION_REQUEST_CODE
                 );
             } else {
-                Toast.makeText(this, "Media permissions already granted", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(this, "Media permissions already granted", Toast.LENGTH_SHORT).show();
             }
         } else {
             // For Android 12 and below
@@ -300,7 +315,7 @@ public class App_Dashboard extends AppCompatActivity {
                         PERMISSION_REQUEST_CODE
                 );
             } else {
-                Toast.makeText(this, "Storage permission already granted", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Storage permission already granted", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -320,7 +335,7 @@ public class App_Dashboard extends AppCompatActivity {
                 }
 
                 if (allGranted) {
-                    Toast.makeText(this, "Permissions granted", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(this, "Permissions granted", Toast.LENGTH_SHORT).show();
                     loadProfileImage(currentImageSource); // Retry loading the image
                 } else {
                     boolean anyPermissionDenied = false;
@@ -328,9 +343,9 @@ public class App_Dashboard extends AppCompatActivity {
                         if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                             anyPermissionDenied = true;
                             if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
-                                Toast.makeText(this, "Permissions denied. Please allow permissions to access media.", Toast.LENGTH_SHORT).show();
+                            //     Toast.makeText(this, "Permissions denied. Please allow permissions to access media.", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(this, "Permissions denied. You can enable them in app settings.", Toast.LENGTH_LONG).show();
+                               // Toast.makeText(this, "Permissions denied. You can enable them in app settings.", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
