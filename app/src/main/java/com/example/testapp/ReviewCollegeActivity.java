@@ -3,7 +3,6 @@ package com.example.testapp;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,10 +50,6 @@ public class ReviewCollegeActivity extends AppCompatActivity {
         reviewsListView.setLayoutManager(new LinearLayoutManager(this));
         reviewsListView.setAdapter(adapter);
 
-        String username = (currentUser  != null) ? currentUser .getDisplayName() : "Guest";
-        TextView usernameDisplay = findViewById(R.id.usernameDisplay);
-        usernameDisplay.setText(username);
-
         if (currentUser  != null) {
             String userId = currentUser .getUid();
             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
@@ -65,9 +60,6 @@ public class ReviewCollegeActivity extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         profileImageUrl = dataSnapshot.child("profilepic").getValue(String.class);
                         Username = dataSnapshot.child("username").getValue(String.class);
-                        usernameDisplay.setText(username != null ? username : "User");
-                    } else {
-                        usernameDisplay.setText("User ");
                     }
                 }
 
@@ -76,9 +68,8 @@ public class ReviewCollegeActivity extends AppCompatActivity {
                     Toast.makeText(ReviewCollegeActivity.this, "Failed to load user data.", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            usernameDisplay.setText("Guest");
         }
+
 
         submitReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
