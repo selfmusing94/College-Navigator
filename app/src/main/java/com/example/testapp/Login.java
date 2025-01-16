@@ -42,6 +42,11 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser ;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Pattern;
 
@@ -232,7 +237,6 @@ public class Login extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
         progressDialog.show();
 
         // Get credential and authenticate with Firebase
@@ -240,22 +244,60 @@ public class Login extends AppCompatActivity {
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     progressDialog.dismiss();
-
                     if (task.isSuccessful()) {
                         // Sign in success
-                        FirebaseUser  user = auth.getCurrentUser ();
+                        FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
-                            sessionManager.createLoginSession(user.getEmail()); // Save session
-                            navigateToDashboard();
+                            // Check if user exists in the database
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+                            databaseReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        // User exists, save session and navigate to dashboard
+                                        sessionManager.createLoginSession(user.getEmail());
+                                        navigateToDashboard();
+                                    } else {
+                                        // User doesn't exist, unlink Google account and show error message
+                                        auth.getCurrentUser().delete(); // Remove the Google account from Firebase authentication
+                                        Toast.makeText(Login.this, "You need to register first", Toast.LENGTH_SHORT).show();
+                                        auth.signOut();
+                                        // Revoke Google access token
+                                        googleSignInClient.revokeAccess();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    // Handle database error
+                                    int errorCode = databaseError.getCode();
+                                    String errorMessage = databaseError.getMessage();
+
+                                    // Log the error
+                                    Log.e("DatabaseError", "Error code: " + errorCode + ", Error message: " + errorMessage);
+
+                                    // Handle specific error codes
+                                    switch (errorCode) {
+                                        case DatabaseError.NETWORK_ERROR:
+                                            Toast.makeText(Login.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case DatabaseError.PERMISSION_DENIED:
+                                            Toast.makeText(Login.this, "Permission denied", Toast.LENGTH_SHORT).show();
+                                            break;
+                                        default:
+                                            Toast.makeText(Login.this, "Database error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                            break;
+                                    }
+                                }
+                            });
                         }
                     } else {
                         // If sign in fails, display a message to the user.
-                        Toast.makeText(Login.this,
-                                "Authentication Failed: " + task.getException().getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Authentication Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
 
     private void navigateToSignup() {
         Intent i = new Intent(Login.this, Signup.class);

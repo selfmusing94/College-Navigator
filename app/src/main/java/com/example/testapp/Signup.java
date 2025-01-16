@@ -1,12 +1,9 @@
 package com.example.testapp;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -18,9 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -30,8 +27,11 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -39,6 +39,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class Signup extends AppCompatActivity {
 
@@ -207,77 +210,129 @@ public class Signup extends AppCompatActivity {
         }
     }
 
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+                        Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+                        String idToken = account.getIdToken();
+                        if (idToken == null) {
+                            Toast.makeText(this, "Failed to get ID Token", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        progressDialog.show();
+                        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+                        auth.signInWithCredential(credential)
+                                .addOnCompleteListener(this, task -> {
+                                    progressDialog.dismiss();
+                                    if (task.isSuccessful()) {
+                                        FirebaseUser user = auth.getCurrentUser();
+                                        if (user != null) {
+                                            // Check if user exists in the database
+                                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+                                            databaseReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    if (dataSnapshot.exists()) {
+                                                        // User exists, show toast and sign out
+                                                        Toast.makeText(Signup.this, "You have already used this Gmail account", Toast.LENGTH_SHORT).show();
+                                                        auth.signOut();
+                                                        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(Signup.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
+                                                        googleSignInClient.revokeAccess();
+                                                    } else {
+                                                        // Create a new user
+                                                        String id = user.getUid();
+                                                        DatabaseReference databaseReference = database.getReference("Users").child(id);
+                                                        String userName = account.getDisplayName();
+                                                        String userEmail = account.getEmail();
+                                                        String userProfilePic = account.getPhotoUrl() != null ? account.getPhotoUrl().toString() : "default_profile_pic_url";
+                                                        String userStatus = "Sita Ram! I am using this Application";
+                                                        Users googleUser = new Users(id, userName, userEmail, "N/A", userProfilePic, userStatus);
+                                                        databaseReference.setValue(googleUser)
+                                                                .addOnSuccessListener(aVoid -> {
+                                                                    Toast.makeText(Signup.this, "Google User Created Successfully", Toast.LENGTH_SHORT).show();
+                                                                    Intent intent = new Intent(Signup.this, App_Dashboard.class);
+                                                                    startActivity(intent);
+                                                                    finish();
+                                                                });
+                                                    }
+                                                }
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                    // Handle database error
+                                                    int errorCode = databaseError.getCode();
+                                                    String errorMessage = databaseError.getMessage();
 
-        String idToken = account.getIdToken();
+                                                    // Log the error
+                                                    Log.e("DatabaseError", "Error code: " + errorCode + ", Error message: " + errorMessage);
 
-        if (idToken == null) {
-            Toast.makeText(this, "Failed to get ID Token", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        progressDialog.show();
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener(this, task -> {
-                    progressDialog.dismiss();
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = auth.getCurrentUser();
-                        String id = user.getUid();
-                        DatabaseReference databaseReference = database.getReference("Users").child(id);
-
-                        String userName = account.getDisplayName();
-                        String userEmail = account.getEmail();
-                        String userProfilePic = account.getPhotoUrl() != null ? account.getPhotoUrl().toString() : "default_profile_pic_url";
-                        String userStatus = "Sita Ram! I am using this Application";
-
-                        Users googleUser = new Users(id, userName, userEmail, "N/A", userProfilePic, userStatus);
-                        databaseReference.setValue(googleUser).addOnSuccessListener(aVoid -> {
-                            Toast.makeText(Signup.this, "Google User Created Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(Signup.this, App_Dashboard.class));
-                            finish();
-                        }).addOnFailureListener(e -> {
-                            Toast.makeText(Signup.this, "Failed to save Google User: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
-
-                    } else {
-                        Toast.makeText(Signup.this, "Authentication Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    // Handle specific error codes
+                                                    switch (errorCode) {
+                                                        case DatabaseError.NETWORK_ERROR:
+                                                            Toast.makeText(Signup.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                                                            break;
+                                                        case DatabaseError.PERMISSION_DENIED:
+                                                            Toast.makeText(Signup.this, "Permission denied", Toast.LENGTH_SHORT).show();
+                                                            break;
+                                                        default:
+                                                            Toast.makeText(Signup.this, "Database error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                                            break;
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(Signup.this, "Authentication Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     }
-                });
-    }
 
     private void createAccount(String namee, String emaill, String passs) {
         progressDialog.show();
-        auth.createUserWithEmailAndPassword(emaill, passs).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                String id = task.getResult().getUser().getUid();
-                DatabaseReference databaseReference = database.getReference("Users").child(id);
-
-                if (ImgURI != null) {
-                    imguri = ImgURI.toString();
-                } else {
-                    imguri = "https://drive.google.com/file/d/1-x3ARzGgxScNZnaitTOE0KVrMV6d8AAJ/view?usp=sharing";
-                }
-
-                Users user = new Users(id, namee, emaill, passs, imguri, status);
-                databaseReference.setValue(user).addOnSuccessListener(aVoid -> {
-                    progressDialog.dismiss();
-                    Toast.makeText(Signup.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Signup.this, Login.class);
-                    startActivity(intent);
-                    finish();
-                }).addOnFailureListener(e -> {
-                    progressDialog.dismiss();
-                    Toast.makeText(Signup.this, "Failed to create user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        auth.createUserWithEmailAndPassword(emaill, passs)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String id = task.getResult().getUser().getUid();
+                        DatabaseReference databaseReference = database.getReference("Users").child(id);
+                        if (ImgURI != null) {
+                            imguri = ImgURI.toString();
+                        } else {
+                            imguri = "https://drive.google.com/file/d/1-x3ARzGgxScNZnaitTOE0KVrMV6d8AAJ/view?usp=sharing";
+                        }
+                        Users user = new Users(id, namee, emaill, passs, imguri, status);
+                        databaseReference.setValue(user)
+                                .addOnSuccessListener(aVoid -> {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(Signup.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(Signup.this, Login.class);
+                                    startActivity(intent);
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(Signup.this, "Failed to create user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.e("createAccount", "Failed to create user", e);
+                                });
+                    } else {
+                        progressDialog.dismiss();
+                        try {
+                            throw task.getException();
+                        } catch (FirebaseAuthException e) {
+                            if (e.getErrorCode().equals("ERROR_EMAIL_ALREADY_IN_USE")) {
+                                Toast.makeText(Signup.this, "Email already in use", Toast.LENGTH_SHORT).show();
+                            } else if (e.getErrorCode().equals("ERROR_INVALID_EMAIL")) {
+                                Toast.makeText(Signup.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                            } else if (e.getErrorCode().equals("ERROR_WEAK_PASSWORD")) {
+                                Toast.makeText(Signup.this, "Password should be at least 6 characters", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Signup.this, "Authentication failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                            Log.e("createAccount", "Authentication failed", e);
+                        } catch (Exception e) {
+                            Toast.makeText(Signup.this, "An error occurred: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("createAccount", "An error occurred", e);
+                        }
+                    }
                 });
-            } else {
-                progressDialog.dismiss();
-                Toast.makeText(Signup.this, "Signup failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void signUpWithGithub() {
