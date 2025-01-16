@@ -233,10 +233,13 @@ public class Signup extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     if (dataSnapshot.exists()) {
                                                         // User exists, show toast and sign out
-                                                        Toast.makeText(Signup.this, "You have already used this Gmail account", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Signup.this, "This Gmail account is already in use. Please Login using the same account.", Toast.LENGTH_SHORT).show();
                                                         auth.signOut();
                                                         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(Signup.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
                                                         googleSignInClient.revokeAccess();
+                                                        Intent i = new Intent(Signup.this,Login.class);
+                                                        startActivity(i);
+                                                        finish();
                                                     } else {
                                                         // Create a new user
                                                         String id = user.getUid();

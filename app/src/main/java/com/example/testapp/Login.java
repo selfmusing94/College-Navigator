@@ -260,10 +260,13 @@ public class Login extends AppCompatActivity {
                                     } else {
                                         // User doesn't exist, unlink Google account and show error message
                                         auth.getCurrentUser().delete(); // Remove the Google account from Firebase authentication
-                                        Toast.makeText(Login.this, "You need to register first", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Login.this, "Please register your account first.", Toast.LENGTH_SHORT).show();
                                         auth.signOut();
                                         // Revoke Google access token
                                         googleSignInClient.revokeAccess();
+                                        Intent intent = new Intent(Login.this,Signup.class);
+                                        startActivity(intent);
+                                        finish();
                                     }
                                 }
 
