@@ -26,33 +26,10 @@ public class Chatbot {
 
     // Main method to get chatbot response
     public String getResponse(String userInput) {
-        // Check for topic-specific responses
-        String response = getTopicResponse(userInput);
-
-        // If the response is empty, fallback to Groq API for general conversation
-        if (response.isEmpty()) {
             return callGroqAPI(userInput);
-        }
 
-        return response;
     }
 
-    // Get topic-specific response based on user input
-    private String getTopicResponse(String userInput) {
-        String normalizedInput = userInput.toLowerCase();
-
-        if (normalizedInput.contains("college") || normalizedInput.contains("university")) {
-            return "Are you looking for college recommendations or information about a specific college?";
-        } else if (normalizedInput.contains("cutoff")) {
-            return "Please provide the college name and I'll help with the cutoff details.";
-        } else if (normalizedInput.contains("review") || normalizedInput.contains("feedback")) {
-            return "I can provide reviews of various colleges. Which college are you interested in?";
-        } else if (normalizedInput.contains("app") || normalizedInput.contains("features") || normalizedInput.contains("about")) {
-            return "This app helps you with college recommendations, cutoffs, reviews, and more. How can I assist you today?";
-        }
-
-        return ""; // Return empty if no category matched, fallback to Groq API
-    }
 
     // Call the Groq API for general conversation when no topic-specific response is found
     private String callGroqAPI(String userInput) {
@@ -85,7 +62,7 @@ public class Chatbot {
             // Create JSON payload
             JSONObject jsonPayload = new JSONObject();
             jsonPayload.put("messages", messagesArray);
-            jsonPayload.put("model", "llama3-70b-8192"); // Specify the model here
+            jsonPayload.put("model", "llama-3.2-90b-vision-preview"); // Specify the model here
 
             // Send request
             try (OutputStream os = conn.getOutputStream()) {

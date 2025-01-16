@@ -243,7 +243,6 @@ public class Login extends AppCompatActivity {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
-                    progressDialog.dismiss();
                     if (task.isSuccessful()) {
                         // Sign in success
                         FirebaseUser user = auth.getCurrentUser();
@@ -261,6 +260,7 @@ public class Login extends AppCompatActivity {
                                         // User doesn't exist, unlink Google account and show error message
                                         auth.getCurrentUser().delete(); // Remove the Google account from Firebase authentication
                                         Toast.makeText(Login.this, "Please register your account first.", Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
                                         auth.signOut();
                                         // Revoke Google access token
                                         googleSignInClient.revokeAccess();
@@ -272,6 +272,7 @@ public class Login extends AppCompatActivity {
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    progressDialog.dismiss();
                                     // Handle database error
                                     int errorCode = databaseError.getCode();
                                     String errorMessage = databaseError.getMessage();
@@ -295,6 +296,7 @@ public class Login extends AppCompatActivity {
                             });
                         }
                     } else {
+                        progressDialog.dismiss();
                         // If sign in fails, display a message to the user.
                         Toast.makeText(Login.this, "Authentication Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
