@@ -90,7 +90,7 @@
                     <!-- Explore Button -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnShowColleges"
-                        android:layout_width="0dp"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
                         android:layout_marginStart="8dp"
