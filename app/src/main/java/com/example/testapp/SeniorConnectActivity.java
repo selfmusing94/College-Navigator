@@ -40,10 +40,7 @@ public class SeniorConnectActivity extends AppCompatActivity implements SeniorCo
 
         linkedinbutton = findViewById(R.id.linkedinRegisterButton);
 
-        linkedinbutton.setOnClickListener(v -> {
-            Intent intent = new Intent(SeniorConnectActivity.this, LinkedInLoginActivity.class);
-            startActivityForResult(intent, 1001);
-        });
+
 
 
         /*linkedinbutton.setOnClickListener(v-> {

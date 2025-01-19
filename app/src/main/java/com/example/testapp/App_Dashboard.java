@@ -252,8 +252,8 @@ public class App_Dashboard extends AppCompatActivity {
                 // Handle as URL
                 Glide.with(this)
                         .load(imageSource) // Load from URL
-                        .placeholder(R.drawable.team) // Placeholder while loading
-                        .error(R.drawable.map) // Error image if loading fails
+                        .placeholder(R.drawable.user) // Placeholder while loading
+                        .error(R.drawable.usererror) // Error image if loading fails
                         .into(profimage); // Set image to ImageView
             } else {
 

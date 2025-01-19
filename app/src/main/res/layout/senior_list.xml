@@ -21,9 +21,10 @@
 
             <TextView
                 android:id="@+id/collegeName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="College Name"
+                android:textAlignment="center"
                 android:fontFamily="@font/bungee_regular"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
