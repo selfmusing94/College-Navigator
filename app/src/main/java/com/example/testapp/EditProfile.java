@@ -3,10 +3,11 @@ package com.example.testapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.app.ProgressDialog;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -82,7 +83,10 @@ public class EditProfile extends AppCompatActivity {
                     emailEditText.setEnabled(false); // Make email field non-editable
 
                     // Load profile image using Glide
-                    Glide.with(this).load(profileImageUrl).into(profilePicture);
+                    Glide.with(this).load(profileImageUrl)
+                            .placeholder(R.drawable.profile)
+                            .error(R.drawable.user)
+                            .into(profilePicture);
 
                     // Show password field only if using email authentication
                     if (currentUser .getProviderData().get(0).getProviderId().equals("password")) {
@@ -112,6 +116,11 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void updateProfile() {
+        // Show progress dialog
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Updating profile...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         // Update username and password if necessary
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -143,6 +152,12 @@ public class EditProfile extends AppCompatActivity {
         if (!changesMade) {
             Toast.makeText(this, "No changes made", Toast.LENGTH_SHORT).show();
         }
+
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            // Dismiss the dialog after 1 seconds
+            progressDialog.dismiss();
+        }, 1000); // 1000 milliseconds = 1 second
     }
 
     private void uploadProfileImage() {
