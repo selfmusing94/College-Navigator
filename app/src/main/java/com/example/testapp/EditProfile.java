@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.ProgressDialog;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -83,7 +84,9 @@ public class EditProfile extends AppCompatActivity {
                     emailEditText.setEnabled(false); // Make email field non-editable
 
                     // Load profile image using Glide
-                    Glide.with(this).load(profileImageUrl)
+                    Log.d("Load Image","Image Loaded : "+profileImageUrl);
+                    Uri imageUri = Uri.parse(profileImageUrl);
+                    Glide.with(this).load(imageUri)
                             .placeholder(R.drawable.profile)
                             .error(R.drawable.user)
                             .into(profilePicture);
