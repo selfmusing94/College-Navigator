@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:background="@drawable/vibrant_header_gradient">
+            android:background="@drawable/gradient_teal_card">
 
             <TextView
                 android:layout_width="match_parent"
@@ -94,7 +94,8 @@
                 app:icon="@drawable/search_vector"
                 app:iconTint="@color/white"
                 app:iconGravity="textStart"
-                android:backgroundTint="#7F39FB"/>
+                android:background="@drawable/gradient_teal_card"
+                app:backgroundTint="@null"/>
 
             <TextView
                 android:layout_width="match_parent"

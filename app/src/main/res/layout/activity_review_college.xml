@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/vibrant_header_gradient"
+            android:background="@drawable/gradient_green_card"
             android:padding="20dp">
 
             <TextView
@@ -81,13 +81,12 @@
                 android:text="Submit Review"
                 android:textSize="21dp"
                 app:cornerRadius="16dp"
-                app:backgroundTint="#6200EE"
+                android:background="@drawable/gradient_green_card"
+                app:backgroundTint="@null"
                 android:textColor="#FFFFFF"
                 android:padding="12dp"
-                android:layout_marginBottom="16dp"
-                android:drawableStart="@drawable/ic_send"
-                android:drawablePadding="8dp" />
-
+                android:layout_marginBottom="16dp"/>
+            
             <TextView
                 android:id="@+id/reviewListTitle"
                 android:layout_width="match_parent"

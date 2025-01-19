@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp"
-            android:background="@drawable/vibrant_header_gradient">
+            android:background="@drawable/purple_passion_gradient">
 
             <TextView
                 android:layout_width="match_parent"
@@ -95,6 +95,8 @@
                         android:layout_weight="0.3"
                         android:layout_marginStart="8dp"
                         app:cornerRadius="12dp"
+                        android:background="@drawable/purple_passion_gradient"
+                        app:backgroundTint="@null"
                         android:text="Explore"
                         android:fontFamily="@font/acme_regular"
                         android:textSize="15sp"/>
