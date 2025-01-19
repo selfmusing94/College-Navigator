@@ -1,7 +1,7 @@
 package com.example.testapp;
 
+
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -256,31 +256,15 @@ public class App_Dashboard extends AppCompatActivity {
                         .error(R.drawable.map) // Error image if loading fails
                         .into(profimage); // Set image to ImageView
             } else {
-                // Handle as URI
-                Uri imageUri = Uri.parse(imageSource);
-                // Check if URI needs permission or is accessible
-                if (ContentResolver.SCHEME_CONTENT.equals(imageUri.getScheme())) {
-                    // Check for permissions
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        // Request permission if not granted
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-                        return; // Exit the method until permission is granted
-                    }
 
-                    // Now load the image
-                    Glide.with(this)
-                            .load(imageUri) // Load from resolved URI
-                            .placeholder(R.drawable.university) // Placeholder while loading
-                            .error(R.drawable.complaint) // Error image if loading fails
-                            .into(profimage); // Set image to ImageView
-                } else {
-                    // Handle other URI schemes if necessary
-                    Glide.with(this)
-                            .load(imageUri) // Load directly
-                            .placeholder(R.drawable.university) // Placeholder while loading
-                            .error(R.drawable.complaint) // Error image if loading fails
-                            .into(profimage); // Set image to ImageView
-                }
+                Uri imageUri = Uri.parse(imageSource);
+
+                Glide.with(this)
+                        .load(imageUri) // Load from URI
+                        .placeholder(R.drawable.profile) // Placeholder while loading
+                        .error(R.drawable.complaint) // Error image if loading fails
+                        .into(profimage); // Set image to ImageView
+
             }
         } catch (Exception e) {
             // Show error message and set default error image
@@ -288,6 +272,7 @@ public class App_Dashboard extends AppCompatActivity {
             profimage.setImageResource(R.drawable.identification);
         }
     }
+
 
 
     private void checkPermissions() {
