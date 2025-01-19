@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:padding="16dp"
+    tools:context=".EditProfile"
+    android:background="@color/white">
+
+    <!-- Header Section -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#7F39FB"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="12dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/header_gradient">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/sunset_gradient">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/bungee_regular"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:shadowColor="#40000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="4"/>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Profile Picture Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/photocamera"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp" />
+    </LinearLayout>
+
+    <!-- Form Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <!-- Name Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Username"
+            app:boxStrokeColor="@color/black"
+            app:startIconDrawable="@drawable/id_card"
+            app:hintTextColor="@color/black"
+            app:startIconTint="@color/black"
+            app:cursorColor="@color/black"
+            app:layout_constraintVertical_bias="0.38">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/rgusername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme_regular"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorLink="#000000"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxStrokeColor="@color/black"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Email"
+            app:placeholderText="example@gmail.com"
+            app:startIconTint="@color/black"
+            app:startIconDrawable="@drawable/mail"
+            app:cursorColor="@color/black"
+            android:transitionName="emailtransi"
+            app:hintTextColor="@color/black"
+            app:layout_constraintVertical_bias="0.46">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editprofileemail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme_regular"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
+                android:textColorLink="#000000" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editprofilepasswordInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Password"
+            app:boxStrokeColor="@color/black"
+            app:endIconTint="@color/black"
+            app:startIconDrawable="@drawable/key"
+            app:startIconTint="@color/black"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:passwordToggleDrawable="@drawable/password_visible"
+            android:transitionName="passtransi"
+            app:placeholderText="Min 6 characters"
+            app:layout_constraintVertical_bias="0.54">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editprofilepassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme_regular"
+                android:inputType="textPassword"
+                android:textColorHint="@color/black"
+                android:textColor="@color/black"
+                android:textColorLink="#000000" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+    <!-- Save Changes Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/editprofilesavebutton"
+            android:layout_width="325dp"
+            android:layout_marginLeft="25dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Update Profile"
+            android:fontFamily="@font/abeezee_regular"
+            app:backgroundTint="@null"
+            android:background="@drawable/sunset_gradient"/>
+
+    </LinearLayout>
+
+</LinearLayout>

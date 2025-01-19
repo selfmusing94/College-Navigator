@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <group
+        android:id="@+id/grouup1">
+
     <item android:icon="@drawable/graduation_vector"
         android:id="@+id/CollegePredictor"
         android:title="College Predictor"/>
@@ -34,9 +37,13 @@
     <item android:icon="@drawable/message_vector"
         android:id="@+id/bot"
         android:title="Chatbot"/>
+    </group>
 
-
-    <group>
+    <group
+        android:id="@+id/group2">
+        <item android:id="@+id/profilebutton"
+            android:icon="@drawable/profile"
+            android:title="Edit Profile"/>
 
         <item android:icon="@drawable/information_button"
         android:id="@+id/aboutme"

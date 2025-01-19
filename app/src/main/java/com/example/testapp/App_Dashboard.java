@@ -138,7 +138,11 @@ public class App_Dashboard extends AppCompatActivity {
                 startActivity(intent);
             } else if (itemId == R.id.aboutme) {
                 navigatetoAboutme();
+            } else if (itemId== R.id.profilebutton){
+                Intent intent = new Intent(App_Dashboard.this,EditProfile.class);
+                startActivity(intent);
             }
+
             drawerLayout.close();
             return true;
         });
