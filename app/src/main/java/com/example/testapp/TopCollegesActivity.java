@@ -213,7 +213,7 @@ public class TopCollegesActivity extends AppCompatActivity
             Collections.reverse(filteredCollegeList);
         }
 
-        removeChipsByType("sort");
+        removeFilterChip("sort");
 
         // Add new sort chip based on sort type
         if (sortType != null) {
@@ -252,33 +252,42 @@ public class TopCollegesActivity extends AppCompatActivity
     @Override
     public void onFilterApplied(String minRating, List<String> courses, List<String> locations) {
         currentMinRating = minRating;
-        currentCourses.clear();
-        currentCourses.addAll(courses);
-        currentLocations.clear();
-        currentLocations.addAll(locations);
 
-        // Apply filters to the already filtered list of colleges
-        List<College> tempCollegeList = new ArrayList<>(filteredCollegeList);
+        // Only add the course if it's not already in the list
+        for (String course : courses) {
+            if (!currentCourses.contains(course)) {
+                currentCourses.add(course);
+            }
+        }
 
-        // Filter by rating
+        // Only add the  location if it's not already in the list
+        for (String location : locations) {
+            if (!currentCourses.contains(location)) {
+                currentCourses.add(location);
+            }
+        }
+
+        // Create a temporary list of the original top N colleges
+        int topN = Integer.parseInt(etTopCollegesCount.getText().toString());
+        List<College> tempCollegeList = new ArrayList<>(originalCollegeList.subList(0, Math.min(topN, originalCollegeList.size())));
+
+        // Apply filters to the temporary list
         if (!TextUtils.isEmpty(minRating)) {
             double rating = Double.parseDouble(minRating);
             tempCollegeList = filterByRating(tempCollegeList, rating);
             addFilterChip("Rating: " + minRating, "filter");
         }
 
-        // Filter by courses
-        if (!courses.isEmpty()) {
-            tempCollegeList = filterByCourses(tempCollegeList, courses);
-            for (String course : courses) {
+        if (!currentCourses.isEmpty()) {
+            tempCollegeList = filterByCourses(tempCollegeList, currentCourses);
+            for (String course : currentCourses) {
                 addFilterChip("Course: " + course, "filter");
             }
         }
 
-        // Filter by locations
-        if (!locations.isEmpty()) {
-            tempCollegeList = filterByLocations(tempCollegeList, locations);
-            for (String location : locations) {
+        if (!currentLocations.isEmpty()) {
+            tempCollegeList = filterByLocations(tempCollegeList, currentLocations);
+            for (String location : currentLocations) {
                 addFilterChip("Location: " + location, "filter");
             }
         }
@@ -295,7 +304,6 @@ public class TopCollegesActivity extends AppCompatActivity
         recyclerViewTopColleges.invalidate(); // Try invalidating the RecyclerView
 
         updateNoCollegesView();
-
     }
 
     private List<College> filterByRating(List<College> colleges, double minRating) {
@@ -393,12 +401,33 @@ public class TopCollegesActivity extends AppCompatActivity
         }
     }
 
-    private void removeChipsByType(String type) {
-        for (int i = chipGroupFilters.getChildCount() - 1; i >= 0; i--) {
+    private void removeFilterChip(String text) {
+        Log.d("removeFilterChip", "Removing chip: " + text);
+        Log.d("removeFilterChip", "Current courses: " + currentCourses);
+
+        // Remove the chip from the group
+        for (int i = 0; i < chipGroupFilters.getChildCount(); i++) {
             Chip chip = (Chip) chipGroupFilters.getChildAt(i);
-            if (type.equals(chip.getTag())) {
-                chipGroupFilters.removeView(chip);
+            if (chip.getText().toString().equals(text)) {
+                Log.d("removeFilterChip", "Found chip to remove: " + chip.getText());
+                chipGroupFilters.removeViewAt(i);
+                break;
             }
+        }
+
+        // Remove the course from the currentCourses list
+        Log.d("removeFilterChip", "Removing course from currentCourses: " + text);
+        currentCourses.remove(text);
+        Log.d("removeFilterChip", "Updated currentCourses: " + currentCourses);
+
+        // Reapply filters only if currentCourses is not empty
+        if (!currentCourses.isEmpty() || !currentLocations.isEmpty() || !TextUtils.isEmpty(currentMinRating)) {
+            onFilterApplied(currentMinRating, currentCourses, currentLocations);
+        } else {
+            // If all filters are removed, show the original list
+            filteredCollegeList.clear();
+            filteredCollegeList.addAll(originalCollegeList);
+            collegeAdapter.notifyDataSetChanged();
         }
 
         // Hide horizontal scroll if no chips
@@ -471,7 +500,8 @@ public class TopCollegesActivity extends AppCompatActivity
         for (int i = 0; i < chipGroupFilters.getChildCount(); i++) {
             Chip existingChip = (Chip) chipGroupFilters.getChildAt(i);
             if (existingChip.getText().toString().equals(text)) {
-                Toast.makeText(this, "Filter for " + text + " has already been applied", Toast.LENGTH_SHORT).show();
+                //Dont add the chip again , so just return without adding the chip , here there was a toast message , which was removed as its being showed
+                //everytime as this is beimg checked again and again.
                 return;
             }
         }
