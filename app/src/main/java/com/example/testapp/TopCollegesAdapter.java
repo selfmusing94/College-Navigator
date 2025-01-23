@@ -20,6 +20,14 @@ public class TopCollegesAdapter extends RecyclerView.Adapter<TopCollegesAdapter.
         this.collegeList = collegeList;
     }
 
+    public void setData(List<College> data) {
+        this.collegeList = data;
+    }
+
+    public List<College> getData() {
+        return collegeList;
+    }
+
     // Optional: Click Listener Interface
     public interface OnCollegeClickListener {
         void onCollegeClick(College college);

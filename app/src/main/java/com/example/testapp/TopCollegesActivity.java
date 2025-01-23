@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -264,37 +265,57 @@ public class TopCollegesActivity extends AppCompatActivity
         if (!TextUtils.isEmpty(minRating)) {
             double rating = Double.parseDouble(minRating);
             filteredCollegeList = filterByRating(filteredCollegeList, rating);
+            addFilterChip("Rating: " + minRating, "filter");
         }
 
         // Filter by courses
         if (!courses.isEmpty()) {
             filteredCollegeList = filterByCourses(filteredCollegeList, courses);
+            for (String course : courses) {
+                addFilterChip("Course: " + course, "filter");
+            }
         }
 
         // Filter by locations
         if (!locations.isEmpty()) {
             filteredCollegeList = filterByLocations(filteredCollegeList, locations);
+            for (String location : locations) {
+                addFilterChip("Location: " + location, "filter");
+            }
         }
 
+        collegeAdapter.setData(filteredCollegeList); // Update adapter data reference
         collegeAdapter.notifyDataSetChanged();
+        Log.d("Adapter Data", "Adapter data size: " + collegeAdapter.getData().size());
+        Log.d("Adapter Count", "Adapter item count: " + collegeAdapter.getItemCount());
+
+        recyclerViewTopColleges.invalidate(); // Try invalidating the RecyclerView
+
         updateNoCollegesView();
+
     }
 
     private List<College> filterByRating(List<College> colleges, double minRating) {
+        Log.d("Filtering", "Filtering by rating: " + minRating);
         return colleges.stream()
                 .filter(college -> college.getRating() >= minRating)
+                .peek(college -> Log.d("Filtering", "College passed rating filter: " + college.getName()))
                 .collect(Collectors.toList());
     }
 
     private List<College> filterByCourses(List<College> colleges, List<String> courses) {
+        Log.d("Filtering", "Filtering by courses: " + courses);
         return colleges.stream()
                 .filter(college -> college.getCourses().stream().anyMatch(courses::contains))
+                .peek(college -> Log.d("Filtering", "College passed courses filter: " + college.getName()))
                 .collect(Collectors.toList());
     }
 
     private List<College> filterByLocations(List<College> colleges, List<String> locations) {
+        Log.d("Filtering", "Filtering by locations: " + locations);
         return colleges.stream()
                 .filter(college -> locations.contains(college.getLocation()))
+                .peek(college -> Log.d("Filtering", "College passed locations filter: " + college.getName()))
                 .collect(Collectors.toList());
     }
 
@@ -313,8 +334,6 @@ public class TopCollegesActivity extends AppCompatActivity
     private void sortByCutoff() { // New method for sorting by rank
         Collections.sort(filteredCollegeList, Comparator.comparing(College::getCutoff));
     }
-
-
 
     private void updateNoCollegesView() {
         tvNoCollegeFound.setVisibility(filteredCollegeList.isEmpty() ? View.VISIBLE : View.GONE);
