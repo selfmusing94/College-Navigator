@@ -257,20 +257,19 @@ public class TopCollegesActivity extends AppCompatActivity
         currentLocations.clear();
         currentLocations.addAll(locations);
 
-        // Apply filters
-        filteredCollegeList.clear();
-        filteredCollegeList.addAll(originalCollegeList);
+        // Apply filters to the already filtered list of colleges
+        List<College> tempCollegeList = new ArrayList<>(filteredCollegeList);
 
         // Filter by rating
         if (!TextUtils.isEmpty(minRating)) {
             double rating = Double.parseDouble(minRating);
-            filteredCollegeList = filterByRating(filteredCollegeList, rating);
+            tempCollegeList = filterByRating(tempCollegeList, rating);
             addFilterChip("Rating: " + minRating, "filter");
         }
 
         // Filter by courses
         if (!courses.isEmpty()) {
-            filteredCollegeList = filterByCourses(filteredCollegeList, courses);
+            tempCollegeList = filterByCourses(tempCollegeList, courses);
             for (String course : courses) {
                 addFilterChip("Course: " + course, "filter");
             }
@@ -278,11 +277,15 @@ public class TopCollegesActivity extends AppCompatActivity
 
         // Filter by locations
         if (!locations.isEmpty()) {
-            filteredCollegeList = filterByLocations(filteredCollegeList, locations);
+            tempCollegeList = filterByLocations(tempCollegeList, locations);
             for (String location : locations) {
                 addFilterChip("Location: " + location, "filter");
             }
         }
+
+        // Update the filtered college list
+        filteredCollegeList.clear();
+        filteredCollegeList.addAll(tempCollegeList);
 
         collegeAdapter.setData(filteredCollegeList); // Update adapter data reference
         collegeAdapter.notifyDataSetChanged();
@@ -463,6 +466,15 @@ public class TopCollegesActivity extends AppCompatActivity
             chipGroupFilters.removeView(chip);
             removeFilter(text);
         });
+
+        // Check if a chip with the same text already exists
+        for (int i = 0; i < chipGroupFilters.getChildCount(); i++) {
+            Chip existingChip = (Chip) chipGroupFilters.getChildAt(i);
+            if (existingChip.getText().toString().equals(text)) {
+                Toast.makeText(this, "Filter for " + text + " has already been applied", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
 
         chipGroupFilters.addView(chip);
         horizontalScrollViewFilters.setVisibility(View.VISIBLE);
