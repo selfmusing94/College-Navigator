@@ -55,6 +55,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         TextView collegeNameTextView;
         TextView reviewTextView;
         ImageView profileImageView;
+        TextView Batch;
 
         public ReviewViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +63,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             collegeNameTextView = itemView.findViewById(R.id.reviewCollegeName);
             reviewTextView = itemView.findViewById(R.id.reviewText);
             profileImageView = itemView.findViewById(R.id.reviewProfilePhoto );
+            Batch = itemView.findViewById(R.id.reviewBatch);
         }
     }
 }

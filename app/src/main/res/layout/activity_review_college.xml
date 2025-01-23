@@ -47,32 +47,68 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/batchInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Select Batch Year"
+                app:startIconDrawable="@drawable/ic_calendar">
+
+                <AutoCompleteTextView
+                    android:id="@+id/batchDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:text=""
+                    android:textColor="@android:color/black"
+                    android:layout_marginBottom="16dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_courses"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/reviewcollegeNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter College Name"
-                android:layout_marginBottom="16dp"
-                android:padding="10dp"
-                android:background="@drawable/input_background"
-                android:minHeight="48dp"
-                android:gravity="top|start"
-                android:inputType="text" />
+                android:inputType="text"
+                android:gravity="top|start"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/reviewInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Write your review"
-                android:layout_marginBottom="16dp"
-                android:padding="10dp"
-                android:background="@drawable/input_background"
-                android:minHeight="100dp"
-                android:gravity="top|start"
-                android:inputType="textMultiLine"
-                android:scrollbars="vertical"
-                android:paddingVertical="12dp"
-                android:paddingHorizontal="8dp" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/rating_vector"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusBottomEnd="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/reviewInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write your review"
+            android:inputType="textMultiLine"
+            android:gravity="top|start"
+            android:scrollbars="vertical"
+            android:minLines="4"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/submitReviewButton"
