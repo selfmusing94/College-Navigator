@@ -262,8 +262,8 @@ public class TopCollegesActivity extends AppCompatActivity
 
         // Only add the  location if it's not already in the list
         for (String location : locations) {
-            if (!currentCourses.contains(location)) {
-                currentCourses.add(location);
+            if (!currentLocations.contains(location)) {
+                currentLocations.add(location);
             }
         }
 
