@@ -532,9 +532,9 @@ public class CutoffAnalysisActivity extends AppCompatActivity
             }
         }
 
-        // Create a temporary list of the original top N colleges
-        int topN = Integer.parseInt(etMaxCutoff.getText().toString());
-        List<College> tempCollegeList = new ArrayList<>(allColleges.subList(0, Math.min(topN, allColleges.size())));
+        // Create a temporary list of the original maxcutoff colleges
+        int maxcutoff = Integer.parseInt(etMaxCutoff.getText().toString());
+        List<College> tempCollegeList = new ArrayList<>(allColleges.subList(0, Math.min(maxcutoff, allColleges.size())));
 
         // Apply filters to the temporary list
         if (!TextUtils.isEmpty(minRating)) {
