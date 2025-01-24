@@ -191,14 +191,14 @@
         </LinearLayout>
 
         <!-- Cutoff Range Filter Section -->
-        <LinearLayout
+        <!--LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"> -->
 
             <!-- Cutoff Chip -->
-            <com.google.android.material.chip.ChipGroup
+            <!--com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupCutoff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -211,10 +211,10 @@
                     android:layout_height="wrap_content"
                     android:text="Cutoff Range"
                     app:chipIcon="@drawable/analyst_vector"/>
-            </com.google.android.material.chip.ChipGroup>
+            </com.google.android.material.chip.ChipGroup> -->
 
             <!-- Cutoff Range Input (Initially Hidden) -->
-            <LinearLayout
+            <!--LinearLayout
                 android:id="@+id/layoutCutoffRange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -253,10 +253,10 @@
                         android:hint="Max Cutoff"
                         android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+            </LinearLayout> -->
 
             <!-- Cutoff Range Chips Container -->
-            <HorizontalScrollView
+            <!--HorizontalScrollView
                 android:id="@+id/scrollViewCutoff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -268,7 +268,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </HorizontalScrollView>
-        </LinearLayout>
+        </LinearLayout> -->
 
         <!-- Apply Filters Button -->
         <com.google.android.material.button.MaterialButton

@@ -185,25 +185,4 @@ public class Filter {
                 return filteredColleges;
             }
         }
-
-        // Usage Example in Activity
-        private void demonstrateFiltering(List<College> allColleges) {
-            // Simple filtering
-            List<College> filteredColleges = Filter.filterColleges(
-                    allColleges,
-                    1000,   // Min Cutoff
-                    3000,   // Max Cutoff
-                    "Delhi", // Location
-                    8.0     // Minimum Rating
-            );
-
-            // Builder Pattern Filtering
-            List<College> advancedFilteredColleges = new CollegeFilterBuilder(allColleges)
-                    .withCutoffRange(1000, 3000)
-                    .withLocation("Delhi")
-                    .withMinRating(8.0)
-                    .withCourses(Arrays.asList("Computer Science"))
-                    .filter();
-        }
 }
-

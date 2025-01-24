@@ -26,14 +26,14 @@ public class CollegeFilterBottomSheet extends BottomSheetDialogFragment {
     private Chip chipRating, chipCourses, chipLocation;
     private TextInputLayout inputLayoutRating, inputLayoutCourses, inputLayoutLocation;
     private TextInputEditText etMinRating, etCourses, etLocation;
-    private ChipGroup chipGroupSelectedCourses, chipGroupSelectedLocations;
-    private HorizontalScrollView scrollViewCourses, scrollViewLocations;
+    private ChipGroup chipGroupSelectedCourses, chipGroupSelectedLocations,chipGroupSelectedRating;
+    private HorizontalScrollView scrollViewCourses, scrollViewLocations,scrollViewRating;
     private MaterialButton btnApplyFilters;
 
     // Data storage
     private List<String> selectedCourses = new ArrayList<>();
     private List<String> selectedLocations = new ArrayList<>();
-    private String minRating = "";
+    private String  minRating = "";
 
     @Nullable
     @Override
@@ -61,6 +61,8 @@ public class CollegeFilterBottomSheet extends BottomSheetDialogFragment {
         chipRating = view.findViewById(R.id.chipRating);
         inputLayoutRating = view.findViewById(R.id.inputLayoutRating);
         etMinRating = view.findViewById(R.id.etMinRating);
+        chipGroupSelectedRating = view.findViewById(R.id.chipGroupSelectedRating);
+        scrollViewRating=view.findViewById(R.id.scrollViewRating);
 
         // Courses views
         chipCourses = view.findViewById(R.id.chipCourses);
@@ -107,9 +109,7 @@ public class CollegeFilterBottomSheet extends BottomSheetDialogFragment {
         // Rating input listener
         etMinRating.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                minRating = etMinRating.getText().toString().trim();
-                inputLayoutRating.setVisibility(View.GONE);
-                chipRating.setVisibility(View.VISIBLE);
+                addRatingChip();
                 return true;
             }
             return false;
@@ -132,6 +132,29 @@ public class CollegeFilterBottomSheet extends BottomSheetDialogFragment {
             }
             return false;
         });
+    }
+
+    private void addRatingChip() {
+        String rating = etMinRating.getText().toString().trim();
+        if(!TextUtils.isEmpty(rating)) {
+            minRating = rating;
+            // Remove any existing rating chip
+            chipGroupSelectedRating.removeAllViews();
+
+            Chip chip = new Chip(requireContext());
+            chip.setText(rating);
+            chip.setCloseIconVisible(true);
+            chip.setOnCloseIconClickListener(v -> {
+                chipGroupSelectedRating.removeView(chip);
+                minRating = "";
+                etMinRating.setText("");
+                updateRatingVisibility();
+            });
+
+            chipGroupSelectedRating.addView(chip);
+            etMinRating.setText("");
+            updateRatingVisibility();
+        }
     }
 
     private void addCourseChip() {
@@ -172,6 +195,12 @@ public class CollegeFilterBottomSheet extends BottomSheetDialogFragment {
             etLocation.setText("");
             updateLocationsVisibility();
         }
+    }
+
+    private void updateRatingVisibility() {
+        scrollViewRating.setVisibility(minRating.isEmpty() ? View.GONE : View.VISIBLE);
+        inputLayoutRating.setVisibility(View.GONE);
+        chipRating.setVisibility(View.VISIBLE);
     }
 
     private void updateCoursesVisibility() {

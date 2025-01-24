@@ -1,5 +1,7 @@
 package com.example.testapp;
 
+import static android.app.ProgressDialog.show;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -538,22 +540,36 @@ public class CutoffAnalysisActivity extends AppCompatActivity
 
         // Apply filters to the temporary list
         if (!TextUtils.isEmpty(minRating)) {
-            double rating = Double.parseDouble(minRating);
-            tempCollegeList = filterByRating(tempCollegeList, rating);
-            addFilterChip("Rating: " + minRating, "filter");
+            try {
+                double rating = Double.parseDouble(minRating);
+                tempCollegeList = filterByRating(tempCollegeList, rating);
+                addFilterChip("Rating: " + minRating, "filter");
+            } catch (Exception e) {
+                Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
         }
 
+
+
         if (!currentCourses.isEmpty()) {
-            tempCollegeList = filterByCourses(tempCollegeList, currentCourses);
-            for (String course : currentCourses) {
-                addFilterChip("Course: " + course, "filter");
+            try {
+                tempCollegeList = filterByCourses(tempCollegeList, currentCourses);
+                for (String course : currentCourses) {
+                    addFilterChip("Course: " + course, "filter");
+                }
+            }catch (Exception e) {
+                Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
             }
         }
 
         if (!currentLocations.isEmpty()) {
-            tempCollegeList = filterByLocations(tempCollegeList, currentLocations);
-            for (String location : currentLocations) {
-                addFilterChip("Location: " + location, "filter");
+            try {
+                tempCollegeList = filterByLocations(tempCollegeList, currentLocations);
+                for (String location : currentLocations) {
+                    addFilterChip("Location: " + location, "filter");
+                }
+            } catch (Exception e) {
+                Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
             }
         }
 
