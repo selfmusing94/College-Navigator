@@ -62,7 +62,7 @@ public class Chatbot {
             // Create JSON payload
             JSONObject jsonPayload = new JSONObject();
             jsonPayload.put("messages", messagesArray);
-            jsonPayload.put("model", "llama-3.2-90b-vision-preview"); // Specify the model here
+            jsonPayload.put("model", "llama-3.3-70b-versatile"); // Specify the model here
 
             // Send request
             try (OutputStream os = conn.getOutputStream()) {
